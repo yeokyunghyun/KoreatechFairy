@@ -1,3 +1,4 @@
+//로그인 화면
 package com.example.koreatechfairy4;
 
 import android.content.Intent;
@@ -24,7 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth mFirebaseAuth; 
     private DatabaseReference mDatabaseRef;
     private EditText login_email_id, login_pw;
     private Button login_login, login_register;
