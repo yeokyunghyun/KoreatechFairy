@@ -78,9 +78,11 @@
         android:text="로그인"
         android:textColor="@color/white"
         android:textColorLink="@color/blue"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="@+id/login_pw"
         app:layout_constraintStart_toStartOf="@+id/login_pw"
         app:layout_constraintTop_toBottomOf="@+id/login_pw" />
+
 
     <Button
         android:id="@+id/login_register"
@@ -90,6 +92,7 @@
         android:background="@color/blue"
         android:text="회원가입"
         android:textColor="@color/white"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="@+id/login_login"
         app:layout_constraintStart_toStartOf="@+id/login_login"
         app:layout_constraintTop_toBottomOf="@+id/login_login" />
