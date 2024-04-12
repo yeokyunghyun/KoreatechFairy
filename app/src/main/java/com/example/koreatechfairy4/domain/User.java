@@ -1,10 +1,11 @@
-package com.example.koreatechfairy4;
+package com.example.koreatechfairy4.domain;
 
 //사용자 계정 정보 모델 클래스
 public class User {
 
     private String uId;
-    private String email;
+    private String name;
+    private String id;
     private String password;
     private String major;
     private String studentId;
@@ -12,20 +13,23 @@ public class User {
 
     public User() {} //빈 생성자 필수
 
-    public User(String uid, String email, String registerPw, String selectedMajor, String selectedStudentId) {
+    public User(String uid, String name, String id, String registerPw, String selectedMajor, String selectedStudentId) {
         this.uId = uid;
-        this.email = email;
+        this.name = name;
+        this.id = id;
         this.password = registerPw;
         this.major = selectedMajor;
         this.studentId = selectedStudentId;
     }
 
-    public String getuId() {
+    public String getUid() {
         return uId;
     }
 
-    public String getEmail() {
-        return email;
+    public String getName() {return name;}
+
+    public String getId() {
+        return id;
     }
 
     public String getPassword() {

@@ -22,12 +22,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/register_email_id"
+        android:id="@+id/register_user_id"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:ems="10"
-        android:hint="이메일"
+        android:hint="아이디"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="@+id/register_name"
         app:layout_constraintStart_toStartOf="@+id/register_name"
@@ -41,10 +41,10 @@
         android:ems="10"
         android:hint="비밀번호"
         android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="@+id/register_email_id"
+        app:layout_constraintEnd_toEndOf="@+id/register_user_id"
         app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="@+id/register_email_id"
-        app:layout_constraintTop_toBottomOf="@+id/register_email_id" />
+        app:layout_constraintStart_toStartOf="@+id/register_user_id"
+        app:layout_constraintTop_toBottomOf="@+id/register_user_id" />
 
     <Spinner
         android:id="@+id/register_major"

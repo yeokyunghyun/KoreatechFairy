@@ -55,15 +55,16 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String loginId = login_email_id.getText().toString();
                 String loginPw = login_pw.getText().toString();
-
+                String loginEmail = loginId + "@koreatech.com";
                 //Firebase Auth진행
-                mFirebaseAuth.signInWithEmailAndPassword(loginId, loginPw)
+                mFirebaseAuth.signInWithEmailAndPassword(loginEmail, loginPw)
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()) {
                                     //로그인 성공
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    intent.putExtra("asd", loginId);
                                     startActivity(intent);
                                 }
                                 else {
