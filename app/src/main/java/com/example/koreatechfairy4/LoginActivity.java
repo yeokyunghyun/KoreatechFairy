@@ -27,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mFirebaseAuth; 
     private DatabaseReference mDatabaseRef;
-    private EditText login_email_id, login_pw;
+    private EditText login_user_id, login_pw;
     private Button login_login, login_register;
 
     @Override
@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("KoreatechFairy4");
 
-        login_email_id = findViewById(R.id.login_email_id);
+        login_user_id = findViewById(R.id.login_email_id);
         login_pw = findViewById(R.id.login_pw);
 
         login_login = findViewById(R.id.login_login);
@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         login_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String loginId = login_email_id.getText().toString();
+                String loginId = login_user_id.getText().toString();
                 String loginPw = login_pw.getText().toString();
                 String loginEmail = loginId + "@koreatech.com";
                 //Firebase Auth진행
@@ -63,8 +63,8 @@ public class LoginActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()) {
                                     //로그인 성공
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    intent.putExtra("asd", loginId);
+                                    Intent intent = new Intent(LoginActivity.this, SplashActivity.class);
+                                    intent.putExtra("userId", loginId);
                                     startActivity(intent);
                                 }
                                 else {
