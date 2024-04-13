@@ -75,12 +75,16 @@ public class RegisterActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()) {
                                     FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
-                                    User user = new User(firebaseUser.getUid(), registerName, registerId, registerPw, selectedMajor, selectedStudentId);
-
-                                    mDatabaseRef.child("User").child(firebaseUser.getUid()).setValue(user);
-                                    Toast.makeText(RegisterActivity.this, "회원가입에 성공하였습니다!", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                                    startActivity(intent);
+                                    try {
+                                        User user = new User(firebaseUser.getUid(), registerName, registerId, registerPw, selectedMajor, selectedStudentId);
+                                        mDatabaseRef.child("User").child(firebaseUser.getUid()).setValue(user);
+                                        Toast.makeText(RegisterActivity.this, "회원가입에 성공하였습니다!", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                        startActivity(intent);
+                                    }
+                                    catch (IllegalArgumentException e) {
+                                        Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                                 else {
                                     Toast.makeText(RegisterActivity.this, "회원가입에 실패하셨습니다.", Toast.LENGTH_SHORT).show();

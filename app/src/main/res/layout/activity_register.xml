@@ -9,7 +9,7 @@
 
     <EditText
         android:id="@+id/register_name"
-        android:layout_width="220dp"
+        android:layout_width="270dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="170dp"
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:ems="10"
-        android:hint="아이디"
+        android:hint="아이디 (영문,숫자포함 10글자 이내)"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="@+id/register_name"
         app:layout_constraintStart_toStartOf="@+id/register_name"
@@ -70,8 +70,8 @@
 
     <Button
         android:id="@+id/register_register"
-        android:layout_width="270dp"
-        android:layout_height="30dp"
+        android:layout_width="300dp"
+        android:layout_height="33dp"
         android:layout_marginTop="70dp"
         android:background="@color/blue"
         android:text="가입"
@@ -84,7 +84,7 @@
     <Button
         android:id="@+id/register_cancel"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="33dp"
         android:layout_marginTop="20dp"
         android:background="@color/blue"
         android:text="취소"

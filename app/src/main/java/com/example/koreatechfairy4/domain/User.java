@@ -5,7 +5,7 @@ public class User {
 
     private String uId;
     private String name;
-    private String id;
+    private UserId id;
     private String password;
     private String major;
     private String studentId;
@@ -16,7 +16,7 @@ public class User {
     public User(String uid, String name, String id, String registerPw, String selectedMajor, String selectedStudentId) {
         this.uId = uid;
         this.name = name;
-        this.id = id;
+        this.id = new UserId(id); // 아이디 로직 추가
         this.password = registerPw;
         this.major = selectedMajor;
         this.studentId = selectedStudentId;
@@ -29,7 +29,7 @@ public class User {
     public String getName() {return name;}
 
     public String getId() {
-        return id;
+        return id.getId();
     }
 
     public String getPassword() {
