@@ -1,8 +1,11 @@
 package com.example.koreatechfairy4;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -13,10 +16,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.HashMap;
+
 public class MainActivity extends AppCompatActivity {
 
-    private TextView tv_id;
+
     private ConstraintLayout notify_button, schedule_button;
+    private Button my_page_button, logout_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,23 +35,41 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        tv_id = findViewById(R.id.user_id);
-        tv_id.setText(getIntent().getStringExtra("userId"));
+        // button
+        my_page_button = findViewById(R.id.my_page_button);
+        logout_button = findViewById(R.id.logout_button);
         notify_button = findViewById(R.id.notify_button);
         schedule_button = findViewById(R.id.schedule_button);
 
-        notify_button.setOnClickListener(new View.OnClickListener() {
+        HashMap<String, String> myPageMap = new HashMap<>();
+        myPageMap.put("userId", getIntent().getStringExtra("userId"));
+
+        switchActivity(notify_button, NotifyActivity.class);
+        switchActivity(logout_button, LoginActivity.class);
+        switchActivity(schedule_button, ScheduleActivity.class);
+        switchActivityWithExtra(my_page_button, MyPageActivity.class, myPageMap);
+
+
+    }
+
+    private <T extends AppCompatActivity> void switchActivity(View my_page_button, Class<T> activity) {
+        my_page_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, NotifyActivity.class);
+                Intent intent = new Intent(MainActivity.this, activity);
                 startActivity(intent);
             }
         });
+    }
 
-        schedule_button.setOnClickListener(new View.OnClickListener() {
+    private <T extends AppCompatActivity> void switchActivityWithExtra(View my_page_button, Class<T> activity, HashMap<String, String> map) {
+        my_page_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ScheduleActivity.class);
+                Intent intent = new Intent(MainActivity.this, activity);
+                for(String key : map.keySet()) {
+                    intent.putExtra(key, map.get(key));
+                }
                 startActivity(intent);
             }
         });
