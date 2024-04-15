@@ -21,13 +21,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NotifyActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerViewCommon, recyclerViewUniver, recyclerViewTrain;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    private ArrayList<NotifyDto> notifyList;
+    private ArrayList<NotifyDto> commonNotifyList, univerNotifyList, tranNotifyList;
+    private Map<Integer, NotifyDto> notifyMap;
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
 
@@ -42,23 +45,31 @@ public class NotifyActivity extends AppCompatActivity {
             return insets;
         });
 
-        recyclerView = findViewById(R.id.notify_common);
-        recyclerView.setHasFixedSize(true); //리사이클러뷰 기존 성능 강화
+        recyclerViewCommon = findViewById(R.id.notify_common);
+
+        recyclerViewCommon.setHasFixedSize(true); //리사이클러뷰 기존 성능 강화
+
         layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        notifyList = new ArrayList<>(); // 공지사항 객체를 담을 어레이 리스트 (어댑터 쪽으로 날림)
+        recyclerViewCommon.setLayoutManager(layoutManager);
+
+        commonNotifyList = new ArrayList<>(); // 공지사항 객체를 담을 어레이 리스트 (어댑터 쪽으로 날림)
+        univerNotifyList = new ArrayList<>(); // 공지사항 객체를 담을 어레이 리스트 (어댑터 쪽으로 날림)
+        tranNotifyList = new ArrayList<>(); // 공지사항 객체를 담을 어레이 리스트 (어댑터 쪽으로 날림)
+       //notifyMap = new HashMap<>();
 
         database = FirebaseDatabase.getInstance(); // 파이어베이스 DB 연동
 
-        databaseReference = database.getReference("KoreatechFairy4"); //DB 테이블 연결
+        databaseReference = database.getReference("KoreatechFairy4/NotifyDto"); //DB 테이블 연결
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 // 파이어베이스 DB의 데이터를 받아오는 곳
-                notifyList.clear();
+                commonNotifyList.clear();
+                //notifyMap.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) { // 반복문으로 데이터 List 추출
                     NotifyDto notify = dataSnapshot.getValue(NotifyDto.class); // 만들어뒀던 NotifyDto 객체에 데이터를 담는다
-                    notifyList.add(notify);
+                    //notifyMap.put(notify.getDomain(), notify);
+                    commonNotifyList.add(notify);
                 }
                 adapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
             }
@@ -70,8 +81,8 @@ public class NotifyActivity extends AppCompatActivity {
             }
         });
 
-        adapter = new NotifyAdapter(notifyList, this);
-        recyclerView.setAdapter(adapter);
+        adapter = new NotifyAdapter(commonNotifyList, this);
+        recyclerViewCommon.setAdapter(adapter);
 
     }
 }

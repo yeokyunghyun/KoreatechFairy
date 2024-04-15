@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/notify"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="#FFFFFF">
 
     <Button
@@ -16,12 +17,10 @@
         android:text="뒤로가기" />
 
     <LinearLayout
+        android:id="@+id/notify_common_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerInParent="true"
-        android:padding="16dp">
-
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_common"
@@ -37,9 +36,15 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/notify_common"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="vertical"/>
+            android:layout_height="100dp"
+            android:scrollbars="vertical" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_univer"
@@ -55,9 +60,15 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/notify_univer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="vertical"/>
+            android:layout_height="100dp"
+            android:scrollbars="vertical" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_train"
@@ -73,9 +84,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/notify_train"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:scrollbars="vertical" />
 
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

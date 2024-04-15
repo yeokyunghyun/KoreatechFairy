@@ -28,7 +28,20 @@ public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.NotifyView
     @Override
     public NotifyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_notify, parent, false);
+        View view;
+        switch (viewType) {
+            case 0: // common
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_notify_common, parent, false);
+                break;
+            case 1: // univer
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_notify_univer, parent, false);
+                break;
+            case 2: // train
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_notify_train, parent, false);
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + viewType);
+        }
         NotifyViewHolder holder = new NotifyViewHolder(view);
 
         return holder;
@@ -36,12 +49,15 @@ public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.NotifyView
 
     @Override
     public void onBindViewHolder(@NonNull NotifyViewHolder holder, int position) {
+        holder.tv_title.setText(notifyList.get(position).getTitle());
+        holder.tv_text.setText(notifyList.get(position).getText());
+        holder.tv_notifyNum.setText(String.valueOf(notifyList.get(position).getNotifyNum()));
 
-        //holder.tv_title.setText(notifyList.get(position).getTitle());
-        holder.tv_title.setText("hitext");
-        //holder.tv_text.setText(notifyList.get(position).getText());
-        //holder.tv_notifyNum.setText(String.valueOf(notifyList.get(position).getNotifyNum()));
+    }
 
+    @Override
+    public int getItemViewType(int position) {
+        return notifyList.get(position).getDomain();
     }
 
     @Override
