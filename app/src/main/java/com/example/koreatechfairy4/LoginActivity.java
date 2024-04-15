@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.my_page_back), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -66,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                                     Intent intent = new Intent(LoginActivity.this, SplashActivity.class);
                                     intent.putExtra("userId", loginId);
                                     startActivity(intent);
+                                    finish();
                                 }
                                 else {
                                     if (task.getException() != null) {

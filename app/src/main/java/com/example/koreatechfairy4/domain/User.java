@@ -3,7 +3,7 @@ package com.example.koreatechfairy4.domain;
 //사용자 계정 정보 모델 클래스
 public class User {
 
-    private UserId id;
+    private String id;
     private String name;
     private String password;
     private String major;
@@ -13,7 +13,8 @@ public class User {
     public User() {} //빈 생성자 필수
 
     public User(String id, String name, String registerPw, String selectedMajor, String selectedStudentId) {
-        this.id = new UserId(id); // 아이디 로직 추가
+        if(!isValidId(id)) throw new IllegalArgumentException("아이디형식이 맞지 않습니다. (숫자 영문 포함 10글자 이내)");
+        this.id = id; // 아이디 로직 추가
         this.name = name;
         this.password = registerPw;
         this.major = selectedMajor;
@@ -23,7 +24,7 @@ public class User {
     public String getName() {return name;}
 
     public String getId() {
-        return id.getId();
+        return id;
     }
 
     public String getPassword() {
@@ -36,5 +37,10 @@ public class User {
 
     public String getStudentId() {
         return studentId;
+    }
+
+    private boolean isValidId(String id) {
+        // ID 유효성 검사 로직 (예: 길이, 특수 문자 포함 등)
+        return id.matches("^(?=.*[a-zA-Z])(?=.*[0-9]).{1,10}$");
     }
 }

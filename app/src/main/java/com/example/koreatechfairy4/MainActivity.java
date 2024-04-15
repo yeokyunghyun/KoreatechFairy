@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("ActivityLifecycle", getClass().getSimpleName() + " - onCreate");
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.register_view), (v, insets) -> {
@@ -52,11 +53,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("ActivityLifecycle", getClass().getSimpleName() + " - onResume");
+    }
+
     private <T extends AppCompatActivity> void switchActivity(View my_page_button, Class<T> activity) {
         my_page_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, activity);
+
                 startActivity(intent);
             }
         });
@@ -70,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 for(String key : map.keySet()) {
                     intent.putExtra(key, map.get(key));
                 }
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
             }
         });
