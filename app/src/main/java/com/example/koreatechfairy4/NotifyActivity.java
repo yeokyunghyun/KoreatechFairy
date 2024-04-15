@@ -27,10 +27,10 @@ import java.util.Map;
 public class NotifyActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewCommon, recyclerViewUniver, recyclerViewTrain;
-    private RecyclerView.Adapter adapter;
+    private RecyclerView.Adapter commonAdapter, univerAdapter, trainAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    private ArrayList<NotifyDto> commonNotifyList, univerNotifyList, tranNotifyList;
-    private Map<Integer, NotifyDto> notifyMap;
+    private ArrayList<NotifyDto> commonNotifyList, univerNotifyList, trainNotifyList;
+    private Map<Integer, ArrayList<NotifyDto>> notifyMap;
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
 
@@ -46,16 +46,23 @@ public class NotifyActivity extends AppCompatActivity {
         });
 
         recyclerViewCommon = findViewById(R.id.notify_common);
+        recyclerViewUniver = findViewById(R.id.notify_univer);
+        recyclerViewTrain = findViewById(R.id.notify_train);
 
         recyclerViewCommon.setHasFixedSize(true); //리사이클러뷰 기존 성능 강화
+        recyclerViewUniver.setHasFixedSize(true); //리사이클러뷰 기존 성능 강화
+        recyclerViewTrain.setHasFixedSize(true); //리사이클러뷰 기존 성능 강화
 
-        layoutManager = new LinearLayoutManager(this);
-        recyclerViewCommon.setLayoutManager(layoutManager);
+        notifyMap = new HashMap<>();
+        notifyMap.put(0, new ArrayList<>());
+        notifyMap.put(1, new ArrayList<>());
+        notifyMap.put(2, new ArrayList<>());
+
+        recyclerViewCommon.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewUniver.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewTrain.setLayoutManager(new LinearLayoutManager(this));
 
         commonNotifyList = new ArrayList<>(); // 공지사항 객체를 담을 어레이 리스트 (어댑터 쪽으로 날림)
-        univerNotifyList = new ArrayList<>(); // 공지사항 객체를 담을 어레이 리스트 (어댑터 쪽으로 날림)
-        tranNotifyList = new ArrayList<>(); // 공지사항 객체를 담을 어레이 리스트 (어댑터 쪽으로 날림)
-       //notifyMap = new HashMap<>();
 
         database = FirebaseDatabase.getInstance(); // 파이어베이스 DB 연동
 
@@ -64,14 +71,20 @@ public class NotifyActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 // 파이어베이스 DB의 데이터를 받아오는 곳
-                commonNotifyList.clear();
+                for (int key : notifyMap.keySet()) {
+                    notifyMap.get(key).clear();
+                }
+
                 //notifyMap.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) { // 반복문으로 데이터 List 추출
                     NotifyDto notify = dataSnapshot.getValue(NotifyDto.class); // 만들어뒀던 NotifyDto 객체에 데이터를 담는다
-                    //notifyMap.put(notify.getDomain(), notify);
-                    commonNotifyList.add(notify);
+                    if (notify != null && notifyMap.containsKey(notify.getDomain())) {
+                        notifyMap.get(notify.getDomain()).add(notify);
+                    }
                 }
-                adapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
+                commonAdapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
+                univerAdapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
+                trainAdapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
             }
 
             @Override
@@ -81,8 +94,12 @@ public class NotifyActivity extends AppCompatActivity {
             }
         });
 
-        adapter = new NotifyAdapter(commonNotifyList, this);
-        recyclerViewCommon.setAdapter(adapter);
+        commonAdapter = new NotifyAdapter(notifyMap.get(0), this);
+        univerAdapter = new NotifyAdapter(notifyMap.get(1), this);
+        trainAdapter = new NotifyAdapter(notifyMap.get(2), this);
+        recyclerViewCommon.setAdapter(commonAdapter);
+        recyclerViewUniver.setAdapter(univerAdapter);
+        recyclerViewTrain.setAdapter(trainAdapter);
 
     }
 }
