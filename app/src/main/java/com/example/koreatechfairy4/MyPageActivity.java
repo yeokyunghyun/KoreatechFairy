@@ -1,7 +1,11 @@
 package com.example.koreatechfairy4;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +28,7 @@ import org.w3c.dom.Text;
 public class MyPageActivity extends AppCompatActivity {
 
     private TextView profile_name, profile_st_id, profile_major;
+    private ImageButton my_page_back;
     private DatabaseReference mDatabaseRef;
 
     @Override
@@ -31,10 +36,13 @@ public class MyPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_page);
 
+        Log.d("ActivityLifecycle", getClass().getSimpleName() + " - onCreate");
         // UI 컴포넌트 초기화
         profile_name = findViewById(R.id.profile_name);
         profile_st_id = findViewById(R.id.profile_st_id);
         profile_major = findViewById(R.id.profile_major);
+
+        my_page_back = findViewById(R.id.my_page_back);
 
         // Firebase 인스턴스 가져오기
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("KoreatechFairy4/User");
@@ -63,5 +71,19 @@ public class MyPageActivity extends AppCompatActivity {
             }
         });
 
+        my_page_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyPageActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("ActivityLifecycle", getClass().getSimpleName() + " - onResume");
     }
 }
