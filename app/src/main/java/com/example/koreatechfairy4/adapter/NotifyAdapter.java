@@ -1,6 +1,7 @@
 package com.example.koreatechfairy4.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,24 +25,13 @@ public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.NotifyView
         this.context = context;
     }
 
+
+
     @NonNull
     @Override
     public NotifyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view;
-        switch (viewType) {
-            case 0: // common
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_notify_common, parent, false);
-                break;
-            case 1: // univer
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_notify_univer, parent, false);
-                break;
-            case 2: // train
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_notify_train, parent, false);
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + viewType);
-        }
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_notify, parent, false);
         NotifyViewHolder holder = new NotifyViewHolder(view);
 
         return holder;
@@ -76,6 +66,26 @@ public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.NotifyView
             this.tv_title = itemView.findViewById(R.id.tv_title);
             this.tv_text = itemView.findViewById(R.id.tv_text);
             this.tv_notifyNum = itemView.findViewById(R.id.tv_notifyNum);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        // 항목 클릭 이벤트 처리
+                        // 예: 새 액티비티로 이동
+                        /*Intent intent = new Intent(v.getContext(), 내 Activity 클래스.class);
+                        intent.putExtra("item_id", position); // 추가 데이터를 전달하고자 할 때
+                        v.getContext().startActivity(intent);
+
+                         */
+                    }
+                }
+            });
+
         }
+
+
     }
 }

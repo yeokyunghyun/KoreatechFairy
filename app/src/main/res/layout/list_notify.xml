@@ -8,25 +8,24 @@
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="제목"
         android:layout_margin="5dp"
         android:maxLength="25"
-        />
+        android:text="제목" />
 
     <TextView
         android:id="@+id/tv_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="내용"
         android:layout_margin="5dp"
-        android:maxLength="25"/>
+        android:maxLength="25"
+        android:text="내용" />
 
     <TextView
         android:id="@+id/tv_notifyNum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="번호"
         android:layout_margin="5dp"
-        android:maxLength="25"/>
+        android:maxLength="25"
+        android:text="번호" />
 
 </LinearLayout>

@@ -1,7 +1,10 @@
 package com.example.koreatechfairy4;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -26,13 +29,14 @@ import java.util.Map;
 
 public class NotifyActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerViewCommon, recyclerViewUniver, recyclerViewTrain;
-    private RecyclerView.Adapter commonAdapter, univerAdapter, trainAdapter;
-    private RecyclerView.LayoutManager layoutManager;
-    private ArrayList<NotifyDto> commonNotifyList, univerNotifyList, trainNotifyList;
+    private RecyclerView recyclerViewCommon, recyclerViewAcademic, recyclerViewTrain;
+    private RecyclerView.Adapter commonAdapter, academicAdapter, trainAdapter;
     private Map<Integer, ArrayList<NotifyDto>> notifyMap;
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
+    
+    private Button btn_common, btn_benefit, btn_job, btn_academic, btn_employ, btn_train, btn_volun, btn_dormi;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,14 +48,87 @@ public class NotifyActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        
+        /*버튼 관련 부분*/
+        btn_common = findViewById(R.id.btn_common);
+        btn_benefit = findViewById(R.id.btn_benefit);
+        btn_job = findViewById(R.id.btn_job);
+        btn_academic = findViewById(R.id.btn_academic);
+        btn_employ = findViewById(R.id.btn_employ);
+        btn_train = findViewById(R.id.btn_train);
+        btn_volun = findViewById(R.id.btn_volun);
+        btn_dormi = findViewById(R.id.btn_dormi);
 
-        recyclerViewCommon = findViewById(R.id.notify_common);
-        recyclerViewUniver = findViewById(R.id.notify_univer);
-        recyclerViewTrain = findViewById(R.id.notify_train);
+        btn_common.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(NotifyActivity.this, CommonNotifyActivity.class);
+                startActivity(intent);
+            }
+        });
+        btn_benefit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(NotifyActivity.this, BenefitNotifyActivity.class);
+                startActivity(intent);
+            }
+        });
+        btn_job.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(NotifyActivity.this, JobNotifyActivity.class);
+                startActivity(intent); // 인텐트를 사용하여 활동을 시작합니다.
+            }
+        });
+        btn_academic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(NotifyActivity.this, AcademicNotifyActivity.class);
+                startActivity(intent);
+            }
+        });
+        btn_employ.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(NotifyActivity.this, EmployNotifyActivity.class);
+                startActivity(intent);
+            }
+        });
+        btn_train.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(NotifyActivity.this, TrainNotifyActivity.class);
+                startActivity(intent);
+            }
+        });
+        btn_volun.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(NotifyActivity.this, VolunNotifyActivity.class);
+                startActivity(intent);
+            }
+        });
+        btn_dormi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(NotifyActivity.this, DormiNotifyActivity.class);
+                startActivity(intent);
+            }
+        });
+        
+        
+        
+        
+        
+        /*데이터 가져오는 부분*/
 
-        recyclerViewCommon.setHasFixedSize(true); //리사이클러뷰 기존 성능 강화
-        recyclerViewUniver.setHasFixedSize(true); //리사이클러뷰 기존 성능 강화
-        recyclerViewTrain.setHasFixedSize(true); //리사이클러뷰 기존 성능 강화
+        recyclerViewCommon = findViewById(R.id.notify_keyword);    //얘는 키워드 목록으로
+        //recyclerViewAcademic = findViewById(R.id.notify_academic);    //나중에 키워드 관련 공지로 바꿔야 함
+        //recyclerViewTrain = findViewById(R.id.notify_train);
+
+        //recyclerViewCommon.setHasFixedSize(true); //리사이클러뷰 기존 성능 강화
+        //recyclerViewAcademic.setHasFixedSize(true); //리사이클러뷰 기존 성능 강화
+        //recyclerViewTrain.setHasFixedSize(true); //리사이클러뷰 기존 성능 강화
 
         notifyMap = new HashMap<>();
         notifyMap.put(0, new ArrayList<>());
@@ -59,10 +136,8 @@ public class NotifyActivity extends AppCompatActivity {
         notifyMap.put(2, new ArrayList<>());
 
         recyclerViewCommon.setLayoutManager(new LinearLayoutManager(this));
-        recyclerViewUniver.setLayoutManager(new LinearLayoutManager(this));
-        recyclerViewTrain.setLayoutManager(new LinearLayoutManager(this));
-
-        commonNotifyList = new ArrayList<>(); // 공지사항 객체를 담을 어레이 리스트 (어댑터 쪽으로 날림)
+        //recyclerViewAcademic.setLayoutManager(new LinearLayoutManager(this));
+        //recyclerViewTrain.setLayoutManager(new LinearLayoutManager(this));
 
         database = FirebaseDatabase.getInstance(); // 파이어베이스 DB 연동
 
@@ -83,8 +158,8 @@ public class NotifyActivity extends AppCompatActivity {
                     }
                 }
                 commonAdapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
-                univerAdapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
-                trainAdapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
+                //academicAdapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
+                //trainAdapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
             }
 
             @Override
@@ -95,11 +170,11 @@ public class NotifyActivity extends AppCompatActivity {
         });
 
         commonAdapter = new NotifyAdapter(notifyMap.get(0), this);
-        univerAdapter = new NotifyAdapter(notifyMap.get(1), this);
-        trainAdapter = new NotifyAdapter(notifyMap.get(2), this);
+        //academicAdapter = new NotifyAdapter(notifyMap.get(1), this);
+        //trainAdapter = new NotifyAdapter(notifyMap.get(2), this);
         recyclerViewCommon.setAdapter(commonAdapter);
-        recyclerViewUniver.setAdapter(univerAdapter);
-        recyclerViewTrain.setAdapter(trainAdapter);
+        //recyclerViewAcademic.setAdapter(academicAdapter);
+       // recyclerViewTrain.setAdapter(trainAdapter);
 
     }
 }

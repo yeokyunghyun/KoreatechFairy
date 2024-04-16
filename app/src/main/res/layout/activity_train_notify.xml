@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/trainNotifyPage"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_bottom">
+
+        <ImageButton
+            android:id="@+id/imgBtn_notify_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/back" />
+
+        <Button
+            android:id="@+id/btn_mypage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="마이페이지" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@drawable/border_right"
+            >
+
+            <Button
+                android:id="@+id/btn_main"
+                android:layout_width="63dp"
+                android:layout_height="wrap_content"
+                android:text="메인" />
+
+            <Button
+                android:id="@+id/btn_common"
+                android:layout_width="63dp"
+                android:layout_height="wrap_content"
+                android:text="일반" />
+
+            <Button
+                android:id="@+id/btn_benefit"
+                android:layout_width="63dp"
+                android:layout_height="wrap_content"
+                android:text="장학" />
+
+            <Button
+                android:id="@+id/btn_job"
+                android:layout_width="63dp"
+                android:layout_height="wrap_content"
+                android:text="취업" />
+
+            <Button
+                android:id="@+id/btn_academic"
+                android:layout_width="63dp"
+                android:layout_height="wrap_content"
+                android:text="학사" />
+
+            <Button
+                android:id="@+id/btn_employ"
+                android:layout_width="63dp"
+                android:layout_height="wrap_content"
+                android:text="채용" />
+
+            <Button
+                android:id="@+id/btn_train"
+                android:layout_width="63dp"
+                android:layout_height="wrap_content"
+                android:text="현장\n실습" />
+
+            <Button
+                android:id="@+id/btn_volun"
+                android:layout_width="63dp"
+                android:layout_height="wrap_content"
+                android:text="사회\n봉사" />
+
+            <Button
+                android:id="@+id/btn_dormi"
+                android:layout_width="63dp"
+                android:layout_height="wrap_content"
+                android:text="생활관" />
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/notify_train_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="5dp">
+
+            <TextView
+                android:id="@+id/tv_train"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#FFA500"
+                android:padding="5dp"
+                android:text="현장실습공지"
+                android:textColor="#FFFFFF"
+                android:textSize="18dp"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="5dp"
+                tools:layout_editor_absoluteY="8dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/notify_train"
+                android:layout_width="343dp"
+                android:layout_height="630dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/recyclerview_border"
+                android:padding="3dp"
+                android:scrollbars="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_train"
+                app:layout_constraintVertical_bias="0.0"
+                tools:ignore="MissingConstraints" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    </LinearLayout>
+
+</LinearLayout>
