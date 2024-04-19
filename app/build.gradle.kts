@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.koreatechfairy4"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -40,6 +40,9 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.database)
+    implementation(libs.poi)
+    implementation(libs.apache.poi.ooxml)
+    implementation("org.projectlombok:lombok:1.18.28")
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

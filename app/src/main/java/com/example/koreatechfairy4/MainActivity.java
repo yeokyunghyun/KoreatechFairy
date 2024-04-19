@@ -20,7 +20,7 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    private String userId;
     private ConstraintLayout notify_button, schedule_button;
     private Button my_page_button, logout_button;
 
@@ -42,12 +42,20 @@ public class MainActivity extends AppCompatActivity {
         notify_button = findViewById(R.id.notify_button);
         schedule_button = findViewById(R.id.schedule_button);
 
+        userId = getIntent().getStringExtra("userId");
         HashMap<String, String> myPageMap = new HashMap<>();
-        myPageMap.put("userId", getIntent().getStringExtra("userId"));
+        myPageMap.put("userId", userId);
 
         switchActivity(notify_button, NotifyActivity.class);
         switchActivity(logout_button, LoginActivity.class);
-        switchActivity(schedule_button, ScheduleActivity.class);
+        schedule_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ScheduleActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
+            }
+        });
         switchActivityWithExtra(my_page_button, MyPageActivity.class, myPageMap);
 
 
