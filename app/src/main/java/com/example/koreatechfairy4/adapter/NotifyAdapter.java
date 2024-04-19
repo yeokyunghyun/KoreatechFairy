@@ -1,7 +1,6 @@
 package com.example.koreatechfairy4.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,8 +39,8 @@ public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.NotifyView
     @Override
     public void onBindViewHolder(@NonNull NotifyViewHolder holder, int position) {
         holder.tv_title.setText(notifyList.get(position).getTitle());
-        holder.tv_text.setText(notifyList.get(position).getText());
-        holder.tv_notifyNum.setText(String.valueOf(notifyList.get(position).getNotifyNum()));
+        holder.tv_num.setText(String.valueOf(notifyList.get(position).getNotifyNum()));
+        holder.tv_date.setText(notifyList.get(position).getDate());
 
     }
 
@@ -58,14 +57,14 @@ public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.NotifyView
     public class NotifyViewHolder extends RecyclerView.ViewHolder {
 
         TextView tv_title;
-        TextView tv_text;
-        TextView tv_notifyNum;
+        TextView tv_num;
+        TextView tv_date;
 
         public NotifyViewHolder(@NonNull View itemView) {
             super(itemView);
             this.tv_title = itemView.findViewById(R.id.tv_title);
-            this.tv_text = itemView.findViewById(R.id.tv_text);
-            this.tv_notifyNum = itemView.findViewById(R.id.tv_notifyNum);
+            this.tv_num = itemView.findViewById(R.id.tv_num);
+            this.tv_date = itemView.findViewById(R.id.tv_date);
 
             itemView.setOnClickListener(new View.OnClickListener() {
 

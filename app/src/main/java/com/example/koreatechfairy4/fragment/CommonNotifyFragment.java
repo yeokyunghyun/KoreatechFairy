@@ -52,16 +52,14 @@ public class CommonNotifyFragment extends Fragment {
     }
 
     private void loadNotifyData() {
-        DatabaseReference databaseReference = firebaseDatabase.getReference("KoreatechFairy4/NotifyDto");
+        DatabaseReference databaseReference = firebaseDatabase.getReference("KoreatechFairy4/NotifyDto/commonNotify");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 notifyList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     NotifyDto notifyDto = dataSnapshot.getValue(NotifyDto.class);
-                    if (notifyDto.getDomain() == NotifyDomain.COMMON.ordinal()) {
-                        notifyList.add(notifyDto);
-                    }
+                    notifyList.add(notifyDto);
                 }
                 adapter.notifyDataSetChanged();
             }

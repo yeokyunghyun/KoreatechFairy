@@ -13,19 +13,19 @@
         android:text="제목" />
 
     <TextView
-        android:id="@+id/tv_text"
+        android:id="@+id/tv_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:maxLength="25"
-        android:text="내용" />
+        android:text="글 번호" />
 
     <TextView
-        android:id="@+id/tv_notifyNum"
+        android:id="@+id/tv_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:maxLength="25"
-        android:text="번호" />
+        android:text="등록일" />
 
 </LinearLayout>

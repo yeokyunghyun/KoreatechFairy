@@ -24,11 +24,15 @@ import com.example.koreatechfairy4.fragment.EmployNotifyFragment;
 import com.example.koreatechfairy4.fragment.JobNotifyFragment;
 import com.example.koreatechfairy4.fragment.TrainNotifyFragment;
 import com.example.koreatechfairy4.fragment.VolunNotifyFragment;
+import com.example.koreatechfairy4.util.NotifyCrawler;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import kotlinx.coroutines.Job;
@@ -37,7 +41,8 @@ public class NotifyActivity extends AppCompatActivity {
 
     private ImageButton notify_back;
     private Button my_page_button, academicButton, benefitButton, commonButton, dormiButton, employButton, jobButton, trainButton, volunButton;
-
+    private DatabaseReference databaseReference;
+    private List<NotifyDto> notifies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +100,22 @@ public class NotifyActivity extends AppCompatActivity {
             }
         });
 
+        /*데이터 등록하는 부분*/
+        databaseReference = FirebaseDatabase.getInstance().getReference("KoreatechFairy4/NotifyDto");
+        new Thread(() -> {
+            try {
+                notifies = NotifyCrawler.getNotice(14);
+                insertNotifyData(databaseReference, notifies, 14);
+                System.out.println("되고있나ㅁㄴ");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
+
+
         /* 데이터 가져오는 부분 */
+
+
 
 
     }
@@ -109,5 +129,13 @@ public class NotifyActivity extends AppCompatActivity {
                 transaction.commit();
             }
         });
+    }
+
+    private void insertNotifyData(DatabaseReference dbRef, List<NotifyDto> notifies, int domainNum) {
+        int count = 1;
+        for (NotifyDto notify : notifies) {
+            databaseReference.child("commonNotify").child("Notify_" + count).setValue(notify);
+            ++count;
+        }
     }
 }

@@ -43,6 +43,8 @@ dependencies {
     implementation(libs.poi)
     implementation(libs.apache.poi.ooxml)
     implementation("org.projectlombok:lombok:1.18.28")
+    implementation(libs.apache.poi)
+    implementation(libs.jsoup)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

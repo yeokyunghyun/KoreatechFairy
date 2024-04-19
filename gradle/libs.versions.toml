@@ -12,6 +12,8 @@ firebaseAuth = "22.3.1"
 firebaseDatabase = "20.3.1"
 poi = "5.2.2"
 poiOoxml = "5.2.5"
+poiVersion = "5.2.5"
+jsoup = "1.17.2"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -27,6 +29,8 @@ firebase-database = { group = "com.google.firebase", name = "firebase-database",
 poi = { group = "org.apache.poi", name = "poi", version.ref = "poi" }
 poi-ooxml = { group = "org.apache.poi", name = "poi-ooxml", version.ref = "poi" }
 apache-poi-ooxml = { group = "org.apache.poi", name = "poi-ooxml", version.ref = "poiOoxml" }
+apache-poi = { group = "org.apache.poi", name = "poi", version.ref = "poiVersion" }
+jsoup = { group = "org.jsoup", name = "jsoup", version.ref = "jsoup" }
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 
