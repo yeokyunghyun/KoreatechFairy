@@ -1,5 +1,6 @@
 package com.example.koreatechfairy4.util;
 
+import com.example.koreatechfairy4.constants.NotifyDomain;
 import com.example.koreatechfairy4.dto.NotifyDto;
 
 
@@ -13,10 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NotifyCrawler {
-    public static List<NotifyDto> getNotice(int domainNum) throws IOException {
+    public static List<NotifyDto> getNotice(NotifyDomain domain) throws IOException {
         List<NotifyDto> list = new ArrayList<>();
 
-        String aunuriURL = "https://portal.koreatech.ac.kr/ctt/bb/bulletin?b=" + domainNum;
+        String aunuriURL = "https://portal.koreatech.ac.kr/ctt/bb/bulletin?b=" + domain.link();
 
         Document doc = Jsoup.connect(aunuriURL).get();
 

@@ -16,6 +16,7 @@ import com.example.koreatechfairy4.R;
 import com.example.koreatechfairy4.adapter.NotifyAdapter;
 import com.example.koreatechfairy4.constants.NotifyDomain;
 import com.example.koreatechfairy4.dto.NotifyDto;
+import com.example.koreatechfairy4.util.NotifyItemDecoration;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,6 +45,9 @@ public class CommonNotifyFragment extends Fragment {
         notifyList = new ArrayList<>();
         adapter = new NotifyAdapter(notifyList, getContext());
 
+        int spaceInPixels = 5;
+        recyclerView.addItemDecoration(new NotifyItemDecoration(spaceInPixels));
+
         loadNotifyData();
 
         recyclerView.setAdapter(adapter);
@@ -52,7 +56,7 @@ public class CommonNotifyFragment extends Fragment {
     }
 
     private void loadNotifyData() {
-        DatabaseReference databaseReference = firebaseDatabase.getReference("KoreatechFairy4/NotifyDto/commonNotify");
+        DatabaseReference databaseReference = firebaseDatabase.getReference("KoreatechFairy4/NotifyDto/" + NotifyDomain.COMMON);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

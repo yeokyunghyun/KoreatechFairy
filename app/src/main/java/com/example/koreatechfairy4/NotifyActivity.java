@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.koreatechfairy4.constants.NotifyDomain;
 import com.example.koreatechfairy4.dto.NotifyDto;
 import com.example.koreatechfairy4.fragment.AcademicNotifyFragment;
 import com.example.koreatechfairy4.fragment.BenefitNotifyFragment;
@@ -104,9 +105,10 @@ public class NotifyActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference("KoreatechFairy4/NotifyDto");
         new Thread(() -> {
             try {
-                notifies = NotifyCrawler.getNotice(14);
-                insertNotifyData(databaseReference, notifies, 14);
-                System.out.println("되고있나ㅁㄴ");
+                for (NotifyDomain domain : NotifyDomain.values()) {
+                    notifies = NotifyCrawler.getNotice(domain);
+                    insertNotifyData(databaseReference, notifies, domain);
+                }
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -114,8 +116,6 @@ public class NotifyActivity extends AppCompatActivity {
 
 
         /* 데이터 가져오는 부분 */
-
-
 
 
     }
@@ -131,10 +131,10 @@ public class NotifyActivity extends AppCompatActivity {
         });
     }
 
-    private void insertNotifyData(DatabaseReference dbRef, List<NotifyDto> notifies, int domainNum) {
+    private void insertNotifyData(DatabaseReference dbRef, List<NotifyDto> notifies, NotifyDomain domain) {
         int count = 1;
         for (NotifyDto notify : notifies) {
-            databaseReference.child("commonNotify").child("Notify_" + count).setValue(notify);
+            databaseReference.child(String.valueOf(domain)).child("Notify_" + count).setValue(notify);
             ++count;
         }
     }
