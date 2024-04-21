@@ -11,11 +11,15 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.koreatechfairy4.R;
 import com.example.koreatechfairy4.adapter.KeywordAdapter;
 import com.example.koreatechfairy4.adapter.NotifyAdapter;
+import com.example.koreatechfairy4.constants.NotifyDomain;
 import com.example.koreatechfairy4.dto.NotifyDto;
+import com.example.koreatechfairy4.util.NotifyItemDecoration;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,10 +30,10 @@ import java.util.ArrayList;
 
 public class KeywordNotifyFragment extends Fragment {
 
+    private RecyclerView keywordRecyclerView, notifyRecyclerView;
     private EditText editTextKeyword;
     private Button addButton;
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference keywordReference;
     private ArrayList<String> keywords;
     private ArrayList<NotifyDto> notifyList;
     private NotifyAdapter notifyAdapter;
@@ -46,10 +50,23 @@ public class KeywordNotifyFragment extends Fragment {
         if (getArguments() != null) {
             userId = getArguments().getString("userId");
         }
+
+
+        keywordRecyclerView = view.findViewById(R.id.input_keyword);
+        keywordRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        notifyRecyclerView = view.findViewById(R.id.notify_keyword);
+        notifyRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         editTextKeyword = view.findViewById(R.id.editText);
         addButton = view.findViewById(R.id.add_button);
-        notifyAdapter = new NotifyAdapter(notifyList, getContext());
+
+        keywords = new ArrayList<>();
         keywordAdapter = new KeywordAdapter(keywords, getContext());
+
+        notifyList = new ArrayList<>();
+        notifyAdapter = new NotifyAdapter(notifyList, getContext());
+
         DatabaseReference databaseReference = firebaseDatabase.getReference("KoreatechFairy4/User/" + userId);
 
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -64,11 +81,21 @@ public class KeywordNotifyFragment extends Fragment {
             }
         });
 
+        int spaceInPixels = 5;
+        keywordRecyclerView.addItemDecoration(new NotifyItemDecoration(spaceInPixels));
+        notifyRecyclerView.addItemDecoration(new NotifyItemDecoration(spaceInPixels));
+
+        loadKeywords();
+//        loadFilteredNotifies();
+
+        keywordRecyclerView.setAdapter(keywordAdapter);
+        notifyRecyclerView.setAdapter(notifyAdapter);
+
         return view;
     }
 
     private void loadKeywords() {
-        DatabaseReference keywordReference = firebaseDatabase.getReference("KoreayechFairy4/User/" + userId + "/keyword");
+        DatabaseReference keywordReference = firebaseDatabase.getReference("KoreatechFairy4/User/" + userId + "/keyword");
         keywordReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -78,6 +105,7 @@ public class KeywordNotifyFragment extends Fragment {
                     keywords.add(keyword);
                 }
                 keywordAdapter.notifyDataSetChanged();
+                loadFilteredNotifies();
             }
 
             @Override
@@ -85,6 +113,32 @@ public class KeywordNotifyFragment extends Fragment {
                 Log.e("KeywordFragment", "Failed to read keywords", databaseError.toException());
             }
         });
+    }
+
+    private void loadFilteredNotifies() {
+        notifyList.clear();
+        for (NotifyDomain domain : NotifyDomain.values()) {
+            for (String keyword : keywords) {
+                DatabaseReference keywordNotifyReference = firebaseDatabase.getReference("KoreatechFairy4/NotifyDto/" + domain);
+                keywordNotifyReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            NotifyDto notify = snapshot.getValue(NotifyDto.class);
+                            if (notify != null && (notify.getTitle().contains(keyword) || notify.getText().contains(keyword))) {
+                                notifyList.add(notify);
+                            }
+                        }
+                        notifyAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Log.e("KeywordNotifyFragment", "Failed to read notices", databaseError.toException());
+                    }
+                });
+            }
+        }
     }
 
 }

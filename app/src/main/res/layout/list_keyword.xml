@@ -13,7 +13,7 @@
         android:maxLength="25"
         android:text="키워드"
         android:textSize="16sp"
-        android:background="@drawable/recyclerview_border"/>
+        />
 
 
 
