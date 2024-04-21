@@ -46,7 +46,17 @@ public class MainActivity extends AppCompatActivity {
         HashMap<String, String> myPageMap = new HashMap<>();
         myPageMap.put("userId", userId);
 
-        switchActivity(notify_button, NotifyActivity.class);
+        //switchActivity(notify_button, NotifyActivity.class);
+
+        notify_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, NotifyActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
+            }
+        });
+
         switchActivity(logout_button, LoginActivity.class);
         schedule_button.setOnClickListener(new View.OnClickListener() {
             @Override

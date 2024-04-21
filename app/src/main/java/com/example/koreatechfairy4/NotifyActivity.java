@@ -23,6 +23,7 @@ import com.example.koreatechfairy4.fragment.CommonNotifyFragment;
 import com.example.koreatechfairy4.fragment.DormiNotifyFragment;
 import com.example.koreatechfairy4.fragment.EmployNotifyFragment;
 import com.example.koreatechfairy4.fragment.JobNotifyFragment;
+import com.example.koreatechfairy4.fragment.KeywordNotifyFragment;
 import com.example.koreatechfairy4.fragment.TrainNotifyFragment;
 import com.example.koreatechfairy4.fragment.VolunNotifyFragment;
 import com.example.koreatechfairy4.util.NotifyCrawler;
@@ -41,7 +42,7 @@ import kotlinx.coroutines.Job;
 public class NotifyActivity extends AppCompatActivity {
 
     private ImageButton notify_back;
-    private Button my_page_button, academicButton, benefitButton, commonButton, dormiButton, employButton, jobButton, trainButton, volunButton;
+    private Button my_page_button, keywordButton,academicButton, benefitButton, commonButton, dormiButton, employButton, jobButton, trainButton, volunButton;
     private DatabaseReference databaseReference;
     private List<NotifyDto> notifies;
 
@@ -56,6 +57,7 @@ public class NotifyActivity extends AppCompatActivity {
             return insets;
         });
 
+        keywordButton = (Button) findViewById(R.id.keyword_button);
         academicButton = (Button) findViewById(R.id.academic_button);
         benefitButton = (Button) findViewById(R.id.benefit_button);
         commonButton = (Button) findViewById(R.id.common_button);
@@ -65,6 +67,7 @@ public class NotifyActivity extends AppCompatActivity {
         trainButton = (Button) findViewById(R.id.train_button);
         volunButton = (Button) findViewById(R.id.volun_button);
 
+        setClickListenerWithArgs(keywordButton, new KeywordNotifyFragment());
         setClickListener(academicButton, new AcademicNotifyFragment());
         setClickListener(benefitButton, new BenefitNotifyFragment());
         setClickListener(commonButton, new CommonNotifyFragment());
@@ -124,6 +127,20 @@ public class NotifyActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.notify, fragment);
+                transaction.commit();
+            }
+        });
+    }
+
+    private void setClickListenerWithArgs(Button btn, Fragment fragment) {
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle args = new Bundle();
+                args.putString("userId", getIntent().getStringExtra("userId"));
+                fragment.setArguments(args);
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.notify, fragment);
                 transaction.commit();

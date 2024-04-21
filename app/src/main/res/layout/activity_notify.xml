@@ -58,6 +58,12 @@
 
             <Button
                 android:layout_marginTop="40dp"
+                android:id="@+id/keyword_button"
+                android:layout_width="63dp"
+                android:layout_height="70dp"
+                android:text="키워드" />
+
+            <Button
                 android:id="@+id/common_button"
                 android:layout_width="63dp"
                 android:layout_height="70dp"
