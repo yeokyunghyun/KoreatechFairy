@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.koreatechfairy4.R;
 import com.example.koreatechfairy4.adapter.KeywordAdapter;
+import com.example.koreatechfairy4.adapter.KeywordNotifyAdapter;
 import com.example.koreatechfairy4.adapter.NotifyAdapter;
 import com.example.koreatechfairy4.constants.NotifyDomain;
 import com.example.koreatechfairy4.dto.NotifyDto;
@@ -36,9 +38,11 @@ public class KeywordNotifyFragment extends Fragment {
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private ArrayList<String> keywords;
     private ArrayList<NotifyDto> notifyList;
-    private NotifyAdapter notifyAdapter;
+    private KeywordNotifyAdapter keywordNotifyAdapter;
     private KeywordAdapter keywordAdapter;
     private String userId;
+    private int count = 1;
+    private ImageButton deleteKeyword, deleteNotify;
 
     public KeywordNotifyFragment() {}
 
@@ -62,10 +66,10 @@ public class KeywordNotifyFragment extends Fragment {
         addButton = view.findViewById(R.id.add_button);
 
         keywords = new ArrayList<>();
-        keywordAdapter = new KeywordAdapter(keywords, getContext());
+        keywordAdapter = new KeywordAdapter(keywords, getContext(), userId);
 
         notifyList = new ArrayList<>();
-        notifyAdapter = new NotifyAdapter(notifyList, getContext());
+        keywordNotifyAdapter = new KeywordNotifyAdapter(notifyList, getContext(), userId);
 
         DatabaseReference databaseReference = firebaseDatabase.getReference("KoreatechFairy4/User/" + userId);
 
@@ -86,10 +90,9 @@ public class KeywordNotifyFragment extends Fragment {
         notifyRecyclerView.addItemDecoration(new NotifyItemDecoration(spaceInPixels));
 
         loadKeywords();
-//        loadFilteredNotifies();
 
         keywordRecyclerView.setAdapter(keywordAdapter);
-        notifyRecyclerView.setAdapter(notifyAdapter);
+        notifyRecyclerView.setAdapter(keywordNotifyAdapter);
 
         return view;
     }
@@ -120,16 +123,19 @@ public class KeywordNotifyFragment extends Fragment {
         for (NotifyDomain domain : NotifyDomain.values()) {
             for (String keyword : keywords) {
                 DatabaseReference keywordNotifyReference = firebaseDatabase.getReference("KoreatechFairy4/NotifyDto/" + domain);
+                DatabaseReference notifyReference = firebaseDatabase.getReference("KoreatechFairy4/User/" + userId);
                 keywordNotifyReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             NotifyDto notify = snapshot.getValue(NotifyDto.class);
                             if (notify != null && (notify.getTitle().contains(keyword) || notify.getText().contains(keyword))) {
+                                notify.setCount(count);
                                 notifyList.add(notify);
+                                notifyReference.child("keywordNotify").child("Notify_key_" + formatCount(count++)).setValue(notify);
                             }
                         }
-                        notifyAdapter.notifyDataSetChanged();
+                        keywordNotifyAdapter.notifyDataSetChanged();
                     }
 
                     @Override
@@ -139,6 +145,11 @@ public class KeywordNotifyFragment extends Fragment {
                 });
             }
         }
+
+    }
+
+    private String formatCount(int count) {
+        return String.format("%02d", count);
     }
 
 }

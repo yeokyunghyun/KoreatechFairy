@@ -12,6 +12,15 @@ public class NotifyDto {
     private ArrayList<String> imgUrls;
     private String baseUrl;
     private String html;
+    private int count;
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
 
     public String getBaseUrl() {
         return baseUrl;
