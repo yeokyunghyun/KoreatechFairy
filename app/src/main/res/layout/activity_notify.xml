@@ -93,24 +93,6 @@
                 android:layout_height="70dp"
                 android:text="채용" />
 
-            <Button
-                android:id="@+id/train_button"
-                android:layout_width="63dp"
-                android:layout_height="70dp"
-                android:text="현장\n실습" />
-
-            <Button
-                android:id="@+id/dormi_button"
-                android:layout_width="63dp"
-                android:layout_height="70dp"
-                android:text="생활관" />
-
-            <Button
-                android:id="@+id/volun_button"
-                android:layout_width="63dp"
-                android:layout_height="70dp"
-                android:text="사회\n봉사" />
-
         </LinearLayout>
 
     </LinearLayout>

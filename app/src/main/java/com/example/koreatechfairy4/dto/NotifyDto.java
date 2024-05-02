@@ -10,6 +10,24 @@ public class NotifyDto {
     private String date;
     private String author;
     private ArrayList<String> imgUrls;
+    private String baseUrl;
+    private String html;
+
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
+    public String getHtml() {
+        return html;
+    }
+
+    public void setHtml(String html) {
+        this.html = html;
+    }
 
     public NotifyDto() {}
 

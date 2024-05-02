@@ -13,38 +13,30 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.koreatechfairy4.constants.NotifyDomain;
 import com.example.koreatechfairy4.dto.NotifyDto;
 import com.example.koreatechfairy4.fragment.AcademicNotifyFragment;
 import com.example.koreatechfairy4.fragment.BenefitNotifyFragment;
 import com.example.koreatechfairy4.fragment.CommonNotifyFragment;
-import com.example.koreatechfairy4.fragment.DormiNotifyFragment;
 import com.example.koreatechfairy4.fragment.EmployNotifyFragment;
 import com.example.koreatechfairy4.fragment.JobNotifyFragment;
 import com.example.koreatechfairy4.fragment.KeywordNotifyFragment;
-import com.example.koreatechfairy4.fragment.TrainNotifyFragment;
-import com.example.koreatechfairy4.fragment.VolunNotifyFragment;
 import com.example.koreatechfairy4.util.NotifyCrawler;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import kotlinx.coroutines.Job;
 
 public class NotifyActivity extends AppCompatActivity {
 
     private ImageButton notify_back;
-    private Button my_page_button, keywordButton,academicButton, benefitButton, commonButton, dormiButton, employButton, jobButton, trainButton, volunButton;
+    private Button my_page_button, keywordButton,academicButton, benefitButton, commonButton, employButton, jobButton;
     private DatabaseReference databaseReference;
     private List<NotifyDto> notifies;
+    private String jobLink = "https://job.koreatech.ac.kr/jobs/notice/jobNoticeList.aspx?page=";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,21 +53,15 @@ public class NotifyActivity extends AppCompatActivity {
         academicButton = (Button) findViewById(R.id.academic_button);
         benefitButton = (Button) findViewById(R.id.benefit_button);
         commonButton = (Button) findViewById(R.id.common_button);
-        dormiButton = (Button) findViewById(R.id.dormi_button);
         employButton = (Button) findViewById(R.id.employ_button);
         jobButton = (Button) findViewById(R.id.job_button);
-        trainButton = (Button) findViewById(R.id.train_button);
-        volunButton = (Button) findViewById(R.id.volun_button);
 
         setClickListenerWithArgs(keywordButton, new KeywordNotifyFragment());
         setClickListener(academicButton, new AcademicNotifyFragment());
         setClickListener(benefitButton, new BenefitNotifyFragment());
         setClickListener(commonButton, new CommonNotifyFragment());
-        setClickListener(dormiButton, new DormiNotifyFragment());
         setClickListener(employButton, new EmployNotifyFragment());
         setClickListener(jobButton, new JobNotifyFragment());
-        setClickListener(trainButton, new TrainNotifyFragment());
-        setClickListener(volunButton, new VolunNotifyFragment());
 
         notify_back = findViewById(R.id.imgBtn_notify_back);
         my_page_button = findViewById(R.id.btn_notify_mypage);
@@ -117,8 +103,18 @@ public class NotifyActivity extends AppCompatActivity {
             }
         }).start();
 
-
-        /* 데이터 가져오는 부분 */
+        new Thread(() -> {
+            try {
+                notifies = NotifyCrawler.getJobNotice(jobLink);
+                int count = 1;
+                for (NotifyDto notify : notifies) {
+                    databaseReference.child("JOB").child("Notify_" + formatCount(count++)).setValue(notify);
+                    ++count;
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
 
 
     }
@@ -151,8 +147,11 @@ public class NotifyActivity extends AppCompatActivity {
     private void insertNotifyData(DatabaseReference dbRef, List<NotifyDto> notifies, NotifyDomain domain) {
         int count = 1;
         for (NotifyDto notify : notifies) {
-            databaseReference.child(String.valueOf(domain)).child("Notify_" + count).setValue(notify);
-            ++count;
+            databaseReference.child(String.valueOf(domain)).child("Notify_" + formatCount(count++)).setValue(notify);
         }
+    }
+
+    private String formatCount(int count) {
+        return String.format("%02d", count);
     }
 }
