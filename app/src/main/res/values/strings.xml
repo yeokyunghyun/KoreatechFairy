@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">KoreatechFairy4</string>
+    <string name="channel_name">new notify</string>
+    <string name="channel_description">push</string>
 </resources>

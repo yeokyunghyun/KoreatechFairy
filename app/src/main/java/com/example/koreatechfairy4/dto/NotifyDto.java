@@ -1,5 +1,7 @@
 package com.example.koreatechfairy4.dto;
 
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
 
 public class NotifyDto {
@@ -94,5 +96,11 @@ public class NotifyDto {
 
     public ArrayList<String> getImgUrls() {
         return imgUrls;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        NotifyDto input = (NotifyDto) obj;
+        return this.getTitle().equals(input.getTitle());
     }
 }

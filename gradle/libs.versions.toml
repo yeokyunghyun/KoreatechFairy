@@ -14,6 +14,7 @@ poi = "5.2.2"
 poiOoxml = "5.2.5"
 poiVersion = "5.2.5"
 jsoup = "1.17.2"
+firebaseMessaging = "23.4.1"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -31,6 +32,7 @@ poi-ooxml = { group = "org.apache.poi", name = "poi-ooxml", version.ref = "poi" 
 apache-poi-ooxml = { group = "org.apache.poi", name = "poi-ooxml", version.ref = "poiOoxml" }
 apache-poi = { group = "org.apache.poi", name = "poi", version.ref = "poiVersion" }
 jsoup = { group = "org.jsoup", name = "jsoup", version.ref = "jsoup" }
+firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 
