@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.graphics.Insets;
@@ -28,9 +29,13 @@ import com.example.koreatechfairy4.fragment.CommonNotifyFragment;
 import com.example.koreatechfairy4.fragment.EmployNotifyFragment;
 import com.example.koreatechfairy4.fragment.JobNotifyFragment;
 import com.example.koreatechfairy4.fragment.KeywordNotifyFragment;
+import com.example.koreatechfairy4.util.NotificationHelper;
 import com.example.koreatechfairy4.util.NotifyCrawler;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,6 +49,8 @@ public class NotifyActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private List<NotifyDto> notifies;
     private String jobLink = "https://job.koreatech.ac.kr/jobs/notice/jobNoticeList.aspx?page=";
+    private NotificationHelper notificationHelper;
+    private ArrayList<String> keywords;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +62,6 @@ public class NotifyActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        createNotificationChannel();
 
         keywordButton = (Button) findViewById(R.id.keyword_button);
         academicButton = (Button) findViewById(R.id.academic_button);
@@ -100,14 +105,9 @@ public class NotifyActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
-
-
-        /*데이터 등록하는 부분*/
+        /*데이터 등록하는 부분 + 비교 + 알림*/
         databaseReference = FirebaseDatabase.getInstance().getReference("KoreatechFairy4/NotifyDto");
+        notificationHelper = new NotificationHelper(this);
 
         new Thread(() -> {
             try {
@@ -122,23 +122,20 @@ public class NotifyActivity extends AppCompatActivity {
                             task.getResult().getChildren().forEach(snapshot -> {
                                 NotifyDto notify = snapshot.getValue(NotifyDto.class);
                                 firebaseNotifies.add(notify);
-                                System.out.println("기존 공지: " + notify.getTitle());
                             });
 
                             for (NotifyDto crawledNotify : notifies) {
                                 if (!firebaseNotifies.contains(crawledNotify)) {
-                                    sendNotification(crawledNotify);
-                                    //domainRef.child("Notify_" + formatCount(count++)).setValue(crawledNotify);
-                                    System.out.println("새로운 공지: " + crawledNotify.getTitle());
+                                    if (compareKeyword(crawledNotify)) {
+                                        String title = "새로운 공지사항이 등록되었습니다.";
+                                        String msg = crawledNotify.getText();
+                                        sendOnChannel(title, msg);
+                                        domainRef.child("Notify_" + formatCount(count++)).setValue(crawledNotify);
+                                    }
                                 }
                             }
                         }
                     });
-
-
-
-
-                    //insertNotifyData(databaseReference, notifies, domain);
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -147,46 +144,72 @@ public class NotifyActivity extends AppCompatActivity {
 
         new Thread(() -> {
             try {
+                DatabaseReference jobRef = databaseReference.child("JOB");
                 notifies = NotifyCrawler.getJobNotice(jobLink);
-                int count = 1;
-                for (NotifyDto notify : notifies) {
-                    databaseReference.child("JOB").child("Notify_" + formatCount(count++)).setValue(notify);
-                }
+
+                jobRef.get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        int count = 1;
+                        List<NotifyDto> firebaseNotifies = new ArrayList<>();
+                        task.getResult().getChildren().forEach(snapshot -> {
+                            NotifyDto notify = snapshot.getValue(NotifyDto.class);
+                            firebaseNotifies.add(notify);
+                        });
+
+                        for (NotifyDto crawledNotify : notifies) {
+                            if (!firebaseNotifies.contains(crawledNotify)) {
+                                if (compareKeyword(crawledNotify)) {
+                                    String title = "새로운 공지사항이 등록되었습니다.";
+                                    String msg = crawledNotify.getText();
+                                    sendOnChannel(title, msg);
+                                    jobRef.child("Notify_" + formatCount(count++)).setValue(crawledNotify);
+                                }
+                            }
+                        }
+                    }
+                });
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }).start();
 
 
-
-        //공지사항 비교
-        /*-----------------------------------------------------------------*/
-
-
     }
 
-    private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = getString(R.string.channel_name);
-            String description = getString(R.string.channel_description);
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("notify_001", name, importance);
-            channel.setDescription(description);
+    private void sendOnChannel(String title, String msg) {
+        NotificationCompat.Builder nb = notificationHelper.getChannel1Notification(title, msg);
+        notificationHelper.getManager().notify(1, nb.build());
+    }
 
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
+    private boolean compareKeyword(NotifyDto notify) {
+        loadKeywords();
+        for (String keyword : keywords) {
+            if (notify != null && (notify.getTitle().contains(keyword) || notify.getText().contains(keyword))) {
+                return true;
+            }
         }
+        return false;
     }
 
-    private void sendNotification(NotifyDto notify) {
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "notify_001")
-                .setSmallIcon(R.drawable.ic_launcher_background)
-                .setContentTitle("New Notification")
-                .setContentText(notify.getTitle())
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+    private void loadKeywords() {
+        String userId = getIntent().getStringExtra("userId");
+        DatabaseReference keywordReference = FirebaseDatabase.getInstance().getReference("KoreatechFairy4/User/" + userId + "/keyword");
+        keywords = new ArrayList<>();
+        keywordReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                keywords.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String keyword = snapshot.getValue(String.class);
+                    keywords.add(keyword);
+                }
+            }
 
-        notificationManager.notify(1, builder.build());
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("KeywordFragment", "Failed to read keywords", databaseError.toException());
+            }
+        });
     }
 
     private void setClickListener(Button btn, Fragment fragment) {
