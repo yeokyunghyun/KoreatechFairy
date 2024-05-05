@@ -2,9 +2,99 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/my_page_back"
+    android:id="@+id/notify"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NotifyActivity">
+    android:orientation="vertical"
+    android:background="#FFFFFF">
+
+    <RelativeLayout
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/border_bottom"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/imgBtn_notify_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/back" />
+
+        <Button
+            android:id="@+id/btn_notify_mypage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="마이페이지"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/topbar">
+
+        <FrameLayout
+            android:id="@+id/frame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="65dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/border_right"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_marginTop="40dp"
+                android:id="@+id/keyword_button"
+                android:layout_width="63dp"
+                android:layout_height="70dp"
+                android:text="키워드" />
+
+            <Button
+                android:id="@+id/common_button"
+                android:layout_width="63dp"
+                android:layout_height="70dp"
+                android:text="일반" />
+
+            <Button
+                android:id="@+id/benefit_button"
+                android:layout_width="63dp"
+                android:layout_height="70dp"
+                android:text="장학" />
+
+            <Button
+                android:id="@+id/academic_button"
+                android:layout_width="63dp"
+                android:layout_height="70dp"
+                android:text="학사" />
+
+            <Button
+                android:id="@+id/job_button"
+                android:layout_width="63dp"
+                android:layout_height="70dp"
+                android:text="취업" />
+
+            <Button
+                android:id="@+id/employ_button"
+                android:layout_width="63dp"
+                android:layout_height="70dp"
+                android:text="채용" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
