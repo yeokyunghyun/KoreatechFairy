@@ -13,8 +13,6 @@ import androidx.core.app.NotificationCompat;
 
 import com.example.koreatechfairy4.R;
 
-import java.io.Console;
-
 public class NotificationHelper extends ContextWrapper {
     public static final String channel1Id = "channel1ID";
     public static final String channel1Name = "channel1";
@@ -42,7 +40,7 @@ public class NotificationHelper extends ContextWrapper {
 
     public NotificationManager getManager() {
         if(manager == null) {
-            manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            manager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         }
 
         return manager;
