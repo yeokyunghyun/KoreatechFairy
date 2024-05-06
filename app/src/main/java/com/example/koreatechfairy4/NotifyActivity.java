@@ -41,13 +41,13 @@ import java.util.List;
 public class NotifyActivity extends AppCompatActivity {
 
     private ImageButton notify_back;
-    private Button my_page_button, keywordButton,academicButton, benefitButton, commonButton, employButton, jobButton;
+    private Button my_page_button, keywordButton, academicButton, benefitButton, commonButton, employButton, jobButton;
     private DatabaseReference databaseReference;
     private List<NotifyDto> notifies;
     private String jobLink = "https://job.koreatech.ac.kr/jobs/notice/jobNoticeList.aspx?page=";
     private NotificationHelper notificationHelper;
     private ArrayList<String> keywords;
-
+    private int notifyNum = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,7 +104,6 @@ public class NotifyActivity extends AppCompatActivity {
         /*데이터 등록하는 부분 + 비교 + 알림*/
         databaseReference = FirebaseDatabase.getInstance().getReference("KoreatechFairy4/NotifyDto");
         notificationHelper = new NotificationHelper(this);
-        keywords = new ArrayList<>();
 
         new Thread(() -> {
             try {
@@ -125,7 +124,7 @@ public class NotifyActivity extends AppCompatActivity {
                                 if (!firebaseNotifies.contains(crawledNotify)) {
                                     loadKeywords(crawledNotify);
                                 }
-                                //domainRef.child("Notify_" + formatCount(count++)).setValue(crawledNotify);
+                                domainRef.child("Notify_" + formatCount(count++)).setValue(crawledNotify);
                             }
                         }
                     });
@@ -158,7 +157,7 @@ public class NotifyActivity extends AppCompatActivity {
                                     sendOnChannel(title, msg);
                                 }
                             }
-                            //jobRef.child("Notify_" + formatCount(count++)).setValue(crawledNotify);
+                            jobRef.child("Notify_" + formatCount(count++)).setValue(crawledNotify);
                         }
                     }
                 });
@@ -172,16 +171,17 @@ public class NotifyActivity extends AppCompatActivity {
 
     private void sendOnChannel(String title, String msg) {
         NotificationCompat.Builder nb = notificationHelper.getChannel1Notification(title, msg);
-        notificationHelper.getManager().notify(1, nb.build());
+        notificationHelper.getManager().notify(notifyNum++, nb.build());
     }
 
     private boolean compareKeyword(NotifyDto notify) {
-        if (keywords != null) {
-            for (String keyword : keywords) {
-                System.out.println("키워드: " + keyword);
-                if (notify != null && (notify.getTitle().contains(keyword) || notify.getText().contains(keyword))) {
-                    return true;
-                }
+        Log.d("check", "aa");
+        for(String key : keywords) {
+            Log.d("keywordssss", key);
+        }
+        for (String keyword : keywords) {
+            if (notify != null && (notify.getTitle().contains(keyword) || notify.getText().contains(keyword))) {
+                return true;
             }
         }
         return false;
@@ -190,6 +190,7 @@ public class NotifyActivity extends AppCompatActivity {
     private void loadKeywords(NotifyDto notify) {
         String userId = getIntent().getStringExtra("userId");
         DatabaseReference keywordReference = FirebaseDatabase.getInstance().getReference("KoreatechFairy4/User/" + userId + "/keyword");
+        keywords = new ArrayList<>();
         keywordReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -209,9 +210,12 @@ public class NotifyActivity extends AppCompatActivity {
     }
 
     private void notifyKeyword(NotifyDto notify) {
+        for(String key : keywords) {
+            Log.d("keyword", key);
+        }
         if (compareKeyword(notify)) {
             String title = "새로운 공지사항이 등록되었습니다.";
-            String msg = notify.getText();
+            String msg = notify.getTitle();
             sendOnChannel(title, msg);
         }
     }
