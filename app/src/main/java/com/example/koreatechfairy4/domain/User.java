@@ -2,13 +2,14 @@ package com.example.koreatechfairy4.domain;
 
 //사용자 계정 정보 모델 클래스
 public class User {
-
     private String id;
     private String name;
     private String password;
     private String major;
     private String studentId;
-
+    private double majorGrade;
+    private double avgGrade;
+    private int totalCredit;
 
     public User() {} //빈 생성자 필수
 
@@ -19,6 +20,9 @@ public class User {
         this.password = registerPw;
         this.major = selectedMajor;
         this.studentId = selectedStudentId;
+        this.majorGrade = 0;
+        this.avgGrade = 0;
+        this.totalCredit = 0;
     }
 
     public String getName() {return name;}
@@ -37,6 +41,18 @@ public class User {
 
     public String getStudentId() {
         return studentId;
+    }
+
+    public double getMajorGrade() {
+        return majorGrade;
+    }
+
+    public double getAvgGrade() {
+        return avgGrade;
+    }
+
+    public int getTotalCredit() {
+        return totalCredit;
     }
 
     private boolean isValidId(String id) {

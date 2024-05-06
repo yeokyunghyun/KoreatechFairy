@@ -2,22 +2,28 @@ package com.example.koreatechfairy4.util;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 
 import com.example.koreatechfairy4.domain.Lecture;
+import com.example.koreatechfairy4.dto.GradeDto;
 
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.CellType;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import lombok.Getter;
 
 @Getter
 public class LectureCrawler {
-    public static ArrayList<Lecture> crawlLecture(Context context, Uri fileUri) {
-        ArrayList<Lecture> lectures = new ArrayList<>();
+    public static GradeDto crawlLecture(Context context, Uri fileUri) {
+        GradeDto result = null;
 
         try {
             InputStream lectureListInputStream = context.getContentResolver().openInputStream(fileUri);
@@ -26,34 +32,51 @@ public class LectureCrawler {
             //0번째 시트만
 
             int firstRowIdx = lectureListSheet.getFirstRowNum();
+            Log.d("first", String.valueOf(firstRowIdx));
             int lastRowIdx = lectureListSheet.getLastRowNum();
+            Log.d("last", String.valueOf(lastRowIdx));
 
-            for (int i = lastRowIdx; i >= firstRowIdx + 1; --i) {
+
+            int totalGrade = Integer.valueOf(lectureListSheet.getRow(lastRowIdx).getCell(9).getStringCellValue());
+            double avgGrade = Double.valueOf(lectureListSheet.getRow(lastRowIdx).getCell(11).getStringCellValue());
+
+            Set<String> lectureNames = new HashSet<>();
+
+            double totalMajorGrade = 0.0; //평점 10.5
+            int totalMajorCredit = 0; // 학점 3
+
+            for (int i = firstRowIdx + 1; i <= lastRowIdx; ++i) {
                 //for (int i=firstRowIdx+1; i<=10; ++i) {
                 HSSFRow row = lectureListSheet.getRow(i);
                 if (row != null) {
-                    int lectureNameColumn = 5;
-                    int profColumn = 7; // 담당교수
+                    int lectureColumn = 5; // 교과목명
                     int domainColumn = 8; // 대표이수구분
                     int creditColumn = 9; // 학점
+                    int gradeColumn = 11; //평점
 
-                    String lectureName = row.getCell(lectureNameColumn).getStringCellValue();
-                    String prof = row.getCell(profColumn).getStringCellValue();
-                    if (prof.isEmpty()) continue;
                     String domainName = row.getCell(domainColumn).getStringCellValue();
-                    int credit = (int) row.getCell(creditColumn).getNumericCellValue();
+                    String lectureName = row.getCell(lectureColumn).getStringCellValue();
 
-                    Lecture lecture = new Lecture.Builder().lectureName(lectureName).domain(domainName).credit(credit).prof(prof).build();
-
-                    lectures.add(lecture);
+                    if(isValid(domainName) && !lectureNames.contains(lectureName)) {
+                        lectureNames.add(lectureName);
+                        totalMajorGrade += row.getCell(gradeColumn).getNumericCellValue();
+                        totalMajorCredit += (int)row.getCell(creditColumn).getNumericCellValue();
+                    }
                 }
             }
+
+            result = new GradeDto((totalMajorGrade / totalMajorCredit), avgGrade, totalGrade);
+            Log.d("durudgus", String.valueOf(totalMajorGrade/totalMajorCredit));
             workbook.close();
             lectureListInputStream.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return lectures;
+        return result;
+    }
+
+    private static boolean isValid(String domainName) {
+        return domainName.equals("학부공통필수") || domainName.equals("학부공통선택");
     }
 }
