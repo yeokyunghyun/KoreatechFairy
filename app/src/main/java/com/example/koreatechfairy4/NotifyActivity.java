@@ -1,10 +1,6 @@
 package com.example.koreatechfairy4;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -108,6 +104,7 @@ public class NotifyActivity extends AppCompatActivity {
         /*데이터 등록하는 부분 + 비교 + 알림*/
         databaseReference = FirebaseDatabase.getInstance().getReference("KoreatechFairy4/NotifyDto");
         notificationHelper = new NotificationHelper(this);
+        keywords = new ArrayList<>();
 
         new Thread(() -> {
             try {
@@ -126,13 +123,9 @@ public class NotifyActivity extends AppCompatActivity {
 
                             for (NotifyDto crawledNotify : notifies) {
                                 if (!firebaseNotifies.contains(crawledNotify)) {
-                                    if (compareKeyword(crawledNotify)) {
-                                        String title = "새로운 공지사항이 등록되었습니다.";
-                                        String msg = crawledNotify.getText();
-                                        sendOnChannel(title, msg);
-                                        domainRef.child("Notify_" + formatCount(count++)).setValue(crawledNotify);
-                                    }
+                                    loadKeywords(crawledNotify);
                                 }
+                                //domainRef.child("Notify_" + formatCount(count++)).setValue(crawledNotify);
                             }
                         }
                     });
@@ -141,6 +134,7 @@ public class NotifyActivity extends AppCompatActivity {
                 throw new RuntimeException(e);
             }
         }).start();
+
 
         new Thread(() -> {
             try {
@@ -162,9 +156,9 @@ public class NotifyActivity extends AppCompatActivity {
                                     String title = "새로운 공지사항이 등록되었습니다.";
                                     String msg = crawledNotify.getText();
                                     sendOnChannel(title, msg);
-                                    jobRef.child("Notify_" + formatCount(count++)).setValue(crawledNotify);
                                 }
                             }
+                            //jobRef.child("Notify_" + formatCount(count++)).setValue(crawledNotify);
                         }
                     }
                 });
@@ -182,19 +176,20 @@ public class NotifyActivity extends AppCompatActivity {
     }
 
     private boolean compareKeyword(NotifyDto notify) {
-        loadKeywords();
-        for (String keyword : keywords) {
-            if (notify != null && (notify.getTitle().contains(keyword) || notify.getText().contains(keyword))) {
-                return true;
+        if (keywords != null) {
+            for (String keyword : keywords) {
+                System.out.println("키워드: " + keyword);
+                if (notify != null && (notify.getTitle().contains(keyword) || notify.getText().contains(keyword))) {
+                    return true;
+                }
             }
         }
         return false;
     }
 
-    private void loadKeywords() {
+    private void loadKeywords(NotifyDto notify) {
         String userId = getIntent().getStringExtra("userId");
         DatabaseReference keywordReference = FirebaseDatabase.getInstance().getReference("KoreatechFairy4/User/" + userId + "/keyword");
-        keywords = new ArrayList<>();
         keywordReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -203,6 +198,7 @@ public class NotifyActivity extends AppCompatActivity {
                     String keyword = snapshot.getValue(String.class);
                     keywords.add(keyword);
                 }
+                notifyKeyword(notify);
             }
 
             @Override
@@ -210,6 +206,14 @@ public class NotifyActivity extends AppCompatActivity {
                 Log.e("KeywordFragment", "Failed to read keywords", databaseError.toException());
             }
         });
+    }
+
+    private void notifyKeyword(NotifyDto notify) {
+        if (compareKeyword(notify)) {
+            String title = "새로운 공지사항이 등록되었습니다.";
+            String msg = notify.getText();
+            sendOnChannel(title, msg);
+        }
     }
 
     private void setClickListener(Button btn, Fragment fragment) {
