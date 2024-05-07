@@ -14,6 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NotifyCrawler {
+    static {
+        SSLHelper.disableSSLCertificateChecking();
+    }
+
     public static List<NotifyDto> getNotice(NotifyDomain domain) throws IOException {
         List<NotifyDto> list = new ArrayList<>();
 

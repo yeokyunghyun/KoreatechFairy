@@ -15,6 +15,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.koreatechfairy4.service.MyService;
 import com.example.koreatechfairy4.util.NotificationHelper;
 
 import java.util.HashMap;
@@ -42,6 +43,11 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        userId = getIntent().getStringExtra("userId");
+        Intent it = new Intent(this, MyService.class);
+        it.putExtra("userId", userId);
+        startService(it);
+
         // button
         my_page_button = findViewById(R.id.my_page_button);
         logout_button = findViewById(R.id.logout_button);
@@ -62,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         });
         // 알림 기능
 
-        userId = getIntent().getStringExtra("userId");
+
         HashMap<String, String> myPageMap = new HashMap<>();
         myPageMap.put("userId", userId);
 
