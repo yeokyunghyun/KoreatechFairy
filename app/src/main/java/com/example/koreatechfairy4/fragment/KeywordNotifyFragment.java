@@ -41,7 +41,6 @@ public class KeywordNotifyFragment extends Fragment {
     private KeywordNotifyAdapter keywordNotifyAdapter;
     private KeywordAdapter keywordAdapter;
     private String userId;
-    private int count = 1;
     private ImageButton deleteKeyword, deleteNotify;
 
     public KeywordNotifyFragment() {}
@@ -127,6 +126,7 @@ public class KeywordNotifyFragment extends Fragment {
                 keywordNotifyReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        int count = 1;
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             NotifyDto notify = snapshot.getValue(NotifyDto.class);
                             if (notify != null && (notify.getTitle().contains(keyword) || notify.getText().contains(keyword))) {
