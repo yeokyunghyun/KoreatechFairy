@@ -76,8 +76,8 @@ public class RegisterActivity extends AppCompatActivity {
                                 if(task.isSuccessful()) {
                                     FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
                                     try {
-                                        User user = new User(registerId, registerName, registerPw, selectedMajor, selectedStudentId);
-                                        mDatabaseRef.child("User").child(registerId).setValue(user);
+                                        User user = new User(firebaseUser.getUid(), registerId, registerName, registerPw, selectedMajor, selectedStudentId);
+                                        mDatabaseRef.child("User").child(firebaseUser.getUid()).setValue(user);
                                         Toast.makeText(RegisterActivity.this, "회원가입에 성공하였습니다!", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                                         startActivity(intent);
