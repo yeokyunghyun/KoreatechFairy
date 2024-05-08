@@ -16,6 +16,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.koreatechfairy4.util.SharedPreferencesManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -23,6 +24,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -41,10 +44,38 @@ public class LoginActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-
+        
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("KoreatechFairy4");
+
+        Map<String, String> loginInfo = SharedPreferencesManager.getLoginInfo(this);
+        if (!loginInfo.isEmpty()) {
+            String email = loginInfo.get("email");
+            String password = loginInfo.get("password");
+            //로그인 로직 구현해야 됨
+            mFirebaseAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()) {
+                                //로그인 성공
+                                FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
+                                Intent intent = new Intent(LoginActivity.this, SplashActivity.class);
+                                intent.putExtra("userId", currentUser.getUid());
+                                startActivity(intent);
+                                finish();
+                            }
+                            else {
+                                if (task.getException() != null) {
+                                    Log.e("LoginActivity", "Login failed", task.getException());
+                                    Toast.makeText(LoginActivity.this, "로그인에 실패하셨습니다: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                }                                }
+                        }
+                    });
+        }
+
+
+
 
         login_user_id = findViewById(R.id.login_email_id);
         login_pw = findViewById(R.id.login_pw);
@@ -65,6 +96,7 @@ public class LoginActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()) {
                                     //로그인 성공
+                                    SharedPreferencesManager.setLoginInfo(LoginActivity.this, loginEmail, loginPw);
                                     FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
                                     Intent intent = new Intent(LoginActivity.this, SplashActivity.class);
                                     intent.putExtra("userId", currentUser.getUid());

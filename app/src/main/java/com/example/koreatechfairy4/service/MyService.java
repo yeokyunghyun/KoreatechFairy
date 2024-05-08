@@ -93,6 +93,7 @@ public class MyService extends Service {
                 .setContentText("어플리케이션이 실행중입니다.")
                 .setSmallIcon(R.drawable.smallfairy)
                 .setContentIntent(pendingIntent)
+                .setGroup(groupKey1)
                 .build();
 
         startForeground(NOTIFICATION_ID, notification);
@@ -193,7 +194,7 @@ public class MyService extends Service {
     }
 
     private synchronized void sendOnChannel(String title, String msg) {
-        NotificationCompat.Builder nb = notificationHelper.getChannel1Notification(title, msg, groupKey1);
+        NotificationCompat.Builder nb = notificationHelper.getChannel1Notification(title, msg);
         notificationHelper.getManager().notify(notifyNum++, nb.build());
     }
 
@@ -250,6 +251,7 @@ public class MyService extends Service {
                 .setContentText("어플리케이션이 실행중입니다.")
                 .setSmallIcon(R.drawable.smallfairy)
                 .setContentIntent(pendingIntent)
+                .setGroup(groupKey1)
                 .build();
 
         startForeground(NOTIFICATION_ID, notification);

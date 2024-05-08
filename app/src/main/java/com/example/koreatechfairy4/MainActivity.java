@@ -1,6 +1,8 @@
 package com.example.koreatechfairy4;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.koreatechfairy4.service.MyService;
 import com.example.koreatechfairy4.util.NotificationHelper;
+import com.example.koreatechfairy4.util.SharedPreferencesManager;
 
 import java.util.HashMap;
 
@@ -71,7 +74,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        switchActivity(logout_button, LoginActivity.class);
+        //switchActivity(logout_button, LoginActivity.class);
+
+        logout_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopService(it);
+
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                SharedPreferencesManager.clearPreferences(MainActivity.this);
+                startActivity(intent);
+                finish();
+            }
+        });
+
         schedule_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
