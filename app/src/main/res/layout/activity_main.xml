@@ -39,7 +39,7 @@
         android:layout_marginStart="15dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/logout_button"
-        android:src="@drawable/fairy"/>
+        android:src="@drawable/koreatechfairy2"/>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
