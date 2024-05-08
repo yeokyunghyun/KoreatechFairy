@@ -9,14 +9,18 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
+import com.example.koreatechfairy4.LoginActivity;
+import com.example.koreatechfairy4.MainActivity;
 import com.example.koreatechfairy4.NotifyActivity;
 import com.example.koreatechfairy4.R;
 import com.example.koreatechfairy4.constants.NotifyDomain;
@@ -41,7 +45,7 @@ public class MyService extends Service {
     private NotificationHelper notificationHelper;
     private ArrayList<String> keywords;
     private String userId;
-    private int notifyNum = 1;
+    private static int notifyNum = 1;
     private static final int NOTIFICATION_ID = 5;
     private static final String CHANNEL_ID = "MyServiceChannel";
 
@@ -55,6 +59,9 @@ public class MyService extends Service {
         }
     };
 
+    private String groupKey1 = "groupKey1";
+    private Intent notificationIntent;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -67,24 +74,33 @@ public class MyService extends Service {
             stopSelf();
             return START_STICKY;
         }
-        String input = intent.getStringExtra("inputExtra");
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+
+        if (isLoggedIn) {
+            notificationIntent = new Intent(this, MainActivity.class);
+        }
+        else {
+            notificationIntent = new Intent(this, LoginActivity.class);
+        }
+
         createNotificationChannel();
-        Intent notificationIntent = new Intent(this, NotifyActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, FLAG_IMMUTABLE);
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Foreground Service Example")
-                .setContentText(input)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("KoreatechFairy")
+                .setContentText("어플리케이션이 실행중입니다.")
+                .setSmallIcon(R.drawable.smallfairy)
                 .setContentIntent(pendingIntent)
                 .build();
 
         startForeground(NOTIFICATION_ID, notification);
-        System.out.println("실행중입니다.");
+
         userId = intent.getStringExtra("userId");
         updateNotifyDb();
-        handler.postDelayed(updateTask, INTERVAL);
 
+        handler.postDelayed(updateTask, INTERVAL);
         // do heavy work on a background thread
         // stopSelf();
 
@@ -106,7 +122,7 @@ public class MyService extends Service {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "My Service Channel";
             String description = "This is My Service Channel";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_LOW;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(description);
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
@@ -176,8 +192,8 @@ public class MyService extends Service {
         }).start();
     }
 
-    private void sendOnChannel(String title, String msg) {
-        NotificationCompat.Builder nb = notificationHelper.getChannel1Notification(title, msg);
+    private synchronized void sendOnChannel(String title, String msg) {
+        NotificationCompat.Builder nb = notificationHelper.getChannel1Notification(title, msg, groupKey1);
         notificationHelper.getManager().notify(notifyNum++, nb.build());
     }
 
@@ -216,10 +232,26 @@ public class MyService extends Service {
             String title = "새로운 공지사항이 등록되었습니다.";
             String msg = notify.getTitle();
             sendOnChannel(title, msg);
+            showNotification(notificationIntent);
         }
     }
 
     private String formatCount(int count) {
         return String.format("%02d", count);
+    }
+
+    @SuppressLint("ForegroundServiceType")
+    private void showNotification(Intent notificationIntent) {
+        createNotificationChannel();
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, FLAG_IMMUTABLE);
+
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle("KoreatechFairy")
+                .setContentText("어플리케이션이 실행중입니다.")
+                .setSmallIcon(R.drawable.smallfairy)
+                .setContentIntent(pendingIntent)
+                .build();
+
+        startForeground(NOTIFICATION_ID, notification);
     }
 }

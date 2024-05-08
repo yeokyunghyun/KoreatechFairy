@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
             return insets;
         });
 
+
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("KoreatechFairy4");
 

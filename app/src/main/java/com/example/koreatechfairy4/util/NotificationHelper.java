@@ -46,11 +46,12 @@ public class NotificationHelper extends ContextWrapper {
         return manager;
     }
 
-    public NotificationCompat.Builder getChannel1Notification(String title, String message) {
+    public NotificationCompat.Builder getChannel1Notification(String title, String message, String groupKey) {
         Log.d("MyAppTag", "이것은 디버그 메시지입니다.");
         return new NotificationCompat.Builder(getApplicationContext(), channel1Id)
                 .setContentTitle(title)
                 .setContentText(message)
-                .setSmallIcon(R.drawable.ic_launcher_background);
+                .setSmallIcon(R.drawable.smallfairy)
+                .setGroup(groupKey);
     }
 }
