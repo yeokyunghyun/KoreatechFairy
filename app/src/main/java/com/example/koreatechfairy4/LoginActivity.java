@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         if (!loginInfo.isEmpty()) {
             String email = loginInfo.get("email");
             String password = loginInfo.get("password");
-            //로그인 로직 구현해야 됨
+            //로그인 로직 구현
             mFirebaseAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
