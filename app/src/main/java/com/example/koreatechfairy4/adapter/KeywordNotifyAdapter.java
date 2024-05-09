@@ -99,7 +99,6 @@ public class KeywordNotifyAdapter extends RecyclerView.Adapter<KeywordNotifyAdap
             this.tv_title = itemView.findViewById(R.id.tv_title);
             this.tv_num = itemView.findViewById(R.id.tv_num);
             this.tv_date = itemView.findViewById(R.id.tv_date);
-            this.deleteNotify = itemView.findViewById(R.id.imgBtn_notify_delete);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -117,16 +116,6 @@ public class KeywordNotifyAdapter extends RecyclerView.Adapter<KeywordNotifyAdap
                         intent.putExtra("baseUrl", item.getBaseUrl());
                         intent.putExtra("author", item.getAuthor());
                         v.getContext().startActivity(intent);
-                    }
-                }
-            });
-
-            deleteNotify.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        removeItem(position);
                     }
                 }
             });

@@ -11,6 +11,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.koreatechfairy4.R;
+import com.example.koreatechfairy4.util.SharedPreferencesManager;
 
 public class SplashActivity extends AppCompatActivity {
 

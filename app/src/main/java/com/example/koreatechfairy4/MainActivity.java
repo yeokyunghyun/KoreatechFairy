@@ -1,6 +1,8 @@
 package com.example.koreatechfairy4;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,7 +17,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.koreatechfairy4.service.MyService;
 import com.example.koreatechfairy4.util.NotificationHelper;
+import com.example.koreatechfairy4.util.SharedPreferencesManager;
 
 import java.util.HashMap;
 
@@ -42,13 +46,18 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        userId = getIntent().getStringExtra("userId");
+        Intent it = new Intent(this, MyService.class);
+        it.putExtra("userId", userId);
+        startService(it);
+
         // button
         my_page_button = findViewById(R.id.my_page_button);
         logout_button = findViewById(R.id.logout_button);
         notify_button = findViewById(R.id.notify_button);
         schedule_button = findViewById(R.id.schedule_button);
 
-        userId = getIntent().getStringExtra("userId");
+
         HashMap<String, String> myPageMap = new HashMap<>();
         myPageMap.put("userId", userId);
 
@@ -63,7 +72,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        switchActivity(logout_button, LoginActivity.class);
+        //switchActivity(logout_button, LoginActivity.class);
+
+        logout_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopService(it);
+
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                SharedPreferencesManager.clearPreferences(MainActivity.this);
+                startActivity(intent);
+                finish();
+            }
+        });
+
         schedule_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
         switchActivityWithExtra(my_page_button, MyPageActivity.class, myPageMap);
 
     }
+
     @Override
     protected void onResume() {
         super.onResume();
