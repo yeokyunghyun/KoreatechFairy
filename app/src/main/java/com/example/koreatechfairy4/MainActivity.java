@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
         switchActivityWithExtra(my_page_button, MyPageActivity.class, myPageMap);
 
     }
+
     @Override
     protected void onResume() {
         super.onResume();
