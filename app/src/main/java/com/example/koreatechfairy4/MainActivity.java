@@ -57,9 +57,7 @@ public class MainActivity extends AppCompatActivity {
         notify_button = findViewById(R.id.notify_button);
         schedule_button = findViewById(R.id.schedule_button);
 
-        // 알림 기능
-
-
+        userId = getIntent().getStringExtra("userId");
         HashMap<String, String> myPageMap = new HashMap<>();
         myPageMap.put("userId", userId);
 
