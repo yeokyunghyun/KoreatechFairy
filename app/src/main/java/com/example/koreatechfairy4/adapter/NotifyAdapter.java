@@ -80,10 +80,10 @@ public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.NotifyView
                     if (position != RecyclerView.NO_POSITION) {
                         NotifyDto item = notifyList.get(position);
                         Intent intent = new Intent(v.getContext(), DetailNotifyActivity.class);
-                        intent.putExtra("type", item.getDomain());  // 공지사항의 유형을 추가
+                        //intent.putExtra("type", item.getDomain());  // 공지사항의 유형을 추가
                         intent.putExtra("title", item.getTitle());
                         intent.putExtra("date", item.getDate());
-                        intent.putExtra("content", item.getText());  // 내용도 추가할 수 있음
+                        //intent.putExtra("content", item.getText());  // 내용도 추가할 수 있음
                         intent.putExtra("html", item.getHtml());
                         intent.putExtra("imgUrls", item.getImgUrls());
                         intent.putExtra("baseUrl", item.getBaseUrl());

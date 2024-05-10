@@ -19,6 +19,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
+import com.example.koreatechfairy4.DetailNotifyActivity;
 import com.example.koreatechfairy4.LoginActivity;
 import com.example.koreatechfairy4.MainActivity;
 import com.example.koreatechfairy4.NotifyActivity;
@@ -154,7 +155,7 @@ public class MyService extends Service {
                                 if (!firebaseNotifies.contains(crawledNotify)) {
                                     loadKeywords(crawledNotify);
                                 }
-                                //domainRef.child("Notify_" + formatCount(count++)).setValue(crawledNotify);
+                                domainRef.child("Notify_" + formatCount(count++)).setValue(crawledNotify);
                             }
                         }
                     });
@@ -193,8 +194,23 @@ public class MyService extends Service {
         }).start();
     }
 
-    private synchronized void sendOnChannel(String title, String msg) {
+    private synchronized void sendOnChannel(NotifyDto notify) {
+        String title = "새로운 공지사항이 등록되었습니다.";
+        String msg = notify.getTitle();
+
+        Intent intent = new Intent(this, DetailNotifyActivity.class);
+        intent.putExtra("title", notify.getTitle());
+        intent.putExtra("date", notify.getDate());
+        intent.putExtra("html", notify.getHtml());
+        intent.putExtra("imgUrls", notify.getImgUrls());
+        intent.putExtra("baseUrl", notify.getBaseUrl());
+        intent.putExtra("author", notify.getAuthor());
+        PendingIntent pdIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        String groupKey = "groupKey_" + System.currentTimeMillis();
+
         NotificationCompat.Builder nb = notificationHelper.getChannel1Notification(title, msg);
+        nb.setContentIntent(pdIntent)
+                .setGroup(groupKey);
         notificationHelper.getManager().notify(notifyNum++, nb.build());
     }
 
@@ -230,9 +246,7 @@ public class MyService extends Service {
 
     private void notifyKeyword(NotifyDto notify) {
         if (compareKeyword(notify)) {
-            String title = "새로운 공지사항이 등록되었습니다.";
-            String msg = notify.getTitle();
-            sendOnChannel(title, msg);
+            sendOnChannel(notify);
             showNotification(notificationIntent);
         }
     }
