@@ -92,7 +92,7 @@ public class MyService extends Service {
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("KoreatechFairy")
                 .setContentText("어플리케이션이 실행중입니다.")
-                .setSmallIcon(R.drawable.smallfairy)
+                .setSmallIcon(R.drawable.koreatechfairy)
                 .setContentIntent(pendingIntent)
                 .setGroup(groupKey1)
                 .build();
@@ -263,7 +263,7 @@ public class MyService extends Service {
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("KoreatechFairy")
                 .setContentText("어플리케이션이 실행중입니다.")
-                .setSmallIcon(R.drawable.smallfairy)
+                .setSmallIcon(R.drawable.koreatechfairy)
                 .setContentIntent(pendingIntent)
                 .setGroup(groupKey1)
                 .build();

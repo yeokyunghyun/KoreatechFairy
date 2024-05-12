@@ -5,4 +5,6 @@
     <color name="orange">#F5951D</color>
     <color name="blue">#1F5883</color>
     <color name="main_background">#F6F6F6</color>
+    <color name="indigo">#30619C</color>
+    <color name="button_orange">#F9C658</color>
 </resources>
