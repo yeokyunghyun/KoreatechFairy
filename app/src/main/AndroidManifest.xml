@@ -25,28 +25,13 @@
             android:exported="true"></service>
 
         <activity
+            android:name=".ScheduleActivity"
+            android:exported="false" />
+        <activity
             android:name=".DetailNotifyActivity"
             android:exported="false" />
         <activity
-            android:name=".AcademicNotifyActivity"
-            android:exported="false" />
-        <activity
-            android:name=".EmployNotifyActivity"
-            android:exported="false" />
-        <activity
-            android:name=".JobNotifyActivity"
-            android:exported="false" />
-        <activity
-            android:name=".BenefitNotifyActivity"
-            android:exported="false" />
-        <activity
-            android:name=".CommonNotifyActivity"
-            android:exported="false" />
-        <activity
             android:name=".MyPageActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ScheduleActivity"
             android:exported="false" />
         <activity
             android:name=".NotifyActivity"

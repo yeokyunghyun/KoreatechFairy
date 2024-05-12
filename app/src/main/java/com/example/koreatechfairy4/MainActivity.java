@@ -12,7 +12,6 @@ import android.widget.EditText;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.NotificationCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -20,8 +19,6 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.koreatechfairy4.service.MyService;
 import com.example.koreatechfairy4.util.NotificationHelper;
 import com.example.koreatechfairy4.util.SharedPreferencesManager;
-
-import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,11 +54,7 @@ public class MainActivity extends AppCompatActivity {
         notify_button = findViewById(R.id.notify_button);
         schedule_button = findViewById(R.id.schedule_button);
 
-
-        HashMap<String, String> myPageMap = new HashMap<>();
-        myPageMap.put("userId", userId);
-
-        //switchActivity(notify_button, NotifyActivity.class);
+        userId = getIntent().getStringExtra("userId");
 
         notify_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,29 +65,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //switchActivity(logout_button, LoginActivity.class);
+        switchActivity(logout_button, LoginActivity.class);
+        switchActivity(schedule_button, ScheduleActivity.class);
+        switchActivityWithUserId(my_page_button, MyPageActivity.class, userId);
 
-        logout_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                stopService(it);
-
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                SharedPreferencesManager.clearPreferences(MainActivity.this);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        schedule_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ScheduleActivity.class);
-                intent.putExtra("userId", userId);
-                startActivity(intent);
-            }
-        });
-        switchActivityWithExtra(my_page_button, MyPageActivity.class, myPageMap);
 
     }
 
@@ -104,25 +78,22 @@ public class MainActivity extends AppCompatActivity {
         Log.d("ActivityLifecycle", getClass().getSimpleName() + " - onResume");
     }
 
-    private <T extends AppCompatActivity> void switchActivity(View my_page_button, Class<T> activity) {
-        my_page_button.setOnClickListener(new View.OnClickListener() {
+    private <T extends AppCompatActivity> void switchActivity(View button, Class<T> activity) {
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, activity);
-
                 startActivity(intent);
             }
         });
     }
 
-    private <T extends AppCompatActivity> void switchActivityWithExtra(View my_page_button, Class<T> activity, HashMap<String, String> map) {
+    private <T extends AppCompatActivity> void switchActivityWithUserId(View my_page_button, Class<T> activity, String userId) {
         my_page_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, activity);
-                for(String key : map.keySet()) {
-                    intent.putExtra(key, map.get(key));
-                }
+                intent.putExtra("userId", userId);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
             }
