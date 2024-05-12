@@ -21,35 +21,54 @@
             android:id="@+id/tv_keyword_input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#FFA500"
-            android:padding="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/notify_title"
+            android:fontFamily="@font/btn_font2"
+            android:padding="10dp"
             android:text="키워드 목록"
-            android:textColor="#FFFFFF"
+            android:textColor="#000000"
             android:textSize="18dp"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="8dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
 
         <EditText
             android:id="@+id/editText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/btn_font2"
             android:hint="키워드 입력"
+            android:textColorHint="#DCDDDD"
             app:layout_constraintEnd_toStartOf="@+id/add_button"
+            app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints" />
 
         <Button
             android:id="@+id/add_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="17dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/notify_title"
+            android:fontFamily="@font/btn_font2"
+            android:minWidth="65dp"
+            android:minHeight="10dp"
+            android:padding="5dp"
             android:text="추가"
+            android:textColor="#000000"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/input_keyword"
             android:layout_width="0dp"
             android:layout_height="200dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/recyclerview_border"
             android:padding="5dp"
             android:scrollbars="vertical"
@@ -59,16 +78,17 @@
 
 
         <TextView
-            android:layout_marginTop="40dp"
             android:id="@+id/tv_keyword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#FFA500"
-            android:padding="5dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/notify_title"
+            android:fontFamily="@font/btn_font2"
+            android:padding="10dp"
             android:text="키워드 공지"
-            android:textColor="#FFFFFF"
+            android:textColor="#000000"
             android:textSize="18dp"
-            tools:layout_editor_absoluteY="8dp"
+            app:layout_constraintStart_toStartOf="@+id/tv_keyword_input"
             app:layout_constraintTop_toBottomOf="@+id/input_keyword"
             tools:ignore="MissingConstraints" />
 
@@ -76,7 +96,7 @@
             android:id="@+id/notify_keyword"
             android:layout_width="0dp"
             android:layout_height="200dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/recyclerview_border"
             android:padding="5dp"
             android:scrollbars="vertical"

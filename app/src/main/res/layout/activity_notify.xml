@@ -12,6 +12,7 @@
         android:id="@+id/topbar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:paddingBottom="5dp"
         android:background="@drawable/border_bottom"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -31,9 +32,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/notify_my_page_border"
             android:fontFamily="@font/btn_font2"
-            android:background="@drawable/notify_button_border"
-            android:text="마이페이지"/>
+            android:text="마이페이지" />
 
     </RelativeLayout>
 
@@ -88,7 +92,7 @@
                 android:id="@+id/benefit_button"
                 android:layout_width="63dp"
                 android:layout_height="70dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/notify_button_border"
                 android:fontFamily="@font/btn_font2"
                 android:text="장학"
@@ -100,10 +104,10 @@
                 android:id="@+id/academic_button"
                 android:layout_width="63dp"
                 android:layout_height="70dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/notify_button_border"
                 android:fontFamily="@font/btn_font2"
                 android:text="학사"
-                android:background="@drawable/notify_button_border"
                 app:layout_constraintEnd_toEndOf="@+id/common_button"
                 app:layout_constraintStart_toStartOf="@+id/common_button"
                 app:layout_constraintTop_toBottomOf="@+id/common_button" />
@@ -112,7 +116,7 @@
                 android:id="@+id/job_button"
                 android:layout_width="63dp"
                 android:layout_height="70dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/notify_button_border"
                 android:fontFamily="@font/btn_font2"
                 android:text="취업"
@@ -124,10 +128,10 @@
                 android:id="@+id/employ_button"
                 android:layout_width="63dp"
                 android:layout_height="70dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/notify_button_border"
                 android:fontFamily="@font/btn_font2"
                 android:text="채용"
-                android:background="@drawable/notify_button_border"
                 app:layout_constraintEnd_toEndOf="@+id/job_button"
                 app:layout_constraintStart_toStartOf="@+id/job_button"
                 app:layout_constraintTop_toBottomOf="@+id/job_button" />
