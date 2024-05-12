@@ -74,9 +74,6 @@ public class LoginActivity extends AppCompatActivity {
                     });
         }
 
-
-
-
         login_user_id = findViewById(R.id.login_email_id);
         login_pw = findViewById(R.id.login_pw);
 

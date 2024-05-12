@@ -21,4 +21,9 @@ public class ScheduleActivity extends AppCompatActivity {
             return insets;
         });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 }

@@ -65,7 +65,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        switchActivity(logout_button, LoginActivity.class);
+        logout_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopService(it);
+
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                SharedPreferencesManager.clearPreferences(MainActivity.this);
+                startActivity(intent);
+                finish();
+            }
+        });
         switchActivity(schedule_button, ScheduleActivity.class);
         switchActivityWithUserId(my_page_button, MyPageActivity.class, userId);
 

@@ -2,20 +2,31 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/my_page_back"
+    android:id="@+id/my_page"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MyPageActivity">
 
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/my_page_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:background="#FAFAFA"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/back"/>
+
+    <ImageButton
+        android:id="@+id/home_button"
         android:layout_width="92dp"
         android:layout_height="89dp"
-        android:layout_marginTop="10dp"
+        android:background="#FAFAFA"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/abc" />
+        app:srcCompat="@drawable/koreatechfairy" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -23,6 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:paddingBottom="30dp"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -34,6 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:text="TextView"
+            android:fontFamily="@font/btn_font"
             app:layout_constraintBottom_toBottomOf="@+id/textView15"
             app:layout_constraintStart_toEndOf="@+id/textView15"
             app:layout_constraintTop_toTopOf="@+id/textView15" />
@@ -45,6 +58,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="6dp"
             android:text="TextView"
+            android:fontFamily="@font/btn_font"
             app:layout_constraintEnd_toEndOf="@+id/name"
             app:layout_constraintStart_toEndOf="@+id/textView16"
             app:layout_constraintTop_toBottomOf="@+id/name" />
@@ -56,6 +70,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="6dp"
             android:text="TextView"
+            android:fontFamily="@font/btn_font"
             app:layout_constraintEnd_toEndOf="@+id/student_id"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/textView17"
@@ -68,6 +83,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="280dp"
             android:text="내 정보"
+            android:fontFamily="@font/btn_font"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -89,6 +105,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginBottom="50dp"
             android:text="이름"
+            android:fontFamily="@font/btn_font"
             app:layout_constraintBottom_toBottomOf="@+id/imageView5"
             app:layout_constraintStart_toEndOf="@+id/imageView5"
             app:layout_constraintTop_toTopOf="@+id/imageView5" />
@@ -99,6 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="학번"
+            android:fontFamily="@font/btn_font"
             app:layout_constraintEnd_toEndOf="@+id/textView15"
             app:layout_constraintStart_toStartOf="@+id/textView15"
             app:layout_constraintTop_toBottomOf="@+id/textView15" />
@@ -109,6 +127,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="전공"
+            android:fontFamily="@font/btn_font"
             app:layout_constraintEnd_toEndOf="@+id/textView16"
             app:layout_constraintStart_toStartOf="@+id/textView16"
             app:layout_constraintTop_toBottomOf="@+id/textView16" />
@@ -131,6 +150,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="280dp"
             android:text="성적 정보"
+            android:fontFamily="@font/btn_font"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -145,6 +165,7 @@
             android:minHeight="10dp"
             android:text="파일등록"
             android:textSize="10sp"
+            android:fontFamily="@font/btn_font"
             app:layout_constraintBottom_toBottomOf="@+id/textView18"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView18" />
@@ -156,6 +177,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginBottom="50dp"
             android:text="학점 평균 :"
+            android:fontFamily="@font/btn_font"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView8"
             app:layout_constraintTop_toBottomOf="@+id/textView18" />
@@ -177,6 +199,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="6dp"
             android:text="TextView"
+            android:fontFamily="@font/btn_font"
             app:layout_constraintEnd_toEndOf="@+id/major_grade"
             app:layout_constraintStart_toEndOf="@+id/textView21"
             app:layout_constraintTop_toBottomOf="@+id/major_grade" />
@@ -187,6 +210,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:text="TextView"
+            android:fontFamily="@font/btn_font"
             app:layout_constraintBottom_toBottomOf="@+id/textView19"
             app:layout_constraintStart_toEndOf="@+id/textView19"
             app:layout_constraintTop_toTopOf="@+id/textView19" />
@@ -198,6 +222,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="6dp"
             android:text="TextView"
+            android:fontFamily="@font/btn_font"
             app:layout_constraintEnd_toEndOf="@+id/total_grade"
             app:layout_constraintStart_toEndOf="@+id/textView20"
             app:layout_constraintTop_toBottomOf="@+id/total_grade" />
@@ -208,6 +233,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="전공 평균 :"
+            android:fontFamily="@font/btn_font"
             app:layout_constraintEnd_toEndOf="@+id/textView19"
             app:layout_constraintStart_toStartOf="@+id/textView19"
             app:layout_constraintTop_toBottomOf="@+id/textView19" />
@@ -218,6 +244,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="이수 학점 :"
+            android:fontFamily="@font/btn_font"
             app:layout_constraintEnd_toEndOf="@+id/textView20"
             app:layout_constraintStart_toStartOf="@+id/textView20"
             app:layout_constraintTop_toBottomOf="@+id/textView20" />
@@ -231,6 +258,7 @@
             android:minHeight="5dp"
             android:text="도움말"
             android:textSize="10sp"
+            android:fontFamily="@font/btn_font"
             app:layout_constraintBottom_toBottomOf="@+id/schedule_register"
             app:layout_constraintStart_toEndOf="@+id/schedule_register"
             app:layout_constraintTop_toTopOf="@+id/schedule_register" />

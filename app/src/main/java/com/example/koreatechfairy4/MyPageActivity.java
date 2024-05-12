@@ -2,11 +2,13 @@ package com.example.koreatechfairy4;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -24,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MyPageActivity extends AppCompatActivity {
     private ActivityResultLauncher<Intent> getContentLauncher;
+    private ImageButton backButton, homeButton;
     private Button schedule_register, helpButton;
     private TextView name, studentId, major;
     private TextView totalCredit, totalGrade, majorGrade;
@@ -54,13 +57,15 @@ public class MyPageActivity extends AppCompatActivity {
                                 if (dataSnapshot.exists()) {
                                     // 데이터가 존재하면, 그 값을 가져와서 TextView에 설정
                                     Double data = dataSnapshot.getValue(Double.class);
+                                    Double roundData = Math.round(data * 100.0) / 100.0;
+
                                     if (data == 0) {
-                                        totalCredit.setText("데이터 없음");
+                                        majorGrade.setText("데이터 없음");
                                     } else {
-                                        totalCredit.setText(String.valueOf(data));
+                                        majorGrade.setText(String.valueOf(roundData));
                                     }
                                 } else {
-                                    totalCredit.setText("데이터 x");
+                                    majorGrade.setText("데이터 x");
                                 }
                             }
 
@@ -78,10 +83,12 @@ public class MyPageActivity extends AppCompatActivity {
                                 if (dataSnapshot.exists()) {
                                     // 데이터가 존재하면, 그 값을 가져와서 TextView에 설정
                                     Double data = dataSnapshot.getValue(Double.class);
+                                    Double roundData = Math.round(data * 100.0) / 100.0;
+
                                     if (data == 0) {
                                         totalGrade.setText("데이터 없음");
                                     } else {
-                                        totalGrade.setText(String.valueOf(data));
+                                        totalGrade.setText(String.valueOf(roundData));
                                     }
                                 } else {
                                     totalGrade.setText("데이터 x");
@@ -103,12 +110,12 @@ public class MyPageActivity extends AppCompatActivity {
                                     // 데이터가 존재하면, 그 값을 가져와서 TextView에 설정
                                     int data = dataSnapshot.getValue(Integer.class);
                                     if (data == 0) {
-                                        majorGrade.setText("데이터 없음");
+                                        totalCredit.setText("데이터 없음");
                                     } else {
-                                        majorGrade.setText(String.valueOf(data));
+                                        totalCredit.setText(String.valueOf(data));
                                     }
                                 } else {
-                                    majorGrade.setText("데이터 x");
+                                    totalCredit.setText("데이터 x");
                                 }
                             }
 
@@ -134,7 +141,23 @@ public class MyPageActivity extends AppCompatActivity {
         majorGrade = findViewById(R.id.major_grade);
 
         helpButton = findViewById(R.id.help_button);
+        backButton = findViewById(R.id.my_page_back);
+        homeButton = findViewById(R.id.home_button);
 
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyPageActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         helpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -304,7 +327,6 @@ public class MyPageActivity extends AppCompatActivity {
 
 
     }
-
 
     private void openDocument() {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
