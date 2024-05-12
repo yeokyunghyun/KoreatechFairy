@@ -25,6 +25,7 @@ import com.example.koreatechfairy4.fragment.CommonNotifyFragment;
 import com.example.koreatechfairy4.fragment.EmployNotifyFragment;
 import com.example.koreatechfairy4.fragment.JobNotifyFragment;
 import com.example.koreatechfairy4.fragment.KeywordNotifyFragment;
+import com.example.koreatechfairy4.service.MyService;
 import com.example.koreatechfairy4.util.NotificationHelper;
 import com.example.koreatechfairy4.util.NotifyCrawler;
 import com.google.firebase.database.DataSnapshot;
@@ -58,6 +59,10 @@ public class NotifyActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+//        Intent it = new Intent(this, MyService.class);
+//        it.putExtra("userId", getIntent().getStringExtra("userId"));
+//        startService(it);
 
         keywordButton = (Button) findViewById(R.id.keyword_button);
         academicButton = (Button) findViewById(R.id.academic_button);
@@ -102,122 +107,8 @@ public class NotifyActivity extends AppCompatActivity {
 
 
         /*데이터 등록하는 부분 + 비교 + 알림*/
-        databaseReference = FirebaseDatabase.getInstance().getReference("KoreatechFairy4/NotifyDto");
-        notificationHelper = new NotificationHelper(this);
-
-        new Thread(() -> {
-            try {
-                for (NotifyDomain domain : NotifyDomain.values()) {
-                    DatabaseReference domainRef = databaseReference.child(String.valueOf(domain));
-                    notifies = NotifyCrawler.getNotice(domain);
-
-                    domainRef.get().addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            int count = 1;
-                            List<NotifyDto> firebaseNotifies = new ArrayList<>();
-                            task.getResult().getChildren().forEach(snapshot -> {
-                                NotifyDto notify = snapshot.getValue(NotifyDto.class);
-                                firebaseNotifies.add(notify);
-                            });
-
-                            for (NotifyDto crawledNotify : notifies) {
-                                if (!firebaseNotifies.contains(crawledNotify)) {
-                                    loadKeywords(crawledNotify);
-                                }
-                                domainRef.child("Notify_" + formatCount(count++)).setValue(crawledNotify);
-                            }
-                        }
-                    });
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }).start();
 
 
-        new Thread(() -> {
-            try {
-                DatabaseReference jobRef = databaseReference.child("JOB");
-                notifies = NotifyCrawler.getJobNotice(jobLink);
-
-                jobRef.get().addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        int count = 1;
-                        List<NotifyDto> firebaseNotifies = new ArrayList<>();
-                        task.getResult().getChildren().forEach(snapshot -> {
-                            NotifyDto notify = snapshot.getValue(NotifyDto.class);
-                            firebaseNotifies.add(notify);
-                        });
-
-                        for (NotifyDto crawledNotify : notifies) {
-                            if (!firebaseNotifies.contains(crawledNotify)) {
-                                if (compareKeyword(crawledNotify)) {
-                                    String title = "새로운 공지사항이 등록되었습니다.";
-                                    String msg = crawledNotify.getText();
-                                    sendOnChannel(title, msg);
-                                }
-                            }
-                            jobRef.child("Notify_" + formatCount(count++)).setValue(crawledNotify);
-                        }
-                    }
-                });
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }).start();
-
-
-    }
-
-    private void sendOnChannel(String title, String msg) {
-        NotificationCompat.Builder nb = notificationHelper.getChannel1Notification(title, msg);
-        notificationHelper.getManager().notify(notifyNum++, nb.build());
-    }
-
-    private boolean compareKeyword(NotifyDto notify) {
-        Log.d("check", "aa");
-        for(String key : keywords) {
-            Log.d("keywordssss", key);
-        }
-        for (String keyword : keywords) {
-            if (notify != null && (notify.getTitle().contains(keyword) || notify.getText().contains(keyword))) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private void loadKeywords(NotifyDto notify) {
-        String userId = getIntent().getStringExtra("userId");
-        DatabaseReference keywordReference = FirebaseDatabase.getInstance().getReference("KoreatechFairy4/User/" + userId + "/keyword");
-        keywords = new ArrayList<>();
-        keywordReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                keywords.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String keyword = snapshot.getValue(String.class);
-                    keywords.add(keyword);
-                }
-                notifyKeyword(notify);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("KeywordFragment", "Failed to read keywords", databaseError.toException());
-            }
-        });
-    }
-
-    private void notifyKeyword(NotifyDto notify) {
-        for(String key : keywords) {
-            Log.d("keyword", key);
-        }
-        if (compareKeyword(notify)) {
-            String title = "새로운 공지사항이 등록되었습니다.";
-            String msg = notify.getTitle();
-            sendOnChannel(title, msg);
-        }
     }
 
     private void setClickListener(Button btn, Fragment fragment) {
@@ -245,14 +136,4 @@ public class NotifyActivity extends AppCompatActivity {
         });
     }
 
-    private void insertNotifyData(DatabaseReference dbRef, List<NotifyDto> notifies, NotifyDomain domain) {
-        int count = 1;
-        for (NotifyDto notify : notifies) {
-            databaseReference.child(String.valueOf(domain)).child("Notify_" + formatCount(count++)).setValue(notify);
-        }
-    }
-
-    private String formatCount(int count) {
-        return String.format("%02d", count);
-    }
 }
