@@ -205,7 +205,9 @@ public class MyService extends Service {
         intent.putExtra("imgUrls", notify.getImgUrls());
         intent.putExtra("baseUrl", notify.getBaseUrl());
         intent.putExtra("author", notify.getAuthor());
+
         PendingIntent pdIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
         String groupKey = "groupKey_" + System.currentTimeMillis();
 
         NotificationCompat.Builder nb = notificationHelper.getChannel1Notification(title, msg);
