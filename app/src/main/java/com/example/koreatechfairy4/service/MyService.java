@@ -103,8 +103,6 @@ public class MyService extends Service {
         updateNotifyDb();
 
         handler.postDelayed(updateTask, INTERVAL);
-        // do heavy work on a background thread
-        // stopSelf();
 
         return START_STICKY;
     }

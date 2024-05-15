@@ -84,9 +84,10 @@ public class NotifyActivity extends AppCompatActivity {
         notify_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(NotifyActivity.this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent);
+//                Intent intent = new Intent(NotifyActivity.this, MainActivity.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//                startActivity(intent);
+                finish();
             }
         });
 
