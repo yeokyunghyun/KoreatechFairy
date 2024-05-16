@@ -83,49 +83,52 @@ public class NotifyCrawler {
     public static List<NotifyDto> getJobNotice(String link) throws IOException, NoSuchAlgorithmException, KeyManagementException {
         List<NotifyDto> list = new ArrayList<>();
 
-        Document doc = Jsoup.connect(link).get();
+        for (int i=1; i<=2; ++i) {
 
-        Elements rows = doc.select("tr.primeLine");
+            Document doc = Jsoup.connect(link+i).get();
 
-        for (Element row : rows) {
-            String detailUrl = "https://job.koreatech.ac.kr/" + row.select("td.title a").attr("href");
-            String title = row.select("td.title a b").text();
-            //Elements cells = row.select("td.center.none");
-            String date = row.select("#contents > table > tbody > tr:nth-child(1) > td:nth-child(3)").text().trim();
-            String author = row.select("#contents > table > tbody > tr:nth-child(1) > td:nth-child(5)").text().trim();
-            //String date = cells.get(1).text();
-            //String author = cells.get(2).text();
+            Elements rows = doc.select("tr.primeLine");
 
-            NotifyDto notify = new NotifyDto();
-            notify.setTitle(title);
-            notify.setDate(date);
-            notify.setAuthor(author);
+            for (Element row : rows) {
+                String detailUrl = "https://job.koreatech.ac.kr/" + row.select("td.title a").attr("href");
+                String title = row.select("td.title a b").text();
+                //Elements cells = row.select("td.center.none");
+                String date = row.select("#contents > table > tbody > tr:nth-child(1) > td:nth-child(3)").text().trim();
+                String author = row.select("#contents > table > tbody > tr:nth-child(1) > td:nth-child(5)").text().trim();
+                //String date = cells.get(1).text();
+                //String author = cells.get(2).text();
 
-            // 내용은 상세 페이지에서 가져와야 함
+                NotifyDto notify = new NotifyDto();
+                notify.setTitle(title);
+                notify.setDate(date);
+                notify.setAuthor(author);
 
-            // 내용 가져오기 (옵션)
-            setSSL();
-            Document detailDoc = Jsoup.connect(detailUrl).get();
-            Elements detailElement = detailDoc.select(".content");
-            String text = detailElement.text();
+                // 내용은 상세 페이지에서 가져와야 함
 
-            Elements images = detailDoc.select("td[colspan='2'] img");
-            if (!images.isEmpty()) {
-                ArrayList<String> imageUrls = new ArrayList<>();
-                for (Element img : images) {
-                    String imageUrl = img.absUrl("src");  // 절대 경로로 변환
-                    imageUrls.add(imageUrl);
+                // 내용 가져오기 (옵션)
+                setSSL();
+                Document detailDoc = Jsoup.connect(detailUrl).get();
+                Elements detailElement = detailDoc.select(".content");
+                String text = detailElement.text();
+
+                Elements images = detailDoc.select("td[colspan='2'] img");
+                if (!images.isEmpty()) {
+                    ArrayList<String> imageUrls = new ArrayList<>();
+                    for (Element img : images) {
+                        String imageUrl = img.absUrl("src");  // 절대 경로로 변환
+                        imageUrls.add(imageUrl);
+                    }
+                    notify.setImgUrls(imageUrls);
                 }
-                notify.setImgUrls(imageUrls);
+
+                Element htmlElement = detailElement.first();
+                htmlElement.select("img").remove();
+                String html = htmlElement.html();
+                notify.setText(text);
+                notify.setHtml(html);
+
+                list.add(notify);
             }
-
-            Element htmlElement = detailElement.first();
-            htmlElement.select("img").remove();
-            String html = htmlElement.html();
-            notify.setText(text);
-            notify.setHtml(html);
-
-            list.add(notify);
         }
 
         return list;
