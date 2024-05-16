@@ -43,7 +43,7 @@ public class ScheduleActivity extends AppCompatActivity {
             return insets;
         });
 
-        String reference = "KoreatechFairy4/" + year + "/" + semester;
+        String reference = "KoreatechFairy4/" + "schedule" + year + "/" + semester;
 
         String userId = getIntent().getStringExtra("userId");
         repository = new LectureRepository(reference);
