@@ -3,6 +3,7 @@ package com.example.koreatechfairy4;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
@@ -74,7 +75,10 @@ public class ScheduleActivity extends AppCompatActivity {
         repository.getLectureDtoList(new LectureRepository.DataCallback() {
             @Override
             public void onCallback(List<LectureDto> lectureList) {
-                lectureAdapter = new LectureAdapter(lectureList);
+                lectureAdapter = new LectureAdapter(lectureList, lecture -> {
+                    //객체를 클릭했을 시에 반응
+                    Log.d("hello",lecture.getTime());
+                });
                 recyclerView.setAdapter(lectureAdapter);
             }
         });

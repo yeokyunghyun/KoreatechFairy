@@ -3,6 +3,7 @@ package com.example.koreatechfairy4.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,9 +15,16 @@ import java.util.List;
 
 public class LectureAdapter extends RecyclerView.Adapter<LectureAdapter.LectureViewHolder> {
     private List<LectureDto> lectureList;
+    private OnItemClickListener listener;
 
-    public LectureAdapter(List<LectureDto> lectureList) {
+    // 아이템 클릭 리스너 인터페이스 정의
+    public interface OnItemClickListener {
+        void onItemClick(LectureDto lecture);
+    }
+
+    public LectureAdapter(List<LectureDto> lectureList, OnItemClickListener listener) {
         this.lectureList = lectureList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -36,6 +44,7 @@ public class LectureAdapter extends RecyclerView.Adapter<LectureAdapter.LectureV
         holder.professor.setText(lecture.getProfessor());
         holder.credit.setText("" + lecture.getCredit());
         holder.domain.setText(lecture.getDomain());
+        holder.bind(lecture, listener);
     }
 
     @Override
@@ -59,6 +68,16 @@ public class LectureAdapter extends RecyclerView.Adapter<LectureAdapter.LectureV
             professor = itemView.findViewById(R.id.professor);
             credit = itemView.findViewById(R.id.credit);
             domain = itemView.findViewById(R.id.domain);
+        }
+
+        public void bind(final LectureDto lecture, final OnItemClickListener listener) {
+            code.setText(lecture.getCode());
+            name.setText(lecture.getName());
+            classes.setText(lecture.getClasses());
+            professor.setText(lecture.getProfessor());
+            credit.setText(String.valueOf(lecture.getCredit()));  // 학점은 int이므로 String으로 변환
+            domain.setText(lecture.getDomain());
+            itemView.setOnClickListener(v -> listener.onItemClick(lecture));
         }
     }
 }
