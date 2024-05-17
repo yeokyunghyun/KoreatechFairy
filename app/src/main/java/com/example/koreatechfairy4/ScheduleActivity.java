@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,15 +44,15 @@ public class ScheduleActivity extends AppCompatActivity {
             return insets;
         });
 
-        lecture_register = findViewById(R.id.lecture_register);
-        lecture_register.setOnClickListener(v -> openDocument());
+//        lecture_register = findViewById(R.id.lecture_register);
+//        lecture_register.setOnClickListener(v -> openDocument());
 
-        String reference = "KoreatechFairy4/" + "schedule" + year + "/" + semester;
+        String reference = "KoreatechFairy4/" + "schedule" + "/" + year + "/" + semester;
 
         String userId = getIntent().getStringExtra("userId");
         repository = new LectureRepository(reference);
 
-        getContentLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+/*        getContentLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                         Uri uri = result.getData().getData();
@@ -59,14 +60,24 @@ public class ScheduleActivity extends AppCompatActivity {
 //                        GradeDto userGrade = LectureCrawler.crawlLecture(getApplicationContext(), uri);
                         repository.remove();
                         List<LectureDto> lectures = ScheduleCrawler.crawlLecture(getApplicationContext(), uri);
-//                        repository.save(lectures);
+                        repository.save(lectures);
                     }
-                });
+                });*/
 
         recyclerView = findViewById(R.id.schedule_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        lectureList = new ArrayList<>();
+        // DividerItemDecoration 추가
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                LinearLayoutManager.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        repository.getLectureDtoList(new LectureRepository.DataCallback() {
+            @Override
+            public void onCallback(List<LectureDto> lectureList) {
+                lectureAdapter = new LectureAdapter(lectureList);
+                recyclerView.setAdapter(lectureAdapter);
+            }
+        });
 
     }
 

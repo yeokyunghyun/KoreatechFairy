@@ -12,7 +12,7 @@ public class LectureDto {
     private String time; // 강의가능시간
     private String registerDepartment; // 가능 학번
 
-
+    public LectureDto() {}
     public LectureDto(String code, String name, String classes, String domain, int credit, String department, String grade, String professor, String time, String registerDepartment) {
         this.code = code;
         this.name = name;
