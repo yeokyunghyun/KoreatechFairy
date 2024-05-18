@@ -79,20 +79,18 @@ public class NotifyActivity extends AppCompatActivity {
         setClickListener(jobButton, new JobNotifyFragment());
 
         notify_back = findViewById(R.id.imgBtn_notify_back);
-        my_page_button = findViewById(R.id.btn_notify_mypage);
 
         notify_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(NotifyActivity.this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent);
+                finish();
             }
         });
 
         HashMap<String, String> myPageMap = new HashMap<>();
         myPageMap.put("userId", getIntent().getStringExtra("userId"));
 
+        my_page_button = findViewById(R.id.btn_notify_mypage);
         my_page_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
