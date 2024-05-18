@@ -3,10 +3,16 @@ package com.example.koreatechfairy4.repository;
 import android.util.Log;
 
 import com.example.koreatechfairy4.constants.MajorDomain;
+import androidx.annotation.NonNull;
+
 import com.example.koreatechfairy4.dto.LectureDto;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LectureRepository {
@@ -34,13 +40,24 @@ public class LectureRepository {
         for (LectureDto lecture : lectures) {
             //lecture 1개씩 데이터 베이스에 저장
 
+            String key = userRef.child("lectureList").push().getKey();
+            if (key != null) {
+                userRef.child("lectureList").child(key).setValue(lecture).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("LectureRepository", "Lecture added successfully: ");
+                    } else {
+                        Log.e("LectureRepository", "Failed to add lecture: " + task.getException());
+                    }
+                });
+            }
 
             //파이어베이스에 구분대로 나누기
             classifyLecture(lecture);
         }
     }
 
-    private void classifyLecture(LectureDto lecture) {
+
+    private void classifyLecture(LectureDto lecture){
         //userRef에는 2024/1까지 저장이 되어있고 여기다가 HRD/ 교양/ 전공으로 나눠서 분류하면 됨
         if (lecture.getDepartment().contains("HRD")) { //HRD - 필수/선택 - 학점 - 과목
             putLecture(lecture, "HRD");
@@ -56,8 +73,12 @@ public class LectureRepository {
         else {
             //전공
             //해당 강의에 대해서 전공일 경우 어떤 과인지 -> 어떤 세부 전공인지(MSC 포함) -> 몇학년인지 -> 필수/선택 - 학점 - 과목
-            for (MajorDomain domain : MajorDomain.values()) {
-                String major = domain.major();
+                String major = createMajor(lecture);
+                MajorDomain domain;
+                if (major == "") {
+                    return;
+                }
+                domain = MajorDomain.fromMajor(major);
 
                 switch (major) {
                     case "기계":
@@ -129,7 +150,16 @@ public class LectureRepository {
                 }
 
             }
+    }
+
+    private String createMajor(LectureDto lecture) {
+        for (MajorDomain domain : MajorDomain.values()) {
+            if (lecture.getDepartment().contains(domain.major())) {
+                return domain.major();
+            }
         }
+
+        return "";
     }
 
     private void putNotConcentration(LectureDto lecture, MajorDomain domain) {
@@ -171,4 +201,30 @@ public class LectureRepository {
                     .child(lecture.getName()).setValue(lecture);
         }
     }
+
+    public void getLectureDtoList(final DataCallback callback) {
+        userRef.child("lectureList").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<LectureDto> lectures = new ArrayList<>();
+                for (DataSnapshot lectureSnapshot : dataSnapshot.getChildren()) {
+                    LectureDto lecture = lectureSnapshot.getValue(LectureDto.class);
+                    if (lecture != null) {
+                        lectures.add(lecture);
+                    }
+                }
+                callback.onCallback(lectures);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("LectureRepository", "Failed to read data: " + databaseError.toException());
+            }
+        });
+    }
+
+    public interface DataCallback {
+        void onCallback(List<LectureDto> lectureList);
+    }
+
 }

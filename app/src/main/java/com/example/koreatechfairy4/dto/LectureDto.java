@@ -12,6 +12,36 @@ public class LectureDto {
     private String time; // 강의가능시간
     private String registerDepartment; // 가능 학번
 
+    public LectureDto() {}
+    public LectureDto(String code, String name, String classes, String domain, int credit, String department, String grade, String professor, String time, String registerDepartment) {
+        this.code = code;
+        this.name = name;
+        this.classes = classes;
+        this.domain = domain;
+        this.credit = credit;
+        this.department = department;
+        this.grade = grade;
+        this.professor = professor;
+        this.time = time;
+        this.registerDepartment = registerDepartment;
+    }
+
+    @Override
+    public String toString() {
+        return "LectureDto{" +
+                "code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", classes='" + classes + '\'' +
+                ", domain='" + domain + '\'' +
+                ", credit=" + credit +
+                ", department='" + department + '\'' +
+                ", grade='" + grade + '\'' +
+                ", professor='" + professor + '\'' +
+                ", time='" + time + '\'' +
+                ", registerDepartment='" + registerDepartment + '\'' +
+                '}';
+    }
+
     public String getCode() {
         return code;
     }

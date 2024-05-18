@@ -20,4 +20,13 @@ public enum MajorDomain {
     public String major() {
         return major;
     }
+
+    public static MajorDomain fromMajor(String major) {
+        for (MajorDomain domain : MajorDomain.values()) {
+            if (domain.major().equals(major)) {
+                return domain;
+            }
+        }
+        throw new IllegalArgumentException("No enum constant with major: " + major);
+    }
 }
