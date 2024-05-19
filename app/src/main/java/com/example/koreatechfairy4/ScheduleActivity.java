@@ -4,12 +4,17 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.GridLayout;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -31,7 +36,8 @@ public class ScheduleActivity extends AppCompatActivity {
     private final String year = "2024";
     private final String semester = "1";
     private ActivityResultLauncher<Intent> getContentLauncher;
-    private Button lecture_register;
+    private Button lecture_register, my_page_button;
+    private ImageButton schedule_back;
     private LectureRepository repository;
     private RecyclerView recyclerView;
     private LectureAdapter lectureAdapter;
@@ -49,6 +55,26 @@ public class ScheduleActivity extends AppCompatActivity {
 
 //        lecture_register = findViewById(R.id.lecture_register);
 //        lecture_register.setOnClickListener(v -> openDocument());
+
+
+        //상단 툴바 시작
+        schedule_back = findViewById(R.id.imgBtn_schedule_back);
+        schedule_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        my_page_button = findViewById(R.id.btn_schedule_mypage);
+        my_page_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ScheduleActivity.this, MyPageActivity.class);
+                startActivity(intent);
+            }
+        });
+        //상단 툴바 끝
 
         String reference = "KoreatechFairy4/" + "schedule" + "/" + year + "/" + semester;
 
@@ -93,4 +119,5 @@ public class ScheduleActivity extends AppCompatActivity {
         intent.setType("*/*"); // XLSX 파일 타입
         getContentLauncher.launch(intent);
     }
+
 }

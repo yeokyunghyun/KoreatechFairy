@@ -60,9 +60,6 @@ public class NotifyActivity extends AppCompatActivity {
             return insets;
         });
 
-//        Intent it = new Intent(this, MyService.class);
-//        it.putExtra("userId", getIntent().getStringExtra("userId"));
-//        startService(it);
 
         keywordButton = (Button) findViewById(R.id.keyword_button);
         academicButton = (Button) findViewById(R.id.academic_button);
@@ -79,14 +76,10 @@ public class NotifyActivity extends AppCompatActivity {
         setClickListener(jobButton, new JobNotifyFragment());
 
         notify_back = findViewById(R.id.imgBtn_notify_back);
-        my_page_button = findViewById(R.id.btn_notify_mypage);
 
         notify_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(NotifyActivity.this, MainActivity.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-//                startActivity(intent);
                 finish();
             }
         });
@@ -94,6 +87,7 @@ public class NotifyActivity extends AppCompatActivity {
         HashMap<String, String> myPageMap = new HashMap<>();
         myPageMap.put("userId", getIntent().getStringExtra("userId"));
 
+        my_page_button = findViewById(R.id.btn_notify_mypage);
         my_page_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
