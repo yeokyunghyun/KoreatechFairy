@@ -73,6 +73,7 @@ public class ScheduleActivity extends AppCompatActivity {
             }
         });
         //상단 툴바 끝
+
         String reference = "KoreatechFairy4/" + "schedule" + "/" + year + "/" + semester;
 
         String userId = getIntent().getStringExtra("userId");
@@ -101,7 +102,8 @@ public class ScheduleActivity extends AppCompatActivity {
             @Override
             public void onCallback(List<LectureDto> lectureList) {
                 lectureAdapter = new LectureAdapter(lectureList, lecture -> {
-
+                    //객체를 클릭했을 시에 반응
+                    Log.d("hello",lecture.getTime());
                 });
                 recyclerView.setAdapter(lectureAdapter);
             }
