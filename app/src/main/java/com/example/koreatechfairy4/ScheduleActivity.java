@@ -47,25 +47,25 @@ public class ScheduleActivity extends AppCompatActivity {
             return insets;
         });
 
-        lecture_register = findViewById(R.id.lecture_register);
-        lecture_register.setOnClickListener(v -> openDocument());
+//        lecture_register = findViewById(R.id.lecture_register);
+//        lecture_register.setOnClickListener(v -> openDocument());
 
         String reference = "KoreatechFairy4/" + "schedule" + "/" + year + "/" + semester;
 
         String userId = getIntent().getStringExtra("userId");
         repository = new LectureRepository(reference);
 
-        getContentLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                        Uri uri = result.getData().getData();
-                        // 이 URI를 사용하여 파일 내용을 읽습니다.
-                        GradeDto userGrade = LectureCrawler.crawlLecture(getApplicationContext(), uri);
-                        repository.remove();
-                        List<LectureDto> lectures = ScheduleCrawler.crawlLecture(getApplicationContext(), uri);
-                        repository.save(lectures);
-                    }
-                });
+//        getContentLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+//                result -> {
+//                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+//                        Uri uri = result.getData().getData();
+//                        // 이 URI를 사용하여 파일 내용을 읽습니다.
+//                        GradeDto userGrade = LectureCrawler.crawlLecture(getApplicationContext(), uri);
+//                        repository.remove();
+//                        List<LectureDto> lectures = ScheduleCrawler.crawlLecture(getApplicationContext(), uri);
+//                        repository.save(lectures);
+//                    }
+//                });
 
         recyclerView = findViewById(R.id.schedule_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
