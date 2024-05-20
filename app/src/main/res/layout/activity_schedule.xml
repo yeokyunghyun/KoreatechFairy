@@ -55,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="100dp"
             android:layout_marginLeft="5dp"
             android:columnCount="6"
             android:rowCount="20"
@@ -71,7 +71,7 @@
                 android:background="#E0E0E0"
                 android:gravity="center"
                 android:padding="10dp"
-                android:width="59dp"
+                android:width="58dp"
                 android:fontFamily="@font/btn_font2"
                 android:text="Time" />
 
@@ -186,7 +186,7 @@
                 android:fontFamily="@font/btn_font2"
                 android:text="11:30" />
             <TextView
-                android:layout_row="6"
+                android:layout_row="7"
                 android:layout_column="0"
                 android:background="#E0E0E0"
                 android:gravity="center"
@@ -195,7 +195,7 @@
                 android:fontFamily="@font/btn_font2"
                 android:text="12:00" />
             <TextView
-                android:layout_row="7"
+                android:layout_row="8"
                 android:layout_column="0"
                 android:background="#E0E0E0"
                 android:gravity="center"
@@ -204,7 +204,7 @@
                 android:fontFamily="@font/btn_font2"
                 android:text="12:30" />
             <TextView
-                android:layout_row="8"
+                android:layout_row="9"
                 android:layout_column="0"
                 android:background="#E0E0E0"
                 android:gravity="center"
@@ -213,7 +213,7 @@
                 android:fontFamily="@font/btn_font2"
                 android:text="13:00" />
             <TextView
-                android:layout_row="9"
+                android:layout_row="10"
                 android:layout_column="0"
                 android:background="#E0E0E0"
                 android:gravity="center"
@@ -222,7 +222,7 @@
                 android:fontFamily="@font/btn_font2"
                 android:text="13:30" />
             <TextView
-                android:layout_row="10"
+                android:layout_row="11"
                 android:layout_column="0"
                 android:background="#E0E0E0"
                 android:gravity="center"
@@ -231,7 +231,7 @@
                 android:fontFamily="@font/btn_font2"
                 android:text="14:00" />
             <TextView
-                android:layout_row="11"
+                android:layout_row="12"
                 android:layout_column="0"
                 android:background="#E0E0E0"
                 android:gravity="center"
@@ -240,7 +240,7 @@
                 android:fontFamily="@font/btn_font2"
                 android:text="14:30" />
             <TextView
-                android:layout_row="12"
+                android:layout_row="13"
                 android:layout_column="0"
                 android:background="#E0E0E0"
                 android:gravity="center"
@@ -249,7 +249,7 @@
                 android:fontFamily="@font/btn_font2"
                 android:text="15:00" />
             <TextView
-                android:layout_row="13"
+                android:layout_row="14"
                 android:layout_column="0"
                 android:background="#E0E0E0"
                 android:gravity="center"
@@ -258,7 +258,7 @@
                 android:fontFamily="@font/btn_font2"
                 android:text="15:30" />
             <TextView
-                android:layout_row="14"
+                android:layout_row="15"
                 android:layout_column="0"
                 android:background="#E0E0E0"
                 android:gravity="center"
@@ -267,7 +267,7 @@
                 android:fontFamily="@font/btn_font2"
                 android:text="16:00" />
             <TextView
-                android:layout_row="15"
+                android:layout_row="16"
                 android:layout_column="0"
                 android:background="#E0E0E0"
                 android:gravity="center"
@@ -276,7 +276,7 @@
                 android:fontFamily="@font/btn_font2"
                 android:text="16:30" />
             <TextView
-                android:layout_row="16"
+                android:layout_row="17"
                 android:layout_column="0"
                 android:background="#E0E0E0"
                 android:gravity="center"
@@ -285,15 +285,6 @@
                 android:fontFamily="@font/btn_font2"
                 android:text="17:00" />
             <TextView
-                android:layout_row="17"
-                android:layout_column="0"
-                android:background="#E0E0E0"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="58dp"
-                android:fontFamily="@font/btn_font2"
-                android:text="17:30" />
-            <TextView
                 android:layout_row="18"
                 android:layout_column="0"
                 android:background="#E0E0E0"
@@ -301,7 +292,7 @@
                 android:padding="10dp"
                 android:width="58dp"
                 android:fontFamily="@font/btn_font2"
-                android:text="18:00" />
+                android:text="17:30" />
             <TextView
                 android:layout_row="19"
                 android:layout_column="0"
@@ -315,7 +306,7 @@
             <!-- time table set -->
 
             <TextView
-                android:id="@+id/mon_0900"
+                android:id="@+id/월_0900"
                 android:layout_row="1"
                 android:layout_column="1"
                 android:background="#FFFFFF"
@@ -324,7 +315,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/mon_0930"
+                android:id="@+id/월_0930"
                 android:layout_row="2"
                 android:layout_column="1"
                 android:background="#FFFFFF"
@@ -333,7 +324,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/mon_1000"
+                android:id="@+id/월_1000"
                 android:layout_row="3"
                 android:layout_column="1"
                 android:background="#FFFFFF"
@@ -342,7 +333,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/mon_1030"
+                android:id="@+id/월_1030"
                 android:layout_row="4"
                 android:layout_column="1"
                 android:background="#FFFFFF"
@@ -351,7 +342,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/mon_1100"
+                android:id="@+id/월_1100"
                 android:layout_row="5"
                 android:layout_column="1"
                 android:background="#FFFFFF"
@@ -360,16 +351,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/mon_1130"
-                android:layout_row="5"
-                android:layout_column="1"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/mon_1200"
+                android:id="@+id/월_1130"
                 android:layout_row="6"
                 android:layout_column="1"
                 android:background="#FFFFFF"
@@ -378,7 +360,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/mon_1230"
+                android:id="@+id/월_1200"
                 android:layout_row="7"
                 android:layout_column="1"
                 android:background="#FFFFFF"
@@ -387,7 +369,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/mon_1300"
+                android:id="@+id/월_1230"
                 android:layout_row="8"
                 android:layout_column="1"
                 android:background="#FFFFFF"
@@ -396,7 +378,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/mon_1330"
+                android:id="@+id/월_1300"
                 android:layout_row="9"
                 android:layout_column="1"
                 android:background="#FFFFFF"
@@ -405,7 +387,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/mon_1400"
+                android:id="@+id/월_1330"
                 android:layout_row="10"
                 android:layout_column="1"
                 android:background="#FFFFFF"
@@ -414,7 +396,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/mon_1430"
+                android:id="@+id/월_1400"
                 android:layout_row="11"
                 android:layout_column="1"
                 android:background="#FFFFFF"
@@ -423,7 +405,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/mon_1500"
+                android:id="@+id/월_1430"
                 android:layout_row="12"
                 android:layout_column="1"
                 android:background="#FFFFFF"
@@ -432,7 +414,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/mon_1530"
+                android:id="@+id/월_1500"
                 android:layout_row="13"
                 android:layout_column="1"
                 android:background="#FFFFFF"
@@ -441,7 +423,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/mon_1600"
+                android:id="@+id/월_1530"
                 android:layout_row="14"
                 android:layout_column="1"
                 android:background="#FFFFFF"
@@ -450,7 +432,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/mon_1630"
+                android:id="@+id/월_1600"
                 android:layout_row="15"
                 android:layout_column="1"
                 android:background="#FFFFFF"
@@ -459,7 +441,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/mon_1700"
+                android:id="@+id/월_1630"
                 android:layout_row="16"
                 android:layout_column="1"
                 android:background="#FFFFFF"
@@ -468,7 +450,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/mon_1730"
+                android:id="@+id/월_1700"
                 android:layout_row="17"
                 android:layout_column="1"
                 android:background="#FFFFFF"
@@ -477,7 +459,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/mon_1800"
+                android:id="@+id/월_1730"
                 android:layout_row="18"
                 android:layout_column="1"
                 android:background="#FFFFFF"
@@ -486,19 +468,19 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/mon_1830"
+                android:id="@+id/월_1800"
                 android:layout_row="19"
                 android:layout_column="1"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
                 android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-
+                android:background="#FFFFFF"
+                android:fontFamily="@font/btn_font2"
+                android:gravity="center"
+                android:padding="10dp" />
             <!-- mon -->
 
+
             <TextView
-                android:id="@+id/tue_0900"
+                android:id="@+id/화_0900"
                 android:layout_row="1"
                 android:layout_column="2"
                 android:background="#FFFFFF"
@@ -507,7 +489,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/tue_0930"
+                android:id="@+id/화_0930"
                 android:layout_row="2"
                 android:layout_column="2"
                 android:background="#FFFFFF"
@@ -516,7 +498,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/tue_1000"
+                android:id="@+id/화_1000"
                 android:layout_row="3"
                 android:layout_column="2"
                 android:background="#FFFFFF"
@@ -525,7 +507,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/tue_1030"
+                android:id="@+id/화_1030"
                 android:layout_row="4"
                 android:layout_column="2"
                 android:background="#FFFFFF"
@@ -534,7 +516,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/tue_1100"
+                android:id="@+id/화_1100"
                 android:layout_row="5"
                 android:layout_column="2"
                 android:background="#FFFFFF"
@@ -543,16 +525,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/tue_1130"
-                android:layout_row="5"
-                android:layout_column="2"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/tue_1200"
+                android:id="@+id/화_1130"
                 android:layout_row="6"
                 android:layout_column="2"
                 android:background="#FFFFFF"
@@ -561,7 +534,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/tue_1230"
+                android:id="@+id/화_1200"
                 android:layout_row="7"
                 android:layout_column="2"
                 android:background="#FFFFFF"
@@ -570,7 +543,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/tue_1300"
+                android:id="@+id/화_1230"
                 android:layout_row="8"
                 android:layout_column="2"
                 android:background="#FFFFFF"
@@ -579,7 +552,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/tue_1330"
+                android:id="@+id/화_1300"
                 android:layout_row="9"
                 android:layout_column="2"
                 android:background="#FFFFFF"
@@ -588,7 +561,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/tue_1400"
+                android:id="@+id/화_1330"
                 android:layout_row="10"
                 android:layout_column="2"
                 android:background="#FFFFFF"
@@ -597,7 +570,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/tue_1430"
+                android:id="@+id/화_1400"
                 android:layout_row="11"
                 android:layout_column="2"
                 android:background="#FFFFFF"
@@ -606,7 +579,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/tue_1500"
+                android:id="@+id/화_1430"
                 android:layout_row="12"
                 android:layout_column="2"
                 android:background="#FFFFFF"
@@ -615,7 +588,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/tue_1530"
+                android:id="@+id/화_1500"
                 android:layout_row="13"
                 android:layout_column="2"
                 android:background="#FFFFFF"
@@ -624,7 +597,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/tue_1600"
+                android:id="@+id/화_1530"
                 android:layout_row="14"
                 android:layout_column="2"
                 android:background="#FFFFFF"
@@ -633,7 +606,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/tue_1630"
+                android:id="@+id/화_1600"
                 android:layout_row="15"
                 android:layout_column="2"
                 android:background="#FFFFFF"
@@ -642,7 +615,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/tue_1700"
+                android:id="@+id/화_1630"
                 android:layout_row="16"
                 android:layout_column="2"
                 android:background="#FFFFFF"
@@ -651,7 +624,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/tue_1730"
+                android:id="@+id/화_1700"
                 android:layout_row="17"
                 android:layout_column="2"
                 android:background="#FFFFFF"
@@ -660,7 +633,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/tue_1800"
+                android:id="@+id/화_1730"
                 android:layout_row="18"
                 android:layout_column="2"
                 android:background="#FFFFFF"
@@ -669,7 +642,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/tue_1830"
+                android:id="@+id/화_1800"
                 android:layout_row="19"
                 android:layout_column="2"
                 android:background="#FFFFFF"
@@ -681,7 +654,7 @@
             <!-- tue -->
 
             <TextView
-                android:id="@+id/wed_0900"
+                android:id="@+id/수_0900"
                 android:layout_row="1"
                 android:layout_column="3"
                 android:background="#FFFFFF"
@@ -690,7 +663,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/wed_0930"
+                android:id="@+id/수_0930"
                 android:layout_row="2"
                 android:layout_column="3"
                 android:background="#FFFFFF"
@@ -699,7 +672,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/wed_1000"
+                android:id="@+id/수_1000"
                 android:layout_row="3"
                 android:layout_column="3"
                 android:background="#FFFFFF"
@@ -708,7 +681,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/wed_1030"
+                android:id="@+id/수_1030"
                 android:layout_row="4"
                 android:layout_column="3"
                 android:background="#FFFFFF"
@@ -717,7 +690,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/wed_1100"
+                android:id="@+id/수_1100"
                 android:layout_row="5"
                 android:layout_column="3"
                 android:background="#FFFFFF"
@@ -726,16 +699,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/wed_1130"
-                android:layout_row="5"
-                android:layout_column="3"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/wed_1200"
+                android:id="@+id/수_1130"
                 android:layout_row="6"
                 android:layout_column="3"
                 android:background="#FFFFFF"
@@ -744,7 +708,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/wed_1230"
+                android:id="@+id/수_1200"
                 android:layout_row="7"
                 android:layout_column="3"
                 android:background="#FFFFFF"
@@ -753,7 +717,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/wed_1300"
+                android:id="@+id/수_1230"
                 android:layout_row="8"
                 android:layout_column="3"
                 android:background="#FFFFFF"
@@ -762,7 +726,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/wed_1330"
+                android:id="@+id/수_1300"
                 android:layout_row="9"
                 android:layout_column="3"
                 android:background="#FFFFFF"
@@ -771,7 +735,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/wed_1400"
+                android:id="@+id/수_1330"
                 android:layout_row="10"
                 android:layout_column="3"
                 android:background="#FFFFFF"
@@ -780,7 +744,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/wed_1430"
+                android:id="@+id/수_1400"
                 android:layout_row="11"
                 android:layout_column="3"
                 android:background="#FFFFFF"
@@ -789,7 +753,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/wed_1500"
+                android:id="@+id/수_1430"
                 android:layout_row="12"
                 android:layout_column="3"
                 android:background="#FFFFFF"
@@ -798,7 +762,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/wed_1530"
+                android:id="@+id/수_1500"
                 android:layout_row="13"
                 android:layout_column="3"
                 android:background="#FFFFFF"
@@ -807,7 +771,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/wed_1600"
+                android:id="@+id/수_1530"
                 android:layout_row="14"
                 android:layout_column="3"
                 android:background="#FFFFFF"
@@ -816,7 +780,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/wed_1630"
+                android:id="@+id/수_1600"
                 android:layout_row="15"
                 android:layout_column="3"
                 android:background="#FFFFFF"
@@ -825,7 +789,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/wed_1700"
+                android:id="@+id/수_1630"
                 android:layout_row="16"
                 android:layout_column="3"
                 android:background="#FFFFFF"
@@ -834,7 +798,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/wed_1730"
+                android:id="@+id/수_1700"
                 android:layout_row="17"
                 android:layout_column="3"
                 android:background="#FFFFFF"
@@ -843,7 +807,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/wed_1800"
+                android:id="@+id/수_1730"
                 android:layout_row="18"
                 android:layout_column="3"
                 android:background="#FFFFFF"
@@ -852,7 +816,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/wed_1830"
+                android:id="@+id/수_1800"
                 android:layout_row="19"
                 android:layout_column="3"
                 android:background="#FFFFFF"
@@ -864,7 +828,7 @@
             <!-- wed -->
 
             <TextView
-                android:id="@+id/thu_0900"
+                android:id="@+id/목_0900"
                 android:layout_row="1"
                 android:layout_column="4"
                 android:background="#FFFFFF"
@@ -873,7 +837,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/thu_0930"
+                android:id="@+id/목_0930"
                 android:layout_row="2"
                 android:layout_column="4"
                 android:background="#FFFFFF"
@@ -882,7 +846,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/thu_1000"
+                android:id="@+id/목_1000"
                 android:layout_row="3"
                 android:layout_column="4"
                 android:background="#FFFFFF"
@@ -891,7 +855,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/thu_1030"
+                android:id="@+id/목_1030"
                 android:layout_row="4"
                 android:layout_column="4"
                 android:background="#FFFFFF"
@@ -900,7 +864,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/thu_1100"
+                android:id="@+id/목_1100"
                 android:layout_row="5"
                 android:layout_column="4"
                 android:background="#FFFFFF"
@@ -909,16 +873,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/thu_1130"
-                android:layout_row="5"
-                android:layout_column="4"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/thu_1200"
+                android:id="@+id/목_1130"
                 android:layout_row="6"
                 android:layout_column="4"
                 android:background="#FFFFFF"
@@ -927,7 +882,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/thu_1230"
+                android:id="@+id/목_1200"
                 android:layout_row="7"
                 android:layout_column="4"
                 android:background="#FFFFFF"
@@ -936,7 +891,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/thu_1300"
+                android:id="@+id/목_1230"
                 android:layout_row="8"
                 android:layout_column="4"
                 android:background="#FFFFFF"
@@ -945,7 +900,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/thu_1330"
+                android:id="@+id/목_1300"
                 android:layout_row="9"
                 android:layout_column="4"
                 android:background="#FFFFFF"
@@ -954,7 +909,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/thu_1400"
+                android:id="@+id/목_1330"
                 android:layout_row="10"
                 android:layout_column="4"
                 android:background="#FFFFFF"
@@ -963,7 +918,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/thu_1430"
+                android:id="@+id/목_1400"
                 android:layout_row="11"
                 android:layout_column="4"
                 android:background="#FFFFFF"
@@ -972,7 +927,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/thu_1500"
+                android:id="@+id/목_1430"
                 android:layout_row="12"
                 android:layout_column="4"
                 android:background="#FFFFFF"
@@ -981,7 +936,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/thu_1530"
+                android:id="@+id/목_1500"
                 android:layout_row="13"
                 android:layout_column="4"
                 android:background="#FFFFFF"
@@ -990,7 +945,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/thu_1600"
+                android:id="@+id/목_1530"
                 android:layout_row="14"
                 android:layout_column="4"
                 android:background="#FFFFFF"
@@ -999,7 +954,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/thu_1630"
+                android:id="@+id/목_1600"
                 android:layout_row="15"
                 android:layout_column="4"
                 android:background="#FFFFFF"
@@ -1008,7 +963,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/thu_1700"
+                android:id="@+id/목_1630"
                 android:layout_row="16"
                 android:layout_column="4"
                 android:background="#FFFFFF"
@@ -1017,7 +972,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/thu_1730"
+                android:id="@+id/목_1700"
                 android:layout_row="17"
                 android:layout_column="4"
                 android:background="#FFFFFF"
@@ -1026,7 +981,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/thu_1800"
+                android:id="@+id/목_1730"
                 android:layout_row="18"
                 android:layout_column="4"
                 android:background="#FFFFFF"
@@ -1035,7 +990,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/thu_1830"
+                android:id="@+id/목_1800"
                 android:layout_row="19"
                 android:layout_column="4"
                 android:background="#FFFFFF"
@@ -1047,7 +1002,7 @@
             <!-- thu -->
 
             <TextView
-                android:id="@+id/fri_0900"
+                android:id="@+id/금_0900"
                 android:layout_row="1"
                 android:layout_column="5"
                 android:background="#FFFFFF"
@@ -1056,7 +1011,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/fri_0930"
+                android:id="@+id/금_0930"
                 android:layout_row="2"
                 android:layout_column="5"
                 android:background="#FFFFFF"
@@ -1065,7 +1020,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/fri_1000"
+                android:id="@+id/금_1000"
                 android:layout_row="3"
                 android:layout_column="5"
                 android:background="#FFFFFF"
@@ -1074,7 +1029,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/fri_1030"
+                android:id="@+id/금_1030"
                 android:layout_row="4"
                 android:layout_column="5"
                 android:background="#FFFFFF"
@@ -1083,7 +1038,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/fri_1100"
+                android:id="@+id/금_1100"
                 android:layout_row="5"
                 android:layout_column="5"
                 android:background="#FFFFFF"
@@ -1092,16 +1047,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/fri_1130"
-                android:layout_row="5"
-                android:layout_column="5"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/fri_1200"
+                android:id="@+id/금_1130"
                 android:layout_row="6"
                 android:layout_column="5"
                 android:background="#FFFFFF"
@@ -1110,7 +1056,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/fri_1230"
+                android:id="@+id/금_1200"
                 android:layout_row="7"
                 android:layout_column="5"
                 android:background="#FFFFFF"
@@ -1119,7 +1065,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/fri_1300"
+                android:id="@+id/금_1230"
                 android:layout_row="8"
                 android:layout_column="5"
                 android:background="#FFFFFF"
@@ -1128,7 +1074,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/fri_1330"
+                android:id="@+id/금_1300"
                 android:layout_row="9"
                 android:layout_column="5"
                 android:background="#FFFFFF"
@@ -1137,7 +1083,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/fri_1400"
+                android:id="@+id/금_1330"
                 android:layout_row="10"
                 android:layout_column="5"
                 android:background="#FFFFFF"
@@ -1146,7 +1092,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/fri_1430"
+                android:id="@+id/금_1400"
                 android:layout_row="11"
                 android:layout_column="5"
                 android:background="#FFFFFF"
@@ -1155,7 +1101,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/fri_1500"
+                android:id="@+id/금_1430"
                 android:layout_row="12"
                 android:layout_column="5"
                 android:background="#FFFFFF"
@@ -1164,7 +1110,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/fri_1530"
+                android:id="@+id/금_1500"
                 android:layout_row="13"
                 android:layout_column="5"
                 android:background="#FFFFFF"
@@ -1173,7 +1119,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/fri_1600"
+                android:id="@+id/금_1530"
                 android:layout_row="14"
                 android:layout_column="5"
                 android:background="#FFFFFF"
@@ -1182,7 +1128,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/fri_1630"
+                android:id="@+id/금_1600"
                 android:layout_row="15"
                 android:layout_column="5"
                 android:background="#FFFFFF"
@@ -1191,7 +1137,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/fri_1700"
+                android:id="@+id/금_1630"
                 android:layout_row="16"
                 android:layout_column="5"
                 android:background="#FFFFFF"
@@ -1200,7 +1146,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/fri_1730"
+                android:id="@+id/금_1700"
                 android:layout_row="17"
                 android:layout_column="5"
                 android:background="#FFFFFF"
@@ -1209,7 +1155,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/fri_1800"
+                android:id="@+id/금_1730"
                 android:layout_row="18"
                 android:layout_column="5"
                 android:background="#FFFFFF"
@@ -1218,7 +1164,7 @@
                 android:width="64dp"
                 android:fontFamily="@font/btn_font2" />
             <TextView
-                android:id="@+id/fri_1830"
+                android:id="@+id/금_1800"
                 android:layout_row="19"
                 android:layout_column="5"
                 android:background="#FFFFFF"

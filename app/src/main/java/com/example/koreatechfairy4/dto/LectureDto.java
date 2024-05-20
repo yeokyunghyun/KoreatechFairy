@@ -1,5 +1,7 @@
 package com.example.koreatechfairy4.dto;
 
+import java.util.Objects;
+
 public class LectureDto {
     private String code; //과목코드
     private String name; //교과목명
@@ -11,6 +13,7 @@ public class LectureDto {
     private String professor; // 교수
     private String time; // 강의가능시간
     private String registerDepartment; // 가능 학번
+    private boolean isClicked = false;
 
     public LectureDto() {}
     public LectureDto(String code, String name, String classes, String domain, int credit, String department, String grade, String professor, String time, String registerDepartment) {
@@ -26,6 +29,7 @@ public class LectureDto {
         this.registerDepartment = registerDepartment;
     }
 
+
     @Override
     public String toString() {
         return "LectureDto{" +
@@ -40,6 +44,10 @@ public class LectureDto {
                 ", time='" + time + '\'' +
                 ", registerDepartment='" + registerDepartment + '\'' +
                 '}';
+    }
+
+    public boolean isClicked() {
+        return isClicked;
     }
 
     public String getCode() {
@@ -80,5 +88,23 @@ public class LectureDto {
 
     public String getRegisterDepartment() {
         return registerDepartment;
+    }
+
+    public void switchIsClicked() {
+        if(isClicked) isClicked = false;
+        else isClicked = true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LectureDto that = (LectureDto) o;
+        return credit == that.credit && Objects.equals(code, that.code) && Objects.equals(name, that.name) && Objects.equals(classes, that.classes) && Objects.equals(domain, that.domain) && Objects.equals(department, that.department) && Objects.equals(grade, that.grade) && Objects.equals(professor, that.professor) && Objects.equals(time, that.time) && Objects.equals(registerDepartment, that.registerDepartment);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(code, name, classes, domain, credit, department, grade, professor, time, registerDepartment);
     }
 }
