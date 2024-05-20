@@ -99,11 +99,7 @@ public class NotifyActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
         /*데이터 등록하는 부분 + 비교 + 알림*/
-
-
     }
 
     private void setClickListener(Button btn, Fragment fragment) {

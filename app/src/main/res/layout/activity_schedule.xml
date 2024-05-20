@@ -1341,7 +1341,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    
+
 <!--        <Button-->
 <!--        android:id="@+id/lecture_register"-->
 <!--        android:layout_width="wrap_content"-->
