@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -23,10 +26,16 @@ import com.example.koreatechfairy4.adapter.LectureAdapter;
 import com.example.koreatechfairy4.dto.GradeDto;
 import com.example.koreatechfairy4.dto.LectureDto;
 import com.example.koreatechfairy4.repository.LectureRepository;
+import com.example.koreatechfairy4.util.FilteringConditions;
 import com.example.koreatechfairy4.util.LectureCrawler;
 import com.example.koreatechfairy4.util.ScheduleCrawler;
 import com.example.koreatechfairy4.util.DayAndTimes;
 import com.example.koreatechfairy4.util.MyScheduleList;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,6 +73,10 @@ public class ScheduleActivity extends AppCompatActivity {
     private List<LectureDto> lectureList;
     private MyScheduleList myScheduleList = MyScheduleList.getInstance();
     private TextView scheduleText;
+    private String userMajor;
+    private Spinner gradeSpinner, concentrationSpinner;
+    private EditText et_major, et_general, et_MSC, et_HRD;
+    private Button btn_create;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +116,78 @@ public class ScheduleActivity extends AppCompatActivity {
 
         String userId = getIntent().getStringExtra("userId");
         repository = new LectureRepository(reference);
+
+        gradeSpinner = findViewById(R.id.sp_grade);
+        concentrationSpinner = findViewById(R.id.sp_major);
+        et_major = findViewById(R.id.et_major);
+        et_general = findViewById(R.id.et_general);
+        et_MSC = findViewById(R.id.et_MSC);
+        et_HRD = findViewById(R.id.et_HRD);
+        btn_create = (Button) findViewById(R.id.btn_create);
+
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("KoreatechFairy4/User/" + userId);
+        userRef.child("major").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // 데이터가 존재하면, 전공 설정
+                    userMajor = dataSnapshot.getValue(String.class);
+                    if (userMajor != null) {
+                        setSpinnerValues(userMajor);
+                    } else {
+                        Log.e("ScheduleActivity", "User major is null");
+                        // 기본값 설정 또는 오류 처리
+                        setSpinnerValues("default_major");
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // 데이터를 가져오는 도중 에러가 발생한 경우, 에러 처리를 하세요
+                Log.w("TAG", "Failed to read value.", databaseError.toException());
+            }
+        });
+
+        btn_create.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String grade = gradeSpinner.getSelectedItem().toString();
+                String concentration = concentrationSpinner.getSelectedItem().toString();
+                int majorCredit = Integer.parseInt(et_major.getText().toString());
+                int generalCredit = Integer.parseInt(et_general.getText().toString());
+                int MSCCredit = Integer.parseInt(et_MSC.getText().toString());
+                int HRDCredit = Integer.parseInt(et_HRD.getText().toString());
+
+                userRef.child("major").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            // 데이터가 존재하면, 전공 설정
+                            userMajor = dataSnapshot.getValue(String.class);
+                            if (userMajor == null) {
+                                Log.e("ScheduleActivity", "User major is null");
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // 데이터를 가져오는 도중 에러가 발생한 경우, 에러 처리를 하세요
+                        Log.w("TAG", "Failed to read value.", databaseError.toException());
+                    }
+                });
+
+                FilteringConditions filteringConditions
+                        = new FilteringConditions(grade, userMajor, concentration, majorCredit, generalCredit,
+                        MSCCredit, HRDCredit);
+                
+                //추천 알고리즘 구현
+            }
+        });
+
+
+
 
 //        getContentLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
 //                result -> {
@@ -228,6 +313,22 @@ public class ScheduleActivity extends AppCompatActivity {
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("*/*"); // XLSX 파일 타입
         getContentLauncher.launch(intent);
+    }
+
+    private void setSpinnerValues(String major) {
+        int arrayId = getResources().getIdentifier(major, "array", getPackageName());
+
+        if (arrayId == 0) {
+            arrayId = R.array.예외;
+        }
+
+        // 배열 리소스를 사용하여 어댑터를 생성합니다.
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this, arrayId, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Spinner에 어댑터를 설정합니다.
+        concentrationSpinner.setAdapter(adapter);
     }
 
 }

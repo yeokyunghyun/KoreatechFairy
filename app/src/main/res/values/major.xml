@@ -1,8 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="major">
-        <item>컴퓨터공학과</item>
-        <item>기계공학과</item>
-        <item>건축공학과</item>
+        <item>컴퓨터공학부</item>
+        <item>기계공학부</item>
+        <item>건축공학부</item>
+        <item>디자인공학부</item>
+        <item>메카트로닉스공학부</item>
+        <item>산업경영학부</item>
+        <item>전기전자통신공학부</item>
+        <item>에너지신소재화학공학부</item>
+        <item>고용서비스정책학과</item>
+    </string-array>
+
+    <string-array name="컴퓨터공학부">
+        <item>전체</item>
+    </string-array>
+
+    <string-array name="기계공학부">
+        <item>전체</item>
+    </string-array>
+
+    <string-array name="건축공학부">
+        <item>전체</item>
+    </string-array>
+
+    <string-array name="디자인공학부">
+        <item>전체</item>
+    </string-array>
+
+    <string-array name="메카트로닉스공학부">
+        <item>전체</item>
+        <item>생산시스템</item>
+        <item>제어시스템</item>
+        <item>디지털시스템</item>
+    </string-array>
+
+    <string-array name="산업경영학부">
+        <item>전체</item>
+    </string-array>
+
+    <string-array name="전기전자통신공학부">
+        <item>전체</item>
+        <item>전기</item>
+        <item>전자</item>
+        <item>정보통신</item>
+    </string-array>
+
+    <string-array name="에너지신소재화학공학부">
+        <item>전체</item>
+        <item>에너지신소재</item>
+        <item>화학생명</item>
+    </string-array>
+
+    <string-array name="고용서비스정책학과">
+        <item>전체</item>
+    </string-array>
+
+    <string-array name="예외">
+        <item>전체</item>
+    </string-array>
+
+    <string-array name="grade">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
     </string-array>
 </resources>

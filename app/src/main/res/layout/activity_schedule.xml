@@ -11,8 +11,8 @@
         android:id="@+id/topbar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:paddingBottom="5dp"
         android:background="@drawable/border_bottom"
+        android:paddingBottom="5dp"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
@@ -49,1134 +49,1334 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topbar">
 
-        <!-- 이곳에 스크롤 가능한 나머지 컨텐츠를 배치합니다 -->
-        <GridLayout
-            android:id="@+id/schedule_grid"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
-            android:layout_marginBottom="100dp"
-            android:layout_marginLeft="5dp"
-            android:columnCount="6"
-            android:rowCount="20"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent">
 
-            <!-- Header Row -->
-            <TextView
-                android:layout_row="0"
-                android:layout_column="0"
-                android:background="#E0E0E0"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="58dp"
-                android:fontFamily="@font/btn_font2"
-                android:text="Time" />
+            <!-- 이곳에 스크롤 가능한 나머지 컨텐츠를 배치합니다 -->
 
             <TextView
-                android:layout_row="0"
-                android:layout_column="1"
-                android:background="#E0E0E0"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2"
-                android:text="Mon" />
+                android:id="@+id/tv_grade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="학년"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Spinner
+                android:id="@+id/sp_grade"
+                android:layout_width="93dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="4dp"
+                android:entries="@array/grade"
+                app:layout_constraintStart_toEndOf="@+id/tv_grade"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:layout_row="0"
-                android:layout_column="2"
-                android:background="#E0E0E0"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2"
-                android:text="Tue" />
+                android:id="@+id/tv_major"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:text="전공"
+                app:layout_constraintStart_toEndOf="@+id/sp_grade"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:layout_row="0"
-                android:layout_column="3"
-                android:background="#E0E0E0"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2"
-                android:text="Wed" />
+            <Spinner
+                android:id="@+id/sp_major"
+                android:layout_width="93dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toEndOf="@+id/tv_major"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:layout_row="0"
-                android:layout_column="4"
-                android:background="#E0E0E0"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2"
-                android:text="Thu" />
+            <EditText
+                android:id="@+id/et_major"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:hint="전공학점"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_grade" />
 
-            <TextView
-                android:layout_row="0"
-                android:layout_column="5"
-                android:background="#E0E0E0"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2"
-                android:text="Fri" />
+            <EditText
+                android:id="@+id/et_general"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:hint="교양학점"
+                android:textSize="15dp"
+                app:layout_constraintStart_toEndOf="@+id/et_major"
+                app:layout_constraintTop_toBottomOf="@+id/tv_grade" />
 
-            <!-- Time slots -->
-            <!-- Example for 09:00 and 09:30 slots, replicate for each 30 minutes up to 18:00 -->
-            <TextView
-                android:layout_row="1"
-                android:layout_column="0"
-                android:background="#E0E0E0"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="58dp"
-                android:fontFamily="@font/btn_font2"
-                android:text="09:00" />
+            <EditText
+                android:id="@+id/et_HRD"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:hint="HRD학점"
+                android:textSize="15dp"
+                app:layout_constraintStart_toEndOf="@+id/et_general"
+                app:layout_constraintTop_toBottomOf="@+id/tv_major" />
 
-            <TextView
-                android:layout_row="2"
-                android:layout_column="0"
-                android:background="#E0E0E0"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="58dp"
-                android:fontFamily="@font/btn_font2"
-                android:text="09:30" />
+            <EditText
+                android:id="@+id/et_MSC"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:hint="MSC학점"
+                android:textSize="15dp"
+                app:layout_constraintStart_toEndOf="@+id/et_HRD"
+                app:layout_constraintTop_toBottomOf="@+id/tv_major" />
 
-            <TextView
-                android:layout_row="3"
-                android:layout_column="0"
-                android:background="#E0E0E0"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="58dp"
-                android:fontFamily="@font/btn_font2"
-                android:text="10:00" />
+            <Button
+                android:id="@+id/btn_create"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="시간표 생성"
+                android:textSize="12dp"
+                tools:layout_editor_absoluteX="310dp"
+                tools:layout_editor_absoluteY="4dp" />
 
-            <TextView
-                android:layout_row="4"
-                android:layout_column="0"
-                android:background="#E0E0E0"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="58dp"
-                android:fontFamily="@font/btn_font2"
-                android:text="10:30" />
+            <GridLayout
+                android:id="@+id/schedule_grid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="100dp"
+                android:layout_marginBottom="100dp"
+                android:columnCount="6"
+                android:rowCount="20"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:layout_row="5"
-                android:layout_column="0"
-                android:background="#E0E0E0"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="58dp"
-                android:fontFamily="@font/btn_font2"
-                android:text="11:00" />
-            <TextView
-                android:layout_row="6"
-                android:layout_column="0"
-                android:background="#E0E0E0"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="58dp"
-                android:fontFamily="@font/btn_font2"
-                android:text="11:30" />
-            <TextView
-                android:layout_row="7"
-                android:layout_column="0"
-                android:background="#E0E0E0"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="58dp"
-                android:fontFamily="@font/btn_font2"
-                android:text="12:00" />
-            <TextView
-                android:layout_row="8"
-                android:layout_column="0"
-                android:background="#E0E0E0"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="58dp"
-                android:fontFamily="@font/btn_font2"
-                android:text="12:30" />
-            <TextView
-                android:layout_row="9"
-                android:layout_column="0"
-                android:background="#E0E0E0"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="58dp"
-                android:fontFamily="@font/btn_font2"
-                android:text="13:00" />
-            <TextView
-                android:layout_row="10"
-                android:layout_column="0"
-                android:background="#E0E0E0"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="58dp"
-                android:fontFamily="@font/btn_font2"
-                android:text="13:30" />
-            <TextView
-                android:layout_row="11"
-                android:layout_column="0"
-                android:background="#E0E0E0"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="58dp"
-                android:fontFamily="@font/btn_font2"
-                android:text="14:00" />
-            <TextView
-                android:layout_row="12"
-                android:layout_column="0"
-                android:background="#E0E0E0"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="58dp"
-                android:fontFamily="@font/btn_font2"
-                android:text="14:30" />
-            <TextView
-                android:layout_row="13"
-                android:layout_column="0"
-                android:background="#E0E0E0"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="58dp"
-                android:fontFamily="@font/btn_font2"
-                android:text="15:00" />
-            <TextView
-                android:layout_row="14"
-                android:layout_column="0"
-                android:background="#E0E0E0"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="58dp"
-                android:fontFamily="@font/btn_font2"
-                android:text="15:30" />
-            <TextView
-                android:layout_row="15"
-                android:layout_column="0"
-                android:background="#E0E0E0"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="58dp"
-                android:fontFamily="@font/btn_font2"
-                android:text="16:00" />
-            <TextView
-                android:layout_row="16"
-                android:layout_column="0"
-                android:background="#E0E0E0"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="58dp"
-                android:fontFamily="@font/btn_font2"
-                android:text="16:30" />
-            <TextView
-                android:layout_row="17"
-                android:layout_column="0"
-                android:background="#E0E0E0"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="58dp"
-                android:fontFamily="@font/btn_font2"
-                android:text="17:00" />
-            <TextView
-                android:layout_row="18"
-                android:layout_column="0"
-                android:background="#E0E0E0"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="58dp"
-                android:fontFamily="@font/btn_font2"
-                android:text="17:30" />
-            <TextView
-                android:layout_row="19"
-                android:layout_column="0"
-                android:background="#E0E0E0"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="58dp"
-                android:fontFamily="@font/btn_font2"
-                android:text="이 후" />
+                <!-- Header Row -->
+                <TextView
+                    android:layout_row="0"
+                    android:layout_column="0"
+                    android:width="58dp"
+                    android:background="#E0E0E0"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Time" />
 
-            <!-- time table set -->
+                <TextView
+                    android:layout_row="0"
+                    android:layout_column="1"
+                    android:width="64dp"
+                    android:background="#E0E0E0"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Mon" />
 
-            <TextView
-                android:id="@+id/월_0900"
-                android:layout_row="1"
-                android:layout_column="1"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/월_0930"
-                android:layout_row="2"
-                android:layout_column="1"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/월_1000"
-                android:layout_row="3"
-                android:layout_column="1"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/월_1030"
-                android:layout_row="4"
-                android:layout_column="1"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/월_1100"
-                android:layout_row="5"
-                android:layout_column="1"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/월_1130"
-                android:layout_row="6"
-                android:layout_column="1"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/월_1200"
-                android:layout_row="7"
-                android:layout_column="1"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/월_1230"
-                android:layout_row="8"
-                android:layout_column="1"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/월_1300"
-                android:layout_row="9"
-                android:layout_column="1"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/월_1330"
-                android:layout_row="10"
-                android:layout_column="1"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/월_1400"
-                android:layout_row="11"
-                android:layout_column="1"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/월_1430"
-                android:layout_row="12"
-                android:layout_column="1"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/월_1500"
-                android:layout_row="13"
-                android:layout_column="1"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/월_1530"
-                android:layout_row="14"
-                android:layout_column="1"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/월_1600"
-                android:layout_row="15"
-                android:layout_column="1"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/월_1630"
-                android:layout_row="16"
-                android:layout_column="1"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/월_1700"
-                android:layout_row="17"
-                android:layout_column="1"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/월_1730"
-                android:layout_row="18"
-                android:layout_column="1"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/월_1800"
-                android:layout_row="19"
-                android:layout_column="1"
-                android:width="64dp"
-                android:background="#FFFFFF"
-                android:fontFamily="@font/btn_font2"
-                android:gravity="center"
-                android:padding="10dp" />
-            <!-- mon -->
+                <TextView
+                    android:layout_row="0"
+                    android:layout_column="2"
+                    android:width="64dp"
+                    android:background="#E0E0E0"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Tue" />
+
+                <TextView
+                    android:layout_row="0"
+                    android:layout_column="3"
+                    android:width="64dp"
+                    android:background="#E0E0E0"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Wed" />
+
+                <TextView
+                    android:layout_row="0"
+                    android:layout_column="4"
+                    android:width="64dp"
+                    android:background="#E0E0E0"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Thu" />
+
+                <TextView
+                    android:layout_row="0"
+                    android:layout_column="5"
+                    android:width="64dp"
+                    android:background="#E0E0E0"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Fri" />
+
+                <!-- Time slots -->
+                <!-- Example for 09:00 and 09:30 slots, replicate for each 30 minutes up to 18:00 -->
+                <TextView
+                    android:layout_row="1"
+                    android:layout_column="0"
+                    android:width="58dp"
+                    android:background="#E0E0E0"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="09:00" />
+
+                <TextView
+                    android:layout_row="2"
+                    android:layout_column="0"
+                    android:width="58dp"
+                    android:background="#E0E0E0"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="09:30" />
+
+                <TextView
+                    android:layout_row="3"
+                    android:layout_column="0"
+                    android:width="58dp"
+                    android:background="#E0E0E0"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="10:00" />
+
+                <TextView
+                    android:layout_row="4"
+                    android:layout_column="0"
+                    android:width="58dp"
+                    android:background="#E0E0E0"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="10:30" />
+
+                <TextView
+                    android:layout_row="5"
+                    android:layout_column="0"
+                    android:width="58dp"
+                    android:background="#E0E0E0"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="11:00" />
+
+                <TextView
+                    android:layout_row="6"
+                    android:layout_column="0"
+                    android:width="58dp"
+                    android:background="#E0E0E0"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="11:30" />
+
+                <TextView
+                    android:layout_row="7"
+                    android:layout_column="0"
+                    android:width="58dp"
+                    android:background="#E0E0E0"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="12:00" />
+
+                <TextView
+                    android:layout_row="8"
+                    android:layout_column="0"
+                    android:width="58dp"
+                    android:background="#E0E0E0"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="12:30" />
+
+                <TextView
+                    android:layout_row="9"
+                    android:layout_column="0"
+                    android:width="58dp"
+                    android:background="#E0E0E0"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="13:00" />
+
+                <TextView
+                    android:layout_row="10"
+                    android:layout_column="0"
+                    android:width="58dp"
+                    android:background="#E0E0E0"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="13:30" />
+
+                <TextView
+                    android:layout_row="11"
+                    android:layout_column="0"
+                    android:width="58dp"
+                    android:background="#E0E0E0"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="14:00" />
+
+                <TextView
+                    android:layout_row="12"
+                    android:layout_column="0"
+                    android:width="58dp"
+                    android:background="#E0E0E0"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="14:30" />
+
+                <TextView
+                    android:layout_row="13"
+                    android:layout_column="0"
+                    android:width="58dp"
+                    android:background="#E0E0E0"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="15:00" />
+
+                <TextView
+                    android:layout_row="14"
+                    android:layout_column="0"
+                    android:width="58dp"
+                    android:background="#E0E0E0"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="15:30" />
+
+                <TextView
+                    android:layout_row="15"
+                    android:layout_column="0"
+                    android:width="58dp"
+                    android:background="#E0E0E0"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="16:00" />
+
+                <TextView
+                    android:layout_row="16"
+                    android:layout_column="0"
+                    android:width="58dp"
+                    android:background="#E0E0E0"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="16:30" />
+
+                <TextView
+                    android:layout_row="17"
+                    android:layout_column="0"
+                    android:width="58dp"
+                    android:background="#E0E0E0"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="17:00" />
+
+                <TextView
+                    android:layout_row="18"
+                    android:layout_column="0"
+                    android:width="58dp"
+                    android:background="#E0E0E0"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="17:30" />
+
+                <TextView
+                    android:layout_row="19"
+                    android:layout_column="0"
+                    android:width="58dp"
+                    android:background="#E0E0E0"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="이 후" />
+
+                <!-- time table set -->
+
+                <TextView
+                    android:id="@+id/월_0900"
+                    android:layout_row="1"
+                    android:layout_column="1"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/월_0930"
+                    android:layout_row="2"
+                    android:layout_column="1"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/월_1000"
+                    android:layout_row="3"
+                    android:layout_column="1"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/월_1030"
+                    android:layout_row="4"
+                    android:layout_column="1"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/월_1100"
+                    android:layout_row="5"
+                    android:layout_column="1"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/월_1130"
+                    android:layout_row="6"
+                    android:layout_column="1"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/월_1200"
+                    android:layout_row="7"
+                    android:layout_column="1"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/월_1230"
+                    android:layout_row="8"
+                    android:layout_column="1"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/월_1300"
+                    android:layout_row="9"
+                    android:layout_column="1"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/월_1330"
+                    android:layout_row="10"
+                    android:layout_column="1"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/월_1400"
+                    android:layout_row="11"
+                    android:layout_column="1"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/월_1430"
+                    android:layout_row="12"
+                    android:layout_column="1"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/월_1500"
+                    android:layout_row="13"
+                    android:layout_column="1"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/월_1530"
+                    android:layout_row="14"
+                    android:layout_column="1"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/월_1600"
+                    android:layout_row="15"
+                    android:layout_column="1"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/월_1630"
+                    android:layout_row="16"
+                    android:layout_column="1"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/월_1700"
+                    android:layout_row="17"
+                    android:layout_column="1"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/월_1730"
+                    android:layout_row="18"
+                    android:layout_column="1"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/월_1800"
+                    android:layout_row="19"
+                    android:layout_column="1"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+                <!-- mon -->
+
+                <TextView
+                    android:id="@+id/화_0900"
+                    android:layout_row="1"
+                    android:layout_column="2"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/화_0930"
+                    android:layout_row="2"
+                    android:layout_column="2"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/화_1000"
+                    android:layout_row="3"
+                    android:layout_column="2"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/화_1030"
+                    android:layout_row="4"
+                    android:layout_column="2"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/화_1100"
+                    android:layout_row="5"
+                    android:layout_column="2"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/화_1130"
+                    android:layout_row="6"
+                    android:layout_column="2"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/화_1200"
+                    android:layout_row="7"
+                    android:layout_column="2"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/화_1230"
+                    android:layout_row="8"
+                    android:layout_column="2"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/화_1300"
+                    android:layout_row="9"
+                    android:layout_column="2"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/화_1330"
+                    android:layout_row="10"
+                    android:layout_column="2"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/화_1400"
+                    android:layout_row="11"
+                    android:layout_column="2"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/화_1430"
+                    android:layout_row="12"
+                    android:layout_column="2"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/화_1500"
+                    android:layout_row="13"
+                    android:layout_column="2"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/화_1530"
+                    android:layout_row="14"
+                    android:layout_column="2"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/화_1600"
+                    android:layout_row="15"
+                    android:layout_column="2"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/화_1630"
+                    android:layout_row="16"
+                    android:layout_column="2"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/화_1700"
+                    android:layout_row="17"
+                    android:layout_column="2"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/화_1730"
+                    android:layout_row="18"
+                    android:layout_column="2"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/화_1800"
+                    android:layout_row="19"
+                    android:layout_column="2"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <!-- tue -->
+
+                <TextView
+                    android:id="@+id/수_0900"
+                    android:layout_row="1"
+                    android:layout_column="3"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/수_0930"
+                    android:layout_row="2"
+                    android:layout_column="3"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/수_1000"
+                    android:layout_row="3"
+                    android:layout_column="3"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/수_1030"
+                    android:layout_row="4"
+                    android:layout_column="3"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/수_1100"
+                    android:layout_row="5"
+                    android:layout_column="3"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/수_1130"
+                    android:layout_row="6"
+                    android:layout_column="3"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/수_1200"
+                    android:layout_row="7"
+                    android:layout_column="3"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/수_1230"
+                    android:layout_row="8"
+                    android:layout_column="3"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/수_1300"
+                    android:layout_row="9"
+                    android:layout_column="3"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/수_1330"
+                    android:layout_row="10"
+                    android:layout_column="3"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/수_1400"
+                    android:layout_row="11"
+                    android:layout_column="3"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/수_1430"
+                    android:layout_row="12"
+                    android:layout_column="3"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/수_1500"
+                    android:layout_row="13"
+                    android:layout_column="3"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/수_1530"
+                    android:layout_row="14"
+                    android:layout_column="3"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/수_1600"
+                    android:layout_row="15"
+                    android:layout_column="3"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/수_1630"
+                    android:layout_row="16"
+                    android:layout_column="3"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/수_1700"
+                    android:layout_row="17"
+                    android:layout_column="3"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/수_1730"
+                    android:layout_row="18"
+                    android:layout_column="3"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/수_1800"
+                    android:layout_row="19"
+                    android:layout_column="3"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <!-- wed -->
+
+                <TextView
+                    android:id="@+id/목_0900"
+                    android:layout_row="1"
+                    android:layout_column="4"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/목_0930"
+                    android:layout_row="2"
+                    android:layout_column="4"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/목_1000"
+                    android:layout_row="3"
+                    android:layout_column="4"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/목_1030"
+                    android:layout_row="4"
+                    android:layout_column="4"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/목_1100"
+                    android:layout_row="5"
+                    android:layout_column="4"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/목_1130"
+                    android:layout_row="6"
+                    android:layout_column="4"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/목_1200"
+                    android:layout_row="7"
+                    android:layout_column="4"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/목_1230"
+                    android:layout_row="8"
+                    android:layout_column="4"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/목_1300"
+                    android:layout_row="9"
+                    android:layout_column="4"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/목_1330"
+                    android:layout_row="10"
+                    android:layout_column="4"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/목_1400"
+                    android:layout_row="11"
+                    android:layout_column="4"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/목_1430"
+                    android:layout_row="12"
+                    android:layout_column="4"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/목_1500"
+                    android:layout_row="13"
+                    android:layout_column="4"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/목_1530"
+                    android:layout_row="14"
+                    android:layout_column="4"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/목_1600"
+                    android:layout_row="15"
+                    android:layout_column="4"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/목_1630"
+                    android:layout_row="16"
+                    android:layout_column="4"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/목_1700"
+                    android:layout_row="17"
+                    android:layout_column="4"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/목_1730"
+                    android:layout_row="18"
+                    android:layout_column="4"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/목_1800"
+                    android:layout_row="19"
+                    android:layout_column="4"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <!-- thu -->
+
+                <TextView
+                    android:id="@+id/금_0900"
+                    android:layout_row="1"
+                    android:layout_column="5"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/금_0930"
+                    android:layout_row="2"
+                    android:layout_column="5"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/금_1000"
+                    android:layout_row="3"
+                    android:layout_column="5"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/금_1030"
+                    android:layout_row="4"
+                    android:layout_column="5"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/금_1100"
+                    android:layout_row="5"
+                    android:layout_column="5"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/금_1130"
+                    android:layout_row="6"
+                    android:layout_column="5"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/금_1200"
+                    android:layout_row="7"
+                    android:layout_column="5"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/금_1230"
+                    android:layout_row="8"
+                    android:layout_column="5"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/금_1300"
+                    android:layout_row="9"
+                    android:layout_column="5"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/금_1330"
+                    android:layout_row="10"
+                    android:layout_column="5"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/금_1400"
+                    android:layout_row="11"
+                    android:layout_column="5"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/금_1430"
+                    android:layout_row="12"
+                    android:layout_column="5"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/금_1500"
+                    android:layout_row="13"
+                    android:layout_column="5"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/금_1530"
+                    android:layout_row="14"
+                    android:layout_column="5"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/금_1600"
+                    android:layout_row="15"
+                    android:layout_column="5"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/금_1630"
+                    android:layout_row="16"
+                    android:layout_column="5"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/금_1700"
+                    android:layout_row="17"
+                    android:layout_column="5"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/금_1730"
+                    android:layout_row="18"
+                    android:layout_column="5"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/금_1800"
+                    android:layout_row="19"
+                    android:layout_column="5"
+                    android:width="64dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/btn_font2"
+                    android:gravity="center"
+                    android:padding="10dp" />
+                <!-- Continue for all rows and columns -->
+            </GridLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            <TextView
-                android:id="@+id/화_0900"
-                android:layout_row="1"
-                android:layout_column="2"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/화_0930"
-                android:layout_row="2"
-                android:layout_column="2"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/화_1000"
-                android:layout_row="3"
-                android:layout_column="2"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/화_1030"
-                android:layout_row="4"
-                android:layout_column="2"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/화_1100"
-                android:layout_row="5"
-                android:layout_column="2"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/화_1130"
-                android:layout_row="6"
-                android:layout_column="2"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/화_1200"
-                android:layout_row="7"
-                android:layout_column="2"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/화_1230"
-                android:layout_row="8"
-                android:layout_column="2"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/화_1300"
-                android:layout_row="9"
-                android:layout_column="2"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/화_1330"
-                android:layout_row="10"
-                android:layout_column="2"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/화_1400"
-                android:layout_row="11"
-                android:layout_column="2"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/화_1430"
-                android:layout_row="12"
-                android:layout_column="2"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/화_1500"
-                android:layout_row="13"
-                android:layout_column="2"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/화_1530"
-                android:layout_row="14"
-                android:layout_column="2"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/화_1600"
-                android:layout_row="15"
-                android:layout_column="2"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/화_1630"
-                android:layout_row="16"
-                android:layout_column="2"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/화_1700"
-                android:layout_row="17"
-                android:layout_column="2"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/화_1730"
-                android:layout_row="18"
-                android:layout_column="2"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/화_1800"
-                android:layout_row="19"
-                android:layout_column="2"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-
-            <!-- tue -->
-
-            <TextView
-                android:id="@+id/수_0900"
-                android:layout_row="1"
-                android:layout_column="3"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/수_0930"
-                android:layout_row="2"
-                android:layout_column="3"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/수_1000"
-                android:layout_row="3"
-                android:layout_column="3"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/수_1030"
-                android:layout_row="4"
-                android:layout_column="3"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/수_1100"
-                android:layout_row="5"
-                android:layout_column="3"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/수_1130"
-                android:layout_row="6"
-                android:layout_column="3"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/수_1200"
-                android:layout_row="7"
-                android:layout_column="3"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/수_1230"
-                android:layout_row="8"
-                android:layout_column="3"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/수_1300"
-                android:layout_row="9"
-                android:layout_column="3"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/수_1330"
-                android:layout_row="10"
-                android:layout_column="3"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/수_1400"
-                android:layout_row="11"
-                android:layout_column="3"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/수_1430"
-                android:layout_row="12"
-                android:layout_column="3"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/수_1500"
-                android:layout_row="13"
-                android:layout_column="3"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/수_1530"
-                android:layout_row="14"
-                android:layout_column="3"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/수_1600"
-                android:layout_row="15"
-                android:layout_column="3"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/수_1630"
-                android:layout_row="16"
-                android:layout_column="3"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/수_1700"
-                android:layout_row="17"
-                android:layout_column="3"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/수_1730"
-                android:layout_row="18"
-                android:layout_column="3"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/수_1800"
-                android:layout_row="19"
-                android:layout_column="3"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-
-            <!-- wed -->
-
-            <TextView
-                android:id="@+id/목_0900"
-                android:layout_row="1"
-                android:layout_column="4"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/목_0930"
-                android:layout_row="2"
-                android:layout_column="4"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/목_1000"
-                android:layout_row="3"
-                android:layout_column="4"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/목_1030"
-                android:layout_row="4"
-                android:layout_column="4"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/목_1100"
-                android:layout_row="5"
-                android:layout_column="4"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/목_1130"
-                android:layout_row="6"
-                android:layout_column="4"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/목_1200"
-                android:layout_row="7"
-                android:layout_column="4"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/목_1230"
-                android:layout_row="8"
-                android:layout_column="4"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/목_1300"
-                android:layout_row="9"
-                android:layout_column="4"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/목_1330"
-                android:layout_row="10"
-                android:layout_column="4"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/목_1400"
-                android:layout_row="11"
-                android:layout_column="4"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/목_1430"
-                android:layout_row="12"
-                android:layout_column="4"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/목_1500"
-                android:layout_row="13"
-                android:layout_column="4"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/목_1530"
-                android:layout_row="14"
-                android:layout_column="4"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/목_1600"
-                android:layout_row="15"
-                android:layout_column="4"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/목_1630"
-                android:layout_row="16"
-                android:layout_column="4"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/목_1700"
-                android:layout_row="17"
-                android:layout_column="4"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/목_1730"
-                android:layout_row="18"
-                android:layout_column="4"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/목_1800"
-                android:layout_row="19"
-                android:layout_column="4"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-
-            <!-- thu -->
-
-            <TextView
-                android:id="@+id/금_0900"
-                android:layout_row="1"
-                android:layout_column="5"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/금_0930"
-                android:layout_row="2"
-                android:layout_column="5"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/금_1000"
-                android:layout_row="3"
-                android:layout_column="5"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/금_1030"
-                android:layout_row="4"
-                android:layout_column="5"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/금_1100"
-                android:layout_row="5"
-                android:layout_column="5"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/금_1130"
-                android:layout_row="6"
-                android:layout_column="5"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/금_1200"
-                android:layout_row="7"
-                android:layout_column="5"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/금_1230"
-                android:layout_row="8"
-                android:layout_column="5"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/금_1300"
-                android:layout_row="9"
-                android:layout_column="5"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/금_1330"
-                android:layout_row="10"
-                android:layout_column="5"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/금_1400"
-                android:layout_row="11"
-                android:layout_column="5"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/금_1430"
-                android:layout_row="12"
-                android:layout_column="5"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/금_1500"
-                android:layout_row="13"
-                android:layout_column="5"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/금_1530"
-                android:layout_row="14"
-                android:layout_column="5"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/금_1600"
-                android:layout_row="15"
-                android:layout_column="5"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/금_1630"
-                android:layout_row="16"
-                android:layout_column="5"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/금_1700"
-                android:layout_row="17"
-                android:layout_column="5"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/금_1730"
-                android:layout_row="18"
-                android:layout_column="5"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <TextView
-                android:id="@+id/금_1800"
-                android:layout_row="19"
-                android:layout_column="5"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="10dp"
-                android:width="64dp"
-                android:fontFamily="@font/btn_font2" />
-            <!-- Continue for all rows and columns -->
-        </GridLayout>
-
-
-</androidx.core.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
     <!-- 고정된 헤더 행 -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/lecture_box"
@@ -1288,16 +1488,16 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-<!--        <Button-->
-<!--        android:id="@+id/lecture_register"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginBottom="4dp"-->
-<!--        android:text="파일 등록"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.498"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--            tools:ignore="MissingConstraints,UnknownId" />-->
+    <!--        <Button-->
+    <!--        android:id="@+id/lecture_register"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginBottom="4dp"-->
+    <!--        android:text="파일 등록"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.498"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--            tools:ignore="MissingConstraints,UnknownId" />-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
