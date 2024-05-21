@@ -57,7 +57,7 @@
     </string-array>
 
     <string-array name="예외">
-        <item>전체</item>
+        <item>전공 오류</item>
     </string-array>
 
     <string-array name="grade">

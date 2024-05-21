@@ -125,6 +125,7 @@ public class ScheduleActivity extends AppCompatActivity {
         et_HRD = findViewById(R.id.et_HRD);
         btn_create = (Button) findViewById(R.id.btn_create);
 
+        //전공에 따라 Spinner 설정
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("KoreatechFairy4/User/" + userId);
         userRef.child("major").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -149,6 +150,7 @@ public class ScheduleActivity extends AppCompatActivity {
             }
         });
 
+        //시간표 추천 버튼
         btn_create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -183,6 +185,9 @@ public class ScheduleActivity extends AppCompatActivity {
                         MSCCredit, HRDCredit);
                 
                 //추천 알고리즘 구현
+
+
+
             }
         });
 
@@ -200,6 +205,8 @@ public class ScheduleActivity extends AppCompatActivity {
 //                        repository.save(lectures);
 //                    }
 //                });
+
+        // 시간표 알고리즘 부분 ---------------------------------------------------------
 
         recyclerView = findViewById(R.id.schedule_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
