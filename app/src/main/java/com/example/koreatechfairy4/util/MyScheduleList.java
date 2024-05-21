@@ -78,4 +78,17 @@ public class MyScheduleList {
     public void addLecture(LectureDto lecture) {
         lectureList.add(lecture);
     }
+
+    public void removeLecture(LectureDto lecture) {
+        lectureList.remove(lecture);
+    }
+
+    public void removeTime(List<DayAndTimes> dayAndTimes) {
+        for(DayAndTimes dat : dayAndTimes) {
+            String day = dat.getDays();
+            for(String time : dat.getTimeList()) {
+                timeTable.get(day).remove(time);
+            }
+        }
+    }
 }

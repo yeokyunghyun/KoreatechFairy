@@ -1,12 +1,14 @@
 package com.example.koreatechfairy4;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
@@ -26,8 +28,8 @@ import com.example.koreatechfairy4.util.DayAndTimes;
 import com.example.koreatechfairy4.util.MyScheduleList;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 public class ScheduleActivity extends AppCompatActivity {
     private String[][] timeTab = {
@@ -57,10 +59,14 @@ public class ScheduleActivity extends AppCompatActivity {
     private ImageButton schedule_back;
     private LectureRepository repository;
     private RecyclerView recyclerView;
+    private RecyclerView myScheduleRecyclerView;
     private LectureAdapter lectureAdapter;
+    private LectureAdapter myScheduleAdapter;
     private List<LectureDto> lectureList;
-    private MyScheduleList myScheduleList = MyScheduleList.getInstance();
+    private List<LectureDto> myScheduleList = new ArrayList<>();
+    private MyScheduleList myScheduleManager = MyScheduleList.getInstance();
     private TextView scheduleText;
+    private Random random = new Random();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,99 +126,80 @@ public class ScheduleActivity extends AppCompatActivity {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 LinearLayoutManager.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
+
+        // 두 번째 RecyclerView 설정
+        myScheduleRecyclerView = findViewById(R.id.my_schedule_list);
+        myScheduleRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        myScheduleAdapter = new LectureAdapter(myScheduleList, lecture -> {
+            // 여기다가 클릭했을 때 반응 MyScheduleList에 있는 거 없애고 myScheduleList에 있는 객체 없애고 recyclerView한테 말해주고
+            String time = lecture.getTime();
+            List<DayAndTimes> dayAndTimes = changeToDayAndTimes(time);
+            myScheduleList.remove(lecture);
+            myScheduleManager.removeLecture(lecture);
+            myScheduleManager.removeTime(dayAndTimes);
+            for (DayAndTimes dat : dayAndTimes) {
+                String day = dat.getDays();
+                String scheduleDay = day + "_";
+                for (String t : dat.getTimeList()) {
+                    String scheduleId = scheduleDay + t;
+                    int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
+                    scheduleText = findViewById(resId);
+                    scheduleText.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+                }
+            }
+            myScheduleAdapter.notifyDataSetChanged();
+        });
+        myScheduleRecyclerView.setAdapter(myScheduleAdapter);
+
         repository.getLectureDtoList(new LectureRepository.DataCallback() {
             @Override
             public void onCallback(List<LectureDto> lectureList) {
                 lectureAdapter = new LectureAdapter(lectureList, lecture -> {
                     //객체를 클릭했을 시에 반응
-                    if (!lecture.isClicked()) { //클릭이 안된 상태
-                        // 이름 겹치는 경우
-                        if (myScheduleList.isDuplicateName(lecture.getName())) {
-                            // 중복 메시지 출력
-                        }
-                        else {
-                            // time을 변환시키는 과정 필요
-                            String time = lecture.getTime();
-                            if (!time.isEmpty()) {
-                                String days = String.valueOf(time.charAt(0)); // 첫 요일
-                                String[] splitLectureTime = time.split(",");
-                                List<DayAndTimes> dayAndTimes = new ArrayList<>();
+                    // 이름 겹치는 경우
+                    if (myScheduleManager.isDuplicateName(lecture.getName())) {
+                        // 중복 메시지 출력
+                    } else {
+                        // time을 변환시키는 과정 필요
+                        String time = lecture.getTime();
+                        if (!time.isEmpty()) {
+                            List<DayAndTimes> dayAndTimes = changeToDayAndTimes(time);
 
-                                for (String lectureTime : splitLectureTime) {
-                                    if (!(lectureTime.charAt(0) >= '0' && lectureTime.charAt(0) <= '9')) {
-                                        days = String.valueOf(lectureTime.charAt(0));
-                                    }
-                                    List<String> timeList = new ArrayList<>();
+                            // dayAndTime내부에 것들 비교하면서 시간 중복 체크
+                            if (myScheduleManager.isDuplicateTime(dayAndTimes)) {
+                                // 시간 중복 메시지 출력
+                            } else {
+                                int minColorValue = 128;
+                                int red = random.nextInt(128) + minColorValue;
+                                int green = random.nextInt(128) + minColorValue;
+                                int blue = random.nextInt(128) + minColorValue;
+                                // 다 되는 경우
+                                myScheduleManager.addLecture(lecture);
+                                for (DayAndTimes dat : dayAndTimes) {
+                                    String day = dat.getDays();
+                                    String scheduleDay = day + "_";
+                                    int randomColor = Color.rgb(red, green, blue);
 
-                                    // ~로 나눠서 시간 추출
-                                    String[] splitTilde = lectureTime.split("~");
-                                    int firstLength = splitTilde[0].length();
-                                    String firstTime = splitTilde[0].substring(firstLength - 3, firstLength);
-                                    String secondTime = splitTilde[1].substring(0, 3);
-//                                Log.d("days", days);
-//                                Log.d("firstTime", firstTime);
-//                                Log.d("secondTime", secondTime);
-
-                                    boolean isChecked = false;
-                                    for (int i = 0; i < timeTab.length; ++i) {
-                                        if (firstTime.equals(timeTab[i][0])) {
-                                            isChecked = true;
-                                            for (int j = i; j < timeTab.length; ++j) {
-                                                timeList.add(timeTab[j][1]);
-                                                if (secondTime.equals(timeTab[j][0])) break;
-                                            }
-                                        }
-                                        if (isChecked) break;
-                                    }
-                                    if (!isChecked) {
-                                        timeList.add("1800");
-                                    }
-
-                                    dayAndTimes.add(new DayAndTimes(days, timeList));
+                                    for (String t : dat.getTimeList()) {
+                                        myScheduleManager.addTime(day, t);
+                                        String scheduleId = scheduleDay + t;
+                                        int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
+                                        Log.d("packageName", getPackageName());
+                                        scheduleText = findViewById(resId);
+                                        scheduleText.setBackgroundColor(randomColor);                                    }
                                 }
+                                //2번 째 RecyclerView
+                                myScheduleList.add(lecture);
+                                myScheduleAdapter.notifyDataSetChanged();
 
-                                /*for (DayAndTimes d : dayAndTimes) {
-                                    Log.d("Days", d.getDays());
-                                    for (String t : d.getTimeList()) {
-                                        Log.d("time", t);
-                                    }
-                                }*/
-                                // dayAndTime내부에 것들 비교하면서 시간 중복 체크
-                                if(myScheduleList.isDuplicateTime(dayAndTimes)) {
-                                    // 시간 중복 메시지 출력
-                                }
-                                else {
-                                    // 다 되는 경우
-                                    myScheduleList.addLecture(lecture);
-                                    for(DayAndTimes dat : dayAndTimes) {
-                                        String day = dat.getDays();
-                                        String scheduleDay = day + "_";
-                                        for(String t : dat.getTimeList()) {
-                                            myScheduleList.addTime(day, t);
-                                            String scheduleId = scheduleDay + t;
-                                            int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
-                                            Log.d("packageName", getPackageName());
-                                            scheduleText = findViewById(resId);
+                                // text 쓰기
 
-                                            scheduleText.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.orange));
-                                        }
-                                    }
-
-                                    lecture.switchIsClicked();
-                                    
-                                    // 시간표 색칠
-                                    
-                                }
-
-                            } else { // 시간이 비어있음
-                                // 시간이 없다 메시지 출력
                             }
-                        }
-                    } else { //클릭이 돼서 들어가있음
 
-//                        MyScheduleList.remove(lecture);
-//                        resetTable(lecture);
-                        lecture.switchIsClicked();
+                        } else { // 시간이 비어있음
+                            // 시간이 없다 메시지 출력
+                        }
                     }
                 });
                 recyclerView.setAdapter(lectureAdapter);
@@ -227,4 +214,42 @@ public class ScheduleActivity extends AppCompatActivity {
         getContentLauncher.launch(intent);
     }
 
+    private List<DayAndTimes> changeToDayAndTimes(String time) {
+        String days = String.valueOf(time.charAt(0)); // 첫 요일
+        String[] splitLectureTime = time.split(",");
+
+        List<DayAndTimes> dayAndTimes = new ArrayList<>();
+
+        for (String lectureTime : splitLectureTime) {
+            if (!(lectureTime.charAt(0) >= '0' && lectureTime.charAt(0) <= '9')) {
+                days = String.valueOf(lectureTime.charAt(0));
+            }
+            List<String> timeList = new ArrayList<>();
+
+            // ~로 나눠서 시간 추출
+            String[] splitTilde = lectureTime.split("~");
+            int firstLength = splitTilde[0].length();
+            String firstTime = splitTilde[0].substring(firstLength - 3, firstLength);
+            String secondTime = splitTilde[1].substring(0, 3);
+
+            boolean isChecked = false;
+            for (int i = 0; i < timeTab.length; ++i) {
+                if (firstTime.equals(timeTab[i][0])) {
+                    isChecked = true;
+                    for (int j = i; j < timeTab.length; ++j) {
+                        timeList.add(timeTab[j][1]);
+                        if (secondTime.equals(timeTab[j][0])) break;
+                    }
+                }
+                if (isChecked) break;
+            }
+            if (!isChecked) {
+                timeList.add("1800");
+            }
+
+            dayAndTimes.add(new DayAndTimes(days, timeList));
+        }
+
+        return dayAndTimes;
+    }
 }
