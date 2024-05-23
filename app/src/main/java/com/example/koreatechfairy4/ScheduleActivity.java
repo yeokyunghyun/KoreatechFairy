@@ -27,7 +27,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.koreatechfairy4.adapter.LectureAdapter;
+import com.example.koreatechfairy4.candidate.GeneralCandi;
 import com.example.koreatechfairy4.candidate.HRDCandi;
+import com.example.koreatechfairy4.candidate.MSCCandi;
 import com.example.koreatechfairy4.candidate.MajorCandi;
 import com.example.koreatechfairy4.dto.GradeDto;
 import com.example.koreatechfairy4.dto.LectureDto;
@@ -92,6 +94,8 @@ public class ScheduleActivity extends AppCompatActivity {
     private List<LectureDto> majorList, HRDList, MSCList, generalList;
     private MajorCandi majorCandi = new MajorCandi();
     private HRDCandi hrdCandi = new HRDCandi();
+    private GeneralCandi generalCandi = new GeneralCandi();
+    private MSCCandi mscCandi = new MSCCandi();
 
 
     @Override
@@ -279,8 +283,29 @@ public class ScheduleActivity extends AppCompatActivity {
 
                                     break;
 
-                                case "교양":
-
+                                case "교양": //2학년을 넘으면 0학년으로??
+//                                    for (DataSnapshot gradeSnapshot : majorSnapshot.getChildren()) {
+//                                        if (gradeSnapshot.getKey().equals(grade)) {
+//                                            for (DataSnapshot data : gradeSnapshot.getChildren()) {
+//                                                if (data.getKey().equals("필수")) {
+//                                                    //재귀 시작
+//                                                    testList = new ArrayList<>();
+//                                                    int totalRequiredCredit = totalRequiredCredit(data);
+//                                                    for (DataSnapshot creditSnapshot : data.getChildren()) {
+//                                                        List<DataSnapshot> lectureNames = new ArrayList<>();
+//                                                        for (DataSnapshot d : creditSnapshot.getChildren()) {
+//                                                            lectureNames.add(d);
+//                                                        }
+//                                                        test(testList, lectureNames, generalCredit, generalCredit, 0, new ArrayList<LectureDto>(), gradeSnapshot, totalRequiredCredit);
+//                                                    }
+//                                                    generalCandi.setGeneralList(testList);
+//                                                    Log.d("count", String.valueOf(generalCandi.getGeneralList().size()));
+//                                                    Log.d("lecture", generalCandi.getGeneralList().toString());
+//
+//                                                }
+//                                            }
+//                                        }
+//                                    }
                                     break;
 
                                 case "HRD":
@@ -309,7 +334,28 @@ public class ScheduleActivity extends AppCompatActivity {
                                     break;
 
                                 case "MSC":
+                                    for (DataSnapshot gradeSnapshot : majorSnapshot.getChildren()) {
+                                        if (gradeSnapshot.getKey().equals(grade)) {
+                                            for (DataSnapshot data : gradeSnapshot.getChildren()) {
+                                                if (data.getKey().equals("필수")) {
+                                                    //재귀 시작
+                                                    testList = new ArrayList<>();
+                                                    int totalRequiredCredit = totalRequiredCredit(data);
+                                                    for (DataSnapshot creditSnapshot : data.getChildren()) {
+                                                        List<DataSnapshot> lectureNames = new ArrayList<>();
+                                                        for (DataSnapshot d : creditSnapshot.getChildren()) {
+                                                            lectureNames.add(d);
+                                                        }
+                                                        test(testList, lectureNames, MSCCredit, MSCCredit, 0, new ArrayList<LectureDto>(), gradeSnapshot, totalRequiredCredit);
+                                                    }
+                                                    mscCandi.setMSCList(testList);
+                                                    Log.d("count", String.valueOf(mscCandi.getMSCList().size()));
+                                                    Log.d("lecture", mscCandi.getMSCList().toString());
 
+                                                }
+                                            }
+                                        }
+                                    }
                                     break;
                             }
                         }

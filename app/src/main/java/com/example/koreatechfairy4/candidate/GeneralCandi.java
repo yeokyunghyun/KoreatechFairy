@@ -11,4 +11,12 @@ public class GeneralCandi {
     public GeneralCandi() {
         generalList = new ArrayList<>();
     }
+
+    public List<List<LectureDto>> getGeneralList() {
+        return generalList;
+    }
+
+    public void setGeneralList(List<List<LectureDto>> generalList) {
+        this.generalList = generalList;
+    }
 }

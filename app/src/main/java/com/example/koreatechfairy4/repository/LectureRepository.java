@@ -65,7 +65,7 @@ public class LectureRepository {
         else if (lecture.getDepartment().contains("교양")) {  //교양 - MSC - 학년 - 필수 - 학점 - 과목
             if (lecture.getDomain().contains("MSC")) {
                 userRef.child("MSC").child(lecture.getGrade()).child("필수")
-                        .child(String.valueOf(lecture.getCredit())).child(lecture.getName()).setValue(lecture);
+                        .child(String.valueOf(lecture.getCredit())).child(lecture.getName()).child(lecture.getClasses()).setValue(lecture);
             } else {  //      - 교양 - 필수/선택 - 학점 - 과목
                 putLecture(lecture, "교양");
             }
