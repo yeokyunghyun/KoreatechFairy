@@ -27,6 +27,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.koreatechfairy4.adapter.LectureAdapter;
+import com.example.koreatechfairy4.candidate.HRDCandi;
+import com.example.koreatechfairy4.candidate.MajorCandi;
 import com.example.koreatechfairy4.dto.GradeDto;
 import com.example.koreatechfairy4.dto.LectureDto;
 import com.example.koreatechfairy4.repository.LectureRepository;
@@ -88,6 +90,8 @@ public class ScheduleActivity extends AppCompatActivity {
     private Random random = new Random();
     private List<String> myLectures = new ArrayList<>();
     private List<LectureDto> majorList, HRDList, MSCList, generalList;
+    private MajorCandi majorCandi = new MajorCandi();
+    private HRDCandi hrdCandi = new HRDCandi();
 
 
     @Override
@@ -230,26 +234,31 @@ public class ScheduleActivity extends AppCompatActivity {
                         for (DataSnapshot majorSnapshot : snapshot.getChildren()) {
                             List<List<LectureDto>> testList;
                             switch (majorSnapshot.getKey()) {
-                                case "컴퓨터공학부" :
-                                    for (DataSnapshot concentrationSnapshot : majorSnapshot.getChildren()) {
-                                        if (concentrationSnapshot.getKey().equals(concentration)) {
-                                            for (DataSnapshot gradeSnapshot : concentrationSnapshot.getChildren()) {
-                                                if (gradeSnapshot.getKey().equals(grade)) {
-                                                    for (DataSnapshot data : gradeSnapshot.getChildren()) {
-                                                        if (data.getKey().equals("필수")) {
-                                                            //재귀 시작
-                                                            testList = new ArrayList<>();
-                                                            int totalRequiredCredit = totalRequiredCredit(data);
-                                                            for (DataSnapshot creditSnapshot : data.getChildren()) {
-                                                                List<DataSnapshot> lectureNames = new ArrayList<>();
-                                                                for (DataSnapshot d : creditSnapshot.getChildren()) {
-                                                                    lectureNames.add(d);
+                                case "컴퓨터공학부":
+                                case "산업경영학부":
+                                case "건축공학부":
+                                case "고용서비스정책학과":
+                                case "기계공학부":
+                                case "디자인공학부":
+                                    if (userMajor.equals(majorSnapshot.getKey())) {
+                                        for (DataSnapshot concentrationSnapshot : majorSnapshot.getChildren()) {
+                                            if (concentrationSnapshot.getKey().equals(concentration)) {
+                                                for (DataSnapshot gradeSnapshot : concentrationSnapshot.getChildren()) {
+                                                    if (gradeSnapshot.getKey().equals(grade)) {
+                                                        for (DataSnapshot data : gradeSnapshot.getChildren()) {
+                                                            if (data.getKey().equals("필수")) {
+                                                                //재귀 시작
+                                                                testList = new ArrayList<>();
+                                                                int totalRequiredCredit = totalRequiredCredit(data);
+                                                                for (DataSnapshot creditSnapshot : data.getChildren()) {
+                                                                    List<DataSnapshot> lectureNames = new ArrayList<>();
+                                                                    for (DataSnapshot d : creditSnapshot.getChildren()) {
+                                                                        lectureNames.add(d);
+                                                                    }
+                                                                    test(testList, lectureNames, majorCredit, majorCredit, 0, new ArrayList<LectureDto>(), gradeSnapshot, totalRequiredCredit);
                                                                 }
-                                                                test(testList, lectureNames, majorCredit, majorCredit,0, new ArrayList<LectureDto>(), gradeSnapshot, totalRequiredCredit);
+                                                                majorCandi.setMajorList(testList);
                                                             }
-                                                            Log.d("asd", String.valueOf(testList.size()));
-                                                            Log.d("lecture", testList.toString());
-
                                                         }
                                                     }
                                                 }
@@ -258,15 +267,48 @@ public class ScheduleActivity extends AppCompatActivity {
                                     }
                                     break;
 
-                                    case "교양" :
+                                case "메카트로닉스공학부":
 
                                     break;
 
-                                case "HRD" :
+                                case "에너지신소재화학공학부":
 
                                     break;
 
-                                case "MSC" :
+                                case "전기전자통신공학부":
+
+                                    break;
+
+                                case "교양":
+
+                                    break;
+
+                                case "HRD":
+                                    for (DataSnapshot gradeSnapshot : majorSnapshot.getChildren()) {
+                                        if (gradeSnapshot.getKey().equals(grade)) {
+                                            for (DataSnapshot data : gradeSnapshot.getChildren()) {
+                                                if (data.getKey().equals("필수")) {
+                                                    //재귀 시작
+                                                    testList = new ArrayList<>();
+                                                    int totalRequiredCredit = totalRequiredCredit(data);
+                                                    for (DataSnapshot creditSnapshot : data.getChildren()) {
+                                                        List<DataSnapshot> lectureNames = new ArrayList<>();
+                                                        for (DataSnapshot d : creditSnapshot.getChildren()) {
+                                                            lectureNames.add(d);
+                                                        }
+                                                        test(testList, lectureNames, HRDCredit, HRDCredit, 0, new ArrayList<LectureDto>(), gradeSnapshot, totalRequiredCredit);
+                                                    }
+                                                    hrdCandi.setHRDList(testList);
+                                                    Log.d("count", String.valueOf(hrdCandi.getHRDList().size()));
+                                                    Log.d("lecture", hrdCandi.getHRDList().toString());
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                    break;
+
+                                case "MSC":
 
                                     break;
                             }
@@ -472,9 +514,9 @@ public class ScheduleActivity extends AppCompatActivity {
             }
             return;
         }
-        if (remainingCredit == majorCredit-totalRequiredCredit) {
+        if (remainingCredit == majorCredit - totalRequiredCredit) {
             //list.add(new ArrayList<>(current));
-            addSelectiveCourses(list, current, majorCredit-totalRequiredCredit, gradeSnapshot);
+            addSelectiveCourses(list, current, majorCredit - totalRequiredCredit, gradeSnapshot);
         }
         if (idx >= lectureNames.size()) return;
 
@@ -488,12 +530,12 @@ public class ScheduleActivity extends AppCompatActivity {
             LectureDto lecture = lectureSnapshot.getValue(LectureDto.class);
             if (isPossible(current, lecture) && !myLectures.contains(lecture.getName())) {
                 current.add(lecture);
-                test(list, lectureNames, majorCredit, remainingCredit-lecture.getCredit(), idx+1, current, gradeSnapshot, totalRequiredCredit);
-                current.remove(current.size()-1);
+                test(list, lectureNames, majorCredit, remainingCredit - lecture.getCredit(), idx + 1, current, gradeSnapshot, totalRequiredCredit);
+                current.remove(current.size() - 1);
             }
         }
-        test(list, lectureNames, majorCredit, remainingCredit, idx+1, current, gradeSnapshot, totalRequiredCredit);
-        
+        test(list, lectureNames, majorCredit, remainingCredit, idx + 1, current, gradeSnapshot, totalRequiredCredit);
+
     }
 
     private void addSelectiveCourses(List<List<LectureDto>> list, List<LectureDto> current, int remainingCredit, DataSnapshot gradeSnapshot) {

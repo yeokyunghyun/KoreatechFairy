@@ -11,4 +11,12 @@ public class HRDCandi {
     public HRDCandi() {
         HRDList = new ArrayList<>();
     }
+
+    public List<List<LectureDto>> getHRDList() {
+        return HRDList;
+    }
+
+    public void setHRDList(List<List<LectureDto>> HRDList) {
+        this.HRDList = HRDList;
+    }
 }
