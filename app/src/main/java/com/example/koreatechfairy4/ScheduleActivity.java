@@ -248,7 +248,7 @@ public class ScheduleActivity extends AppCompatActivity {
                                                                 test(testList, lectureNames, majorCredit, majorCredit,0, new ArrayList<LectureDto>(), gradeSnapshot, totalRequiredCredit);
                                                             }
                                                             Log.d("asd", String.valueOf(testList.size()));
-
+                                                            Log.d("lecture", testList.toString());
 
                                                         }
                                                     }
@@ -467,7 +467,9 @@ public class ScheduleActivity extends AppCompatActivity {
     private void test(List<List<LectureDto>> list, List<DataSnapshot> lectureNames, int majorCredit, int remainingCredit, int idx, List<LectureDto> current, DataSnapshot gradeSnapshot, int totalRequiredCredit) {
         if (remainingCredit < 0) return;
         if (remainingCredit == 0) {
-            list.add(new ArrayList<>(current));
+            if (!list.contains(current)) {
+                list.add(new ArrayList<>(current));
+            }
             return;
         }
         if (remainingCredit == majorCredit-totalRequiredCredit) {
@@ -484,7 +486,7 @@ public class ScheduleActivity extends AppCompatActivity {
 
         for (DataSnapshot lectureSnapshot : classes) {
             LectureDto lecture = lectureSnapshot.getValue(LectureDto.class);
-            if (isPossible(current, lecture)) {
+            if (isPossible(current, lecture) && !myLectures.contains(lecture.getName())) {
                 current.add(lecture);
                 test(list, lectureNames, majorCredit, remainingCredit-lecture.getCredit(), idx+1, current, gradeSnapshot, totalRequiredCredit);
                 current.remove(current.size()-1);
@@ -512,7 +514,9 @@ public class ScheduleActivity extends AppCompatActivity {
     private void addSelectiveCoursesRecursive(List<List<LectureDto>> list, List<LectureDto> current, int remainingCredit, List<DataSnapshot> selectiveCourses, int idx) {
         if (remainingCredit < 0) return;
         if (remainingCredit == 0) {
-            list.add(new ArrayList<>(current));
+            if (!list.contains(current)) {
+                list.add(new ArrayList<>(current));
+            }
             return;
         }
         if (idx >= selectiveCourses.size()) return;
@@ -520,7 +524,7 @@ public class ScheduleActivity extends AppCompatActivity {
         DataSnapshot selectiveCourseSnapshot = selectiveCourses.get(idx);
         for (DataSnapshot lectureSnapshot : selectiveCourseSnapshot.getChildren()) {
             LectureDto lecture = lectureSnapshot.getValue(LectureDto.class);
-            if (isPossible(current, lecture)) {
+            if (isPossible(current, lecture) && !myLectures.contains(lecture.getName())) {
                 current.add(lecture);
                 addSelectiveCoursesRecursive(list, current, remainingCredit - lecture.getCredit(), selectiveCourses, idx + 1);
                 current.remove(current.size() - 1);
@@ -557,7 +561,13 @@ public class ScheduleActivity extends AppCompatActivity {
     private int totalRequiredCredit(DataSnapshot snapshot) {
         int total = 0;
         for (DataSnapshot d : snapshot.getChildren()) {
-            total += Integer.parseInt(d.getKey()) * d.getChildrenCount();
+            int count = 0;
+            for (DataSnapshot ds : d.getChildren()) {
+                if (!myLectures.contains(ds.getKey())) {
+                    ++count;
+                }
+            }
+            total += Integer.parseInt(d.getKey()) * count;
         }
         return total;
     }
