@@ -85,7 +85,12 @@ public class LectureRepository {
                     case "컴퓨터":
                     case "산업":
                     case "고용":
-                        putNotConcentration(lecture, domain);
+                        if (lecture.getDomain().contains("MSC")) {
+                            putMSC(lecture, String.valueOf(domain));
+                        }
+                        else {
+                            putConcentration(lecture, domain, "전체");
+                        }
                         break;
 
                     case "메카": //메카전체, 생시 디시 제건 MSC
@@ -93,7 +98,7 @@ public class LectureRepository {
                             putMSC(lecture, String.valueOf(domain));
                         }
                         else if (lecture.getRegisterDepartment().contains("메카")) {
-                            putConcentration(lecture, domain, "메카");
+                            putConcentration(lecture, domain, "전체");
                         }
                         else if (lecture.getRegisterDepartment().contains("생시")) {
                             putConcentration(lecture, domain, "생산시스템");
@@ -110,7 +115,7 @@ public class LectureRepository {
                             putMSC(lecture, String.valueOf(domain));
                         }
                         else if (lecture.getRegisterDepartment().contains("전통")) {
-                            putConcentration(lecture, domain, "전전통");
+                            putConcentration(lecture, domain, "전체");
                         }
                         else if (lecture.getRegisterDepartment().contains("전기")) {
                             putConcentration(lecture, domain, "전기");
@@ -123,14 +128,43 @@ public class LectureRepository {
                         }
                         break;
                     case "디자인":
-                        if (lecture.getDomain().contains("MSC")) {
-                            putMSC(lecture, String.valueOf(domain));
-                        }
-                        else if (lecture.getRegisterDepartment().contains("디공")) {
-                            putConcentration(lecture, domain, "디자인");
+                        if (lecture.getRegisterDepartment().contains("디공")) {
+                            if (lecture.getDomain().contains("MSC")) {
+                                userRef.child("디자인공학부").child("MSC")
+                                        .child(lecture.getGrade()).child("필수")
+                                        .child(String.valueOf(lecture.getCredit())).child(lecture.getName()).child(lecture.getClasses()).setValue(lecture);
+                            }
+                            else {
+                                if (lecture.getDomain().contains("필수")) {
+                                    userRef.child("디자인공학부").child("전체").child(lecture.getGrade())
+                                            .child("필수").child(String.valueOf(lecture.getCredit()))
+                                            .child(lecture.getName()).child(lecture.getClasses()).setValue(lecture);
+                                }
+                                else {
+                                    userRef.child("디자인공학부").child("전체").child(lecture.getGrade())
+                                            .child("선택").child(String.valueOf(lecture.getCredit()))
+                                            .child(lecture.getName()).child(lecture.getClasses()).setValue(lecture);
+                                }
+                            }
                         }
                         else {
-                            putConcentration(lecture, domain, "건축");
+                            if (lecture.getDomain().contains("MSC")) {
+                                userRef.child("건축공학부").child("MSC")
+                                        .child(lecture.getGrade()).child("필수")
+                                        .child(String.valueOf(lecture.getCredit())).child(lecture.getName()).child(lecture.getClasses()).setValue(lecture);
+                            }
+                            else {
+                                if (lecture.getDomain().contains("필수")) {
+                                    userRef.child("건축공학부").child("전체").child(lecture.getGrade())
+                                            .child("필수").child(String.valueOf(lecture.getCredit()))
+                                            .child(lecture.getName()).child(lecture.getClasses()).setValue(lecture);
+                                }
+                                else {
+                                    userRef.child("건축공학부").child("전체").child(lecture.getGrade())
+                                            .child("선택").child(String.valueOf(lecture.getCredit()))
+                                            .child(lecture.getName()).child(lecture.getClasses()).setValue(lecture);
+                                }
+                            }
                         }
                         break;
                     case "에너지": //전체 = 에화, 에신 화생=응공?
@@ -138,7 +172,7 @@ public class LectureRepository {
                             putMSC(lecture, String.valueOf(domain));
                         }
                         else if (lecture.getRegisterDepartment().contains("에화")) {
-                            putConcentration(lecture, domain, "에신화");
+                            putConcentration(lecture, domain, "전체");
                         }
                         else if (lecture.getRegisterDepartment().contains("에신")) {
                             putConcentration(lecture, domain, "에너지신소재");
@@ -162,24 +196,24 @@ public class LectureRepository {
         return "";
     }
 
-    private void putNotConcentration(LectureDto lecture, MajorDomain domain) {
-        if (lecture.getDomain().contains("MSC")) {
-            putMSC(lecture, String.valueOf(domain));
-        } else {  //학부 - 학년 - 필수/선택 - 학점 - 과목
-            putLecture(lecture, String.valueOf(domain));
-        }
-    }
+//    private void putNotConcentration(LectureDto lecture, MajorDomain domain) {
+//        if (lecture.getDomain().contains("MSC")) {
+//            putMSC(lecture, String.valueOf(domain));
+//        } else {  //학부 - 학년 - 필수/선택 - 학점 - 과목
+//            putLecture(lecture, String.valueOf(domain));
+//        }
+//    }
 
     private void putConcentration(LectureDto lecture, MajorDomain domain, String concentration) {
         if (lecture.getDomain().contains("필수")) {
             userRef.child(String.valueOf(domain)).child(concentration).child(lecture.getGrade())
                     .child("필수").child(String.valueOf(lecture.getCredit()))
-                    .child(lecture.getName()).setValue(lecture);
+                    .child(lecture.getName()).child(lecture.getClasses()).setValue(lecture);
         }
         else {
             userRef.child(String.valueOf(domain)).child(concentration).child(lecture.getGrade())
                     .child("선택").child(String.valueOf(lecture.getCredit()))
-                    .child(lecture.getName()).setValue(lecture);
+                    .child(lecture.getName()).child(lecture.getClasses()).setValue(lecture);
         }
     }
 
@@ -187,18 +221,18 @@ public class LectureRepository {
     private void putMSC(LectureDto lecture, String major) {
         userRef.child(major).child("MSC")
                 .child(lecture.getGrade()).child("필수")
-                .child(String.valueOf(lecture.getCredit())).child(lecture.getName()).setValue(lecture);
+                .child(String.valueOf(lecture.getCredit())).child(lecture.getName()).child(lecture.getClasses()).setValue(lecture);
     }
 
     private void putLecture(LectureDto lecture, String major) {
         if (lecture.getDomain().contains("필수")) {
             userRef.child(major).child(lecture.getGrade())
                     .child("필수").child(String.valueOf(lecture.getCredit()))
-                    .child(lecture.getName()).setValue(lecture);
+                    .child(lecture.getName()).child(lecture.getClasses()).setValue(lecture);
         } else {
             userRef.child(major).child(lecture.getGrade())
                     .child("선택").child(String.valueOf(lecture.getCredit()))
-                    .child(lecture.getName()).setValue(lecture);
+                    .child(lecture.getName()).child(lecture.getClasses()).setValue(lecture);
         }
     }
 

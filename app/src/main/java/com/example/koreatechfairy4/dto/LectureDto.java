@@ -43,7 +43,7 @@ public class LectureDto {
                 ", professor='" + professor + '\'' +
                 ", time='" + time + '\'' +
                 ", registerDepartment='" + registerDepartment + '\'' +
-                '}';
+                '}' + '\n';
     }
 
     public boolean isClicked() {

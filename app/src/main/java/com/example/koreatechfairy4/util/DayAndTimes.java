@@ -1,5 +1,7 @@
 package com.example.koreatechfairy4.util;
 
+import androidx.annotation.Nullable;
+
 import java.util.List;
 
 public class DayAndTimes {
@@ -16,5 +18,13 @@ public class DayAndTimes {
 
     public List<String> getTimeList() {
         return timeList;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (this == obj) return true;
+        if (obj == null | getClass() != obj.getClass()) return false;
+        DayAndTimes o = (DayAndTimes) obj;
+        return days.equals(o.days) && timeList.equals(o.timeList);
     }
 }

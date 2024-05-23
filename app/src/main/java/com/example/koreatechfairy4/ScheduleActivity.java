@@ -2,6 +2,7 @@ package com.example.koreatechfairy4;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,10 +12,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
@@ -29,10 +31,10 @@ import com.example.koreatechfairy4.dto.GradeDto;
 import com.example.koreatechfairy4.dto.LectureDto;
 import com.example.koreatechfairy4.repository.LectureRepository;
 import com.example.koreatechfairy4.util.FilteringConditions;
-import com.example.koreatechfairy4.util.LectureCrawler;
-import com.example.koreatechfairy4.util.ScheduleCrawler;
 import com.example.koreatechfairy4.util.DayAndTimes;
+import com.example.koreatechfairy4.util.LectureCrawler;
 import com.example.koreatechfairy4.util.MyScheduleList;
+import com.example.koreatechfairy4.util.ScheduleCrawler;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +42,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -83,6 +86,9 @@ public class ScheduleActivity extends AppCompatActivity {
     private EditText et_major, et_general, et_MSC, et_HRD;
     private Button btn_create;
     private Random random = new Random();
+    private List<String> myLectures = new ArrayList<>();
+    private List<LectureDto> majorList, HRDList, MSCList, generalList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +101,8 @@ public class ScheduleActivity extends AppCompatActivity {
             return insets;
         });
 
-//        lecture_register = findViewById(R.id.lecture_register);
-//        lecture_register.setOnClickListener(v -> openDocument());
+        lecture_register = findViewById(R.id.lecture_register);
+        lecture_register.setOnClickListener(v -> openDocument());
 
 
         //상단 툴바 시작
@@ -156,16 +162,42 @@ public class ScheduleActivity extends AppCompatActivity {
             }
         });
 
+        //내 강의 리스트 가져오기
+        userRef.child("lectures").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    myLectures.clear();
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        myLectures.add(dataSnapshot.getKey());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        HRDList = new ArrayList<>();
+        MSCList = new ArrayList<>();
+        generalList = new ArrayList<>();
+
+        DatabaseReference scheduleRef = FirebaseDatabase.getInstance().getReference(reference);
+
+
+        List<LectureDto> testList = new ArrayList<>();
         //시간표 추천 버튼
         btn_create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String grade = gradeSpinner.getSelectedItem().toString();
                 String concentration = concentrationSpinner.getSelectedItem().toString();
-                int majorCredit = Integer.parseInt(et_major.getText().toString());
-                int generalCredit = Integer.parseInt(et_general.getText().toString());
-                int MSCCredit = Integer.parseInt(et_MSC.getText().toString());
-                int HRDCredit = Integer.parseInt(et_HRD.getText().toString());
+                int majorCredit = Integer.parseInt(converter(et_major.getText().toString()));
+                int generalCredit = Integer.parseInt(converter(et_general.getText().toString()));
+                int MSCCredit = Integer.parseInt(converter(et_MSC.getText().toString()));
+                int HRDCredit = Integer.parseInt(converter(et_HRD.getText().toString()));
 
                 userRef.child("major").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -189,30 +221,83 @@ public class ScheduleActivity extends AppCompatActivity {
                 FilteringConditions filteringConditions
                         = new FilteringConditions(grade, userMajor, concentration, majorCredit, generalCredit,
                         MSCCredit, HRDCredit);
-                
+
                 //추천 알고리즘 구현
 
+                scheduleRef.addListenerForSingleValueEvent(new ValueEventListener() {//이 아래 전공들 있음
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot majorSnapshot : snapshot.getChildren()) {
+                            List<List<LectureDto>> testList;
+                            switch (majorSnapshot.getKey()) {
+                                case "컴퓨터공학부" :
+                                    for (DataSnapshot concentrationSnapshot : majorSnapshot.getChildren()) {
+                                        if (concentrationSnapshot.getKey().equals(concentration)) {
+                                            for (DataSnapshot gradeSnapshot : concentrationSnapshot.getChildren()) {
+                                                if (gradeSnapshot.getKey().equals(grade)) {
+                                                    for (DataSnapshot data : gradeSnapshot.getChildren()) {
+                                                        if (data.getKey().equals("필수")) {
+                                                            //재귀 시작
+                                                            testList = new ArrayList<>();
+                                                            int totalRequiredCredit = totalRequiredCredit(data);
+                                                            for (DataSnapshot creditSnapshot : data.getChildren()) {
+                                                                List<DataSnapshot> lectureNames = new ArrayList<>();
+                                                                for (DataSnapshot d : creditSnapshot.getChildren()) {
+                                                                    lectureNames.add(d);
+                                                                }
+                                                                test(testList, lectureNames, majorCredit, majorCredit,0, new ArrayList<LectureDto>(), gradeSnapshot, totalRequiredCredit);
+                                                            }
+                                                            Log.d("asd", String.valueOf(testList.size()));
+
+
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    break;
+
+                                    case "교양" :
+
+                                    break;
+
+                                case "HRD" :
+
+                                    break;
+
+                                case "MSC" :
+
+                                    break;
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
 
 
             }
         });
 
+        //강의목록 추가 버튼
+        getContentLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                        Uri uri = result.getData().getData();
+                        // 이 URI를 사용하여 파일 내용을 읽습니다.
+                        GradeDto userGrade = LectureCrawler.crawlLecture(getApplicationContext(), uri, userId);
+                        repository.remove();
+                        List<LectureDto> lectures = ScheduleCrawler.crawlLecture(getApplicationContext(), uri);
+                        repository.save(lectures);
+                    }
+                });
 
-
-
-//        getContentLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-//                result -> {
-//                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-//                        Uri uri = result.getData().getData();
-//                        // 이 URI를 사용하여 파일 내용을 읽습니다.
-//                        GradeDto userGrade = LectureCrawler.crawlLecture(getApplicationContext(), uri);
-//                        repository.remove();
-//                        List<LectureDto> lectures = ScheduleCrawler.crawlLecture(getApplicationContext(), uri);
-//                        repository.save(lectures);
-//                    }
-//                });
-
-        // 시간표 알고리즘 부분 ---------------------------------------------------------
+        //시간표 알고리즘 부분 ---------------------------------------------------------
 
         recyclerView = findViewById(R.id.schedule_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -264,7 +349,7 @@ public class ScheduleActivity extends AppCompatActivity {
                             // dayAndTime내부에 것들 비교하면서 시간 중복 체크
                             if (myScheduleManager.isDuplicateTime(dayAndTimes)) {
                                 // 시간 중복 메시지 출력
-                            } else {
+                            } else { //색칠 부분
                                 int minColorValue = 128;
                                 int red = random.nextInt(128) + minColorValue;
                                 int green = random.nextInt(128) + minColorValue;
@@ -282,7 +367,8 @@ public class ScheduleActivity extends AppCompatActivity {
                                         int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
                                         Log.d("packageName", getPackageName());
                                         scheduleText = findViewById(resId);
-                                        scheduleText.setBackgroundColor(randomColor);                                    }
+                                        scheduleText.setBackgroundColor(randomColor);
+                                    }
                                 }
                                 //2번 째 RecyclerView
                                 myScheduleList.add(lecture);
@@ -308,6 +394,7 @@ public class ScheduleActivity extends AppCompatActivity {
         intent.setType("*/*"); // XLSX 파일 타입
         getContentLauncher.launch(intent);
     }
+
     private void setSpinnerValues(String major) {
         int arrayId = getResources().getIdentifier(major, "array", getPackageName());
 
@@ -361,5 +448,117 @@ public class ScheduleActivity extends AppCompatActivity {
         }
 
         return dayAndTimes;
+    }
+
+    private String converter(String str) {
+        if (str.equals("")) return "0";
+        return str;
+    }
+
+    private int currentCredit(List<LectureDto> list) {
+        int currCredit = 0;
+        for (LectureDto lectureDto : list) {
+            currCredit += lectureDto.getCredit();
+        }
+
+        return currCredit;
+    }
+
+    private void test(List<List<LectureDto>> list, List<DataSnapshot> lectureNames, int majorCredit, int remainingCredit, int idx, List<LectureDto> current, DataSnapshot gradeSnapshot, int totalRequiredCredit) {
+        if (remainingCredit < 0) return;
+        if (remainingCredit == 0) {
+            list.add(new ArrayList<>(current));
+            return;
+        }
+        if (remainingCredit == majorCredit-totalRequiredCredit) {
+            //list.add(new ArrayList<>(current));
+            addSelectiveCourses(list, current, majorCredit-totalRequiredCredit, gradeSnapshot);
+        }
+        if (idx >= lectureNames.size()) return;
+
+//        String name = lectureNames.get(idx).getValue(String.class);
+        List<DataSnapshot> classes = new ArrayList<>();
+        for (DataSnapshot d : lectureNames.get(idx).getChildren()) {
+            classes.add(d);
+        }
+
+        for (DataSnapshot lectureSnapshot : classes) {
+            LectureDto lecture = lectureSnapshot.getValue(LectureDto.class);
+            if (isPossible(current, lecture)) {
+                current.add(lecture);
+                test(list, lectureNames, majorCredit, remainingCredit-lecture.getCredit(), idx+1, current, gradeSnapshot, totalRequiredCredit);
+                current.remove(current.size()-1);
+            }
+        }
+        test(list, lectureNames, majorCredit, remainingCredit, idx+1, current, gradeSnapshot, totalRequiredCredit);
+        
+    }
+
+    private void addSelectiveCourses(List<List<LectureDto>> list, List<LectureDto> current, int remainingCredit, DataSnapshot gradeSnapshot) {
+        // 선택 과목 목록을 가져옵니다.
+        DataSnapshot selectiveCoursesSnapshot = gradeSnapshot.child("선택");
+        if (!selectiveCoursesSnapshot.exists()) return;
+
+        List<DataSnapshot> selectiveCourses = new ArrayList<>();
+        for (DataSnapshot d : selectiveCoursesSnapshot.getChildren()) {
+            for (DataSnapshot ds : d.getChildren()) {
+                selectiveCourses.add(ds);
+            }
+        }
+
+        addSelectiveCoursesRecursive(list, current, remainingCredit, selectiveCourses, 0);
+    }
+
+    private void addSelectiveCoursesRecursive(List<List<LectureDto>> list, List<LectureDto> current, int remainingCredit, List<DataSnapshot> selectiveCourses, int idx) {
+        if (remainingCredit < 0) return;
+        if (remainingCredit == 0) {
+            list.add(new ArrayList<>(current));
+            return;
+        }
+        if (idx >= selectiveCourses.size()) return;
+
+        DataSnapshot selectiveCourseSnapshot = selectiveCourses.get(idx);
+        for (DataSnapshot lectureSnapshot : selectiveCourseSnapshot.getChildren()) {
+            LectureDto lecture = lectureSnapshot.getValue(LectureDto.class);
+            if (isPossible(current, lecture)) {
+                current.add(lecture);
+                addSelectiveCoursesRecursive(list, current, remainingCredit - lecture.getCredit(), selectiveCourses, idx + 1);
+                current.remove(current.size() - 1);
+            }
+        }
+
+        // 다음 선택 과목도 확인
+        addSelectiveCoursesRecursive(list, current, remainingCredit, selectiveCourses, idx + 1);
+    }
+
+    private boolean isPossible(List<LectureDto> list, LectureDto lecture) {
+
+        if (lecture.getTime() == null || lecture.getTime().isEmpty()) {
+            return false;
+        }
+
+        List<DayAndTimes> currTimes = changeToDayAndTimes(lecture.getTime());
+        for (LectureDto lectureDto : list) {
+            if (lectureDto.getTime() == null || lectureDto.getTime().isEmpty()) {
+                continue;
+            }
+            List<DayAndTimes> lectureTimes = changeToDayAndTimes(lectureDto.getTime());
+            for (DayAndTimes currTime : currTimes) {
+                for (DayAndTimes lectureTime : lectureTimes) {
+                    if (currTime.getDays().equals(lectureTime.getDays()) && !Collections.disjoint(currTime.getTimeList(), lectureTime.getTimeList())) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    private int totalRequiredCredit(DataSnapshot snapshot) {
+        int total = 0;
+        for (DataSnapshot d : snapshot.getChildren()) {
+            total += Integer.parseInt(d.getKey()) * d.getChildrenCount();
+        }
+        return total;
     }
 }
