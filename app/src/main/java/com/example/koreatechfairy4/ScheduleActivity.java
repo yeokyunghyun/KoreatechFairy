@@ -208,29 +208,89 @@ public class ScheduleActivity extends AppCompatActivity {
                                     String lectureName = lecture.getName();
                                     String lectureClasses = lecture.getClasses();
 
-                                    String resultName = lectureName + "  " + lectureClasses;
                                     String abbreviationName = "";
 
-                                    if(lectureName.charAt(0) >= 'A' && lectureName.charAt(0) <= 'Z') {
+                                    if (lectureName.charAt(0) >= 'A' && lectureName.charAt(0) <= 'Z') {
                                         abbreviationName += lectureName.substring(0, 3);
-                                    }
-                                    else {
+                                    } else {
                                         abbreviationName += lectureName.substring(0, 2);
                                     }
 
                                     abbreviationName += " " + lectureClasses;
 
-                                    List<String> splitResultName = splitStringByLength(resultName, 4);
-                                    Log.d("splitSize", String.valueOf(splitResultName.size()));
+                                    if (textViewSize == 1) {
+                                        String t = dat.getTimeList().get(0);
+                                        String scheduleId = scheduleDay + t;
+                                        int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
+                                        setTextWithId(resId, abbreviationName);
+                                    } else if (textViewSize == 2) {
+                                        String t = dat.getTimeList().get(0);
+                                        String scheduleId = scheduleDay + t;
+                                        int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
+                                        setTextWithId(resId, lectureName);
 
-                                    if(textViewSize >= splitResultName.size()) {
-                                        for(int i = 0; i < splitResultName.size(); ++i) {
+                                        t = dat.getTimeList().get(1);
+                                        scheduleId = scheduleDay + t;
+                                        resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
+                                        setTextWithId(resId, lectureClasses);
+                                    } else { // textViewSize가 3 이상
+                                        int i;
+                                        for (i = 1; i <= textViewSize - 1; ++i) {
+                                            int firstIdx = 4 * (i - 1);
+                                            int lastIdx = 4 * i;
+                                            // i가 마지막임
+                                            if (i == textViewSize - 1) {
+                                                String t = dat.getTimeList().get(i - 1);
+                                                String scheduleId = scheduleDay + t;
+                                                int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
+                                                setTextWithId(resId, lectureName.substring(firstIdx, lectureName.length()));
+                                                break;
+                                            } else {
+                                                if (lectureName.length() <= lastIdx) {
+                                                    String t = dat.getTimeList().get(i - 1);
+                                                    String scheduleId = scheduleDay + t;
+                                                    int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
+                                                    setTextWithId(resId, lectureName.substring(firstIdx, lectureName.length()));
+                                                    break;
+                                                } //
+                                                else {
+                                                    String t = dat.getTimeList().get(i - 1);
+                                                    String scheduleId = scheduleDay + t;
+                                                    int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
+                                                    setTextWithId(resId, lectureName.substring(firstIdx, lastIdx));
+                                                }
+                                            }
+                                        }
+                                        // 분반 작성
+                                        String t = dat.getTimeList().get(i);
+                                        String scheduleId = scheduleDay + t;
+                                        int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
+                                        setTextWithId(resId, lectureClasses);
+                                    }
+                                   /* List<String> splitLectureName = splitStringByLength(lectureName, 4);
+
+                                    if(textViewSize - 1 >= splitLectureName.size()) {
+                                        int i;
+                                        for(i = 0; i < splitLectureName.size(); ++i) {
                                             String t = dat.getTimeList().get(i);
                                             String scheduleId = scheduleDay + t;
                                             int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
-                                            setTextWithId(resId, splitResultName.get(i));
+                                            setTextWithId(resId, splitLectureName.get(i));
                                         }
-                                    } // 전부 다 수용 되는 경우
+
+                                        String t = dat.getTimeList().get(i);
+                                        String scheduleId = scheduleDay + t;
+                                        int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
+                                        setTextWithId(resId, lectureClasses);
+                                    }
+                                    else if(textViewSize >= resultLectureName.size()) {
+                                        for(int i = 0; i < splitLectureName.size(); ++i) {
+                                            String t = dat.getTimeList().get(i);
+                                            String scheduleId = scheduleDay + t;
+                                            int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
+                                            setTextWithId(resId, splitLectureName.get(i));
+                                        }
+                                    }
                                     else {
                                         if(dat.getTimeList().size() == 1) {
                                             String t = dat.getTimeList().get(0);
@@ -249,7 +309,7 @@ public class ScheduleActivity extends AppCompatActivity {
                                             resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
                                             setTextWithId(resId, abbreviationName.substring(4, abbreviationName.length()));
                                         }
-                                    }
+                                    }*/
 
                                     for (String t : dat.getTimeList()) {
                                         myScheduleManager.addTime(day, t);
@@ -277,7 +337,7 @@ public class ScheduleActivity extends AppCompatActivity {
     private void setTextWithId(int resId, String text) {
         scheduleTextView = findViewById(resId);
         scheduleTextView.setText(text);
-        scheduleTextView.setTextSize(13f);
+        scheduleTextView.setTextSize(13.4f);
     }
 
     private void openDocument() {
