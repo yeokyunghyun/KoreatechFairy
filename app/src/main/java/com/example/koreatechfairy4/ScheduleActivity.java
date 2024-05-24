@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -33,6 +35,7 @@ import com.example.koreatechfairy4.candidate.MSCCandi;
 import com.example.koreatechfairy4.candidate.MajorCandi;
 import com.example.koreatechfairy4.candidate.ResultCandi;
 import com.example.koreatechfairy4.dto.GradeDto;
+import com.example.koreatechfairy4.adapter.SearchLectureAdapter;
 import com.example.koreatechfairy4.dto.LectureDto;
 import com.example.koreatechfairy4.repository.LectureRepository;
 import com.example.koreatechfairy4.util.DayAndTimes;
@@ -79,8 +82,8 @@ public class ScheduleActivity extends AppCompatActivity {
     private LectureRepository repository;
     private RecyclerView recyclerView;
     private RecyclerView myScheduleRecyclerView;
+    private SearchLectureAdapter searchLectureAdapter;
     private LectureAdapter lectureAdapter;
-    private LectureAdapter myScheduleAdapter;
     private List<LectureDto> lectureList;
     private List<LectureDto> myScheduleList = new ArrayList<>();
     private MyScheduleList myScheduleManager = MyScheduleList.getInstance();
@@ -89,6 +92,7 @@ public class ScheduleActivity extends AppCompatActivity {
     private Spinner gradeSpinner, concentrationSpinner;
     private EditText et_major, et_general, et_MSC, et_HRD;
     private Button btn_create;
+    private TextView scheduleTextView;
     private Random random = new Random();
     private List<String> myLectures = new ArrayList<>();
     private MajorCandi majorCandi = new MajorCandi();
@@ -109,8 +113,8 @@ public class ScheduleActivity extends AppCompatActivity {
             return insets;
         });
 
-        lecture_register = findViewById(R.id.lecture_register);
-        lecture_register.setOnClickListener(v -> openDocument());
+//        lecture_register = findViewById(R.id.lecture_register);
+//        lecture_register.setOnClickListener(v -> openDocument());
 
 
         //상단 툴바 시작
@@ -131,6 +135,23 @@ public class ScheduleActivity extends AppCompatActivity {
             }
         });
         //상단 툴바 끝
+
+        // 검색 입력 처리
+        EditText searchLecture = findViewById(R.id.search_lecture);
+        searchLecture.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                searchLectureAdapter.filter(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
 
         String reference = "KoreatechFairy4/" + "schedule" + "/" + year + "/" + semester;
 
@@ -187,10 +208,6 @@ public class ScheduleActivity extends AppCompatActivity {
 
             }
         });
-
-        HRDList = new ArrayList<>();
-        MSCList = new ArrayList<>();
-        generalList = new ArrayList<>();
 
         DatabaseReference scheduleRef = FirebaseDatabase.getInstance().getReference(reference);
 
@@ -440,7 +457,7 @@ public class ScheduleActivity extends AppCompatActivity {
         myScheduleRecyclerView = findViewById(R.id.my_schedule_list);
         myScheduleRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        myScheduleAdapter = new LectureAdapter(myScheduleList, lecture -> {
+        lectureAdapter = new LectureAdapter(myScheduleList, lecture -> {
             // 여기다가 클릭했을 때 반응 MyScheduleList에 있는 거 없애고 myScheduleList에 있는 객체 없애고 recyclerView한테 말해주고
             String time = lecture.getTime();
             List<DayAndTimes> dayAndTimes = changeToDayAndTimes(time);
@@ -450,21 +467,23 @@ public class ScheduleActivity extends AppCompatActivity {
             for (DayAndTimes dat : dayAndTimes) {
                 String day = dat.getDays();
                 String scheduleDay = day + "_";
+
                 for (String t : dat.getTimeList()) {
                     String scheduleId = scheduleDay + t;
                     int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
-                    scheduleText = findViewById(resId);
-                    scheduleText.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+                    scheduleTextView = findViewById(resId);
+                    scheduleTextView.setText(null);
+                    scheduleTextView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
                 }
             }
-            myScheduleAdapter.notifyDataSetChanged();
+            lectureAdapter.notifyDataSetChanged();
         });
-        myScheduleRecyclerView.setAdapter(myScheduleAdapter);
+        myScheduleRecyclerView.setAdapter(lectureAdapter);
 
         repository.getLectureDtoList(new LectureRepository.DataCallback() {
             @Override
             public void onCallback(List<LectureDto> lectureList) {
-                lectureAdapter = new LectureAdapter(lectureList, lecture -> {
+                searchLectureAdapter = new SearchLectureAdapter(lectureList, lecture -> {
                     //객체를 클릭했을 시에 반응
                     // 이름 겹치는 경우
                     if (myScheduleManager.isDuplicateName(lecture.getName())) {
@@ -490,21 +509,126 @@ public class ScheduleActivity extends AppCompatActivity {
                                     String scheduleDay = day + "_";
                                     int randomColor = Color.rgb(red, green, blue);
 
+                                    int textViewSize = dat.getTimeList().size();
+
+                                    String lectureName = lecture.getName();
+                                    String lectureClasses = lecture.getClasses();
+
+                                    String abbreviationName = "";
+
+                                    if (lectureName.charAt(0) >= 'A' && lectureName.charAt(0) <= 'Z') {
+                                        abbreviationName += lectureName.substring(0, 3);
+                                    } else {
+                                        abbreviationName += lectureName.substring(0, 2);
+                                    }
+
+                                    abbreviationName += " " + lectureClasses;
+
+                                    if (textViewSize == 1) {
+                                        String t = dat.getTimeList().get(0);
+                                        String scheduleId = scheduleDay + t;
+                                        int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
+                                        setTextWithId(resId, abbreviationName);
+                                    } else if (textViewSize == 2) {
+                                        String t = dat.getTimeList().get(0);
+                                        String scheduleId = scheduleDay + t;
+                                        int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
+                                        setTextWithId(resId, lectureName);
+
+                                        t = dat.getTimeList().get(1);
+                                        scheduleId = scheduleDay + t;
+                                        resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
+                                        setTextWithId(resId, lectureClasses);
+                                    } else { // textViewSize가 3 이상
+                                        int i;
+                                        for (i = 1; i <= textViewSize - 1; ++i) {
+                                            int firstIdx = 4 * (i - 1);
+                                            int lastIdx = 4 * i;
+                                            // i가 마지막임
+                                            if (i == textViewSize - 1) {
+                                                String t = dat.getTimeList().get(i - 1);
+                                                String scheduleId = scheduleDay + t;
+                                                int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
+                                                setTextWithId(resId, lectureName.substring(firstIdx, lectureName.length()));
+                                                break;
+                                            } else {
+                                                if (lectureName.length() <= lastIdx) {
+                                                    String t = dat.getTimeList().get(i - 1);
+                                                    String scheduleId = scheduleDay + t;
+                                                    int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
+                                                    setTextWithId(resId, lectureName.substring(firstIdx, lectureName.length()));
+                                                    break;
+                                                } //
+                                                else {
+                                                    String t = dat.getTimeList().get(i - 1);
+                                                    String scheduleId = scheduleDay + t;
+                                                    int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
+                                                    setTextWithId(resId, lectureName.substring(firstIdx, lastIdx));
+                                                }
+                                            }
+                                        }
+                                        // 분반 작성
+                                        String t = dat.getTimeList().get(i);
+                                        String scheduleId = scheduleDay + t;
+                                        int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
+                                        setTextWithId(resId, lectureClasses);
+                                    }
+                                   /* List<String> splitLectureName = splitStringByLength(lectureName, 4);
+
+                                    if(textViewSize - 1 >= splitLectureName.size()) {
+                                        int i;
+                                        for(i = 0; i < splitLectureName.size(); ++i) {
+                                            String t = dat.getTimeList().get(i);
+                                            String scheduleId = scheduleDay + t;
+                                            int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
+                                            setTextWithId(resId, splitLectureName.get(i));
+                                        }
+
+                                        String t = dat.getTimeList().get(i);
+                                        String scheduleId = scheduleDay + t;
+                                        int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
+                                        setTextWithId(resId, lectureClasses);
+                                    }
+                                    else if(textViewSize >= resultLectureName.size()) {
+                                        for(int i = 0; i < splitLectureName.size(); ++i) {
+                                            String t = dat.getTimeList().get(i);
+                                            String scheduleId = scheduleDay + t;
+                                            int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
+                                            setTextWithId(resId, splitLectureName.get(i));
+                                        }
+                                    }
+                                    else {
+                                        if(dat.getTimeList().size() == 1) {
+                                            String t = dat.getTimeList().get(0);
+                                            String scheduleId = scheduleDay + t;
+                                            int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
+                                            setTextWithId(resId, abbreviationName);
+                                        }
+                                        else {
+                                            String t = dat.getTimeList().get(0);
+                                            String scheduleId = scheduleDay + t;
+                                            int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
+                                            setTextWithId(resId, abbreviationName.substring(0, 4));
+
+                                            t = dat.getTimeList().get(1);
+                                            scheduleId = scheduleDay + t;
+                                            resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
+                                            setTextWithId(resId, abbreviationName.substring(4, abbreviationName.length()));
+                                        }
+                                    }*/
+
                                     for (String t : dat.getTimeList()) {
                                         myScheduleManager.addTime(day, t);
                                         String scheduleId = scheduleDay + t;
                                         int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
-                                        Log.d("packageName", getPackageName());
-                                        scheduleText = findViewById(resId);
-                                        scheduleText.setBackgroundColor(randomColor);
+
+                                        scheduleTextView = findViewById(resId);
+                                        scheduleTextView.setBackgroundColor(randomColor);
                                     }
                                 }
                                 //2번 째 RecyclerView
                                 myScheduleList.add(lecture);
-                                myScheduleAdapter.notifyDataSetChanged();
-
-                                // text 쓰기
-
+                                lectureAdapter.notifyDataSetChanged();
                             }
 
                         } else { // 시간이 비어있음
@@ -512,9 +636,15 @@ public class ScheduleActivity extends AppCompatActivity {
                         }
                     }
                 });
-                recyclerView.setAdapter(lectureAdapter);
+                recyclerView.setAdapter(searchLectureAdapter);
             }
         });
+    }
+
+    private void setTextWithId(int resId, String text) {
+        scheduleTextView = findViewById(resId);
+        scheduleTextView.setText(text);
+        scheduleTextView.setTextSize(13.4f);
     }
 
     private void openDocument() {
@@ -845,5 +975,15 @@ public class ScheduleActivity extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    private static List<String> splitStringByLength(String input, int length) {
+        List<String> parts = new ArrayList<>();
+
+        for (int i = 0; i < input.length(); i += length) {
+            parts.add(input.substring(i, Math.min(i + length, input.length())));
+        }
+
+        return parts;
     }
 }

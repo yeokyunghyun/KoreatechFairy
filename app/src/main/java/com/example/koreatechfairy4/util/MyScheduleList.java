@@ -38,18 +38,6 @@ public class MyScheduleList {
         return timeTable;
     }
 
-    public boolean contains(LectureDto lecture) {
-        String lectureName = lecture.getName();
-        String lectureTime = lecture.getTime();
-
-        for(LectureDto lectures : lectureList) {
-            if(lectures.getName().equals(lectureName)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public boolean isDuplicateName(String name) {
         for(LectureDto l : lectureList) {
             if(l.getName().equals(name)) return true;
