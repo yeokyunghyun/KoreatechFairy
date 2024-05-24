@@ -284,28 +284,29 @@ public class ScheduleActivity extends AppCompatActivity {
                                     break;
 
                                 case "교양": //2학년을 넘으면 0학년으로??
-//                                    for (DataSnapshot gradeSnapshot : majorSnapshot.getChildren()) {
-//                                        if (gradeSnapshot.getKey().equals(grade)) {
-//                                            for (DataSnapshot data : gradeSnapshot.getChildren()) {
-//                                                if (data.getKey().equals("필수")) {
-//                                                    //재귀 시작
-//                                                    testList = new ArrayList<>();
-//                                                    int totalRequiredCredit = totalRequiredCredit(data);
-//                                                    for (DataSnapshot creditSnapshot : data.getChildren()) {
-//                                                        List<DataSnapshot> lectureNames = new ArrayList<>();
-//                                                        for (DataSnapshot d : creditSnapshot.getChildren()) {
-//                                                            lectureNames.add(d);
-//                                                        }
-//                                                        test(testList, lectureNames, generalCredit, generalCredit, 0, new ArrayList<LectureDto>(), gradeSnapshot, totalRequiredCredit);
-//                                                    }
-//                                                    generalCandi.setGeneralList(testList);
-//                                                    Log.d("count", String.valueOf(generalCandi.getGeneralList().size()));
-//                                                    Log.d("lecture", generalCandi.getGeneralList().toString());
-//
-//                                                }
-//                                            }
-//                                        }
-//                                    }
+                                    String generalGrade = Integer.parseInt(grade) <= 2 ? grade : "0";
+                                    for (DataSnapshot gradeSnapshot : majorSnapshot.getChildren()) {
+                                        if (gradeSnapshot.getKey().equals(generalGrade)) {
+                                            for (DataSnapshot data : gradeSnapshot.getChildren()) {
+                                                if (data.getKey().equals("필수")) {
+                                                    //재귀 시작
+                                                    testList = new ArrayList<>();
+                                                    int totalRequiredCredit = totalRequiredCredit(data);
+                                                    for (DataSnapshot creditSnapshot : data.getChildren()) {
+                                                        List<DataSnapshot> lectureNames = new ArrayList<>();
+                                                        for (DataSnapshot d : creditSnapshot.getChildren()) {
+                                                            lectureNames.add(d);
+                                                        }
+                                                        test(testList, lectureNames, generalCredit, generalCredit, 0, new ArrayList<LectureDto>(), gradeSnapshot, totalRequiredCredit);
+                                                    }
+                                                    generalCandi.setGeneralList(testList);
+                                                    Log.d("count", String.valueOf(generalCandi.getGeneralList().size()));
+                                                    Log.d("lecture", generalCandi.getGeneralList().toString());
+
+                                                }
+                                            }
+                                        }
+                                    }
                                     break;
 
                                 case "HRD":
@@ -323,10 +324,6 @@ public class ScheduleActivity extends AppCompatActivity {
                                                         }
                                                         test(testList, lectureNames, HRDCredit, HRDCredit, 0, new ArrayList<LectureDto>(), gradeSnapshot, totalRequiredCredit);
                                                     }
-                                                    hrdCandi.setHRDList(testList);
-                                                    Log.d("count", String.valueOf(hrdCandi.getHRDList().size()));
-                                                    Log.d("lecture", hrdCandi.getHRDList().toString());
-
                                                 }
                                             }
                                         }
