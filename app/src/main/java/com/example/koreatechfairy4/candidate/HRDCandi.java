@@ -23,4 +23,8 @@ public class HRDCandi {
     public void clear() {
         HRDList.clear();
     }
+
+    public boolean isEmpty() {
+        return HRDList.isEmpty();
+    }
 }

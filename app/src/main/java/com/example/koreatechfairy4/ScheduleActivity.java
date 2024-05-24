@@ -39,6 +39,7 @@ import com.example.koreatechfairy4.adapter.SearchLectureAdapter;
 import com.example.koreatechfairy4.dto.LectureDto;
 import com.example.koreatechfairy4.repository.LectureRepository;
 import com.example.koreatechfairy4.util.DayAndTimes;
+import com.example.koreatechfairy4.util.FilteringConditions;
 import com.example.koreatechfairy4.util.LectureCrawler;
 import com.example.koreatechfairy4.util.MyScheduleList;
 import com.example.koreatechfairy4.util.ScheduleCrawler;
@@ -245,6 +246,8 @@ public class ScheduleActivity extends AppCompatActivity {
                 });
 
                 //추천 알고리즘 구현
+                FilteringConditions filteringConditions = new FilteringConditions(grade, userMajor, concentration, majorCredit,
+                        generalCredit, MSCCredit, HRDCredit);
 
                 scheduleRef.addListenerForSingleValueEvent(new ValueEventListener() {//이 아래 전공들 있음
                     @Override
@@ -416,7 +419,7 @@ public class ScheduleActivity extends AppCompatActivity {
 
                         // 결과 리스트 만들기
                         resultCandi.clear();
-                        createResultCandi(new ArrayList<>(), 0);
+                        createResultCandi(new ArrayList<>(), 0, filteringConditions);
                         clearAllTables();
                         if (!resultCandi.isEmpty()) {
                             for (LectureDto lectureDto : resultCandi.getResultList().get(lectureIdx++)) {
@@ -968,51 +971,79 @@ public class ScheduleActivity extends AppCompatActivity {
         return total;
     }
 
-    private void createResultCandi(List<LectureDto> current, int depth) {
-        if (depth == 3) {
-            if (isValidSchedule(current)) {
-                resultCandi.add(current);
-            }
+    private void createResultCandi(List<LectureDto> current, int depth, FilteringConditions filteringConditions) {
+        if (depth > 3) {
+            resultCandi.add(current);
             return;
         }
-
         switch (depth) {
             case 0:
-            case 1:
-            case 2:
-                for (List<LectureDto> lectures : majorCandi.getMajorList()) {
-                    for (LectureDto lectureDto : lectures) {
-                        current.add(lectureDto);
-                        createResultCandi(current, depth+1);
-                        current.remove(current.size()-1);
+                if (filteringConditions.getMajorCredit() != 0) {
+                    for (List<LectureDto> majorList : majorCandi.getMajorList()) {  //전공은 다 넣어
+                        current.addAll(majorList);
+                        createResultCandi(current, depth + 1, filteringConditions);
+                        current.clear();
                     }
+                }
+                else {
+                    createResultCandi(current, depth + 1, filteringConditions);
+                }
+                break;
+            case 1:
+                if (filteringConditions.getGeneralCredit() != 0) {
+                    for (List<LectureDto> generalList : generalCandi.getGeneralList()) {
+                        if (isPossibleCandi(current, generalList)) {
+                            current.addAll(generalList);
+                            createResultCandi(current, depth + 1, filteringConditions);
+                            for (int i = 0; i < generalList.size(); ++i) {
+                                current.remove(current.size() - 1);
+                            }
+                        }
+                    }
+                }
+                else {
+                    createResultCandi(current, depth + 1, filteringConditions);
+                }
+                break;
+            case 2:
+                if (filteringConditions.getHRDCredit() != 0) {
+                    for (List<LectureDto> hrdList : hrdCandi.getHRDList()) {
+                        if (isPossibleCandi(current, hrdList)) {
+                            current.addAll(hrdList);
+                            createResultCandi(current, depth + 1, filteringConditions);
+                            for (int i = 0; i < hrdList.size(); ++i) {
+                                current.remove(current.size() - 1);
+                            }
+                        }
+                    }
+                }
+                else {
+                    createResultCandi(current, depth + 1, filteringConditions);
+                }
+                break;
+            case 3:
+                if (filteringConditions.getMSCCredit() != 0) {
+                    for (List<LectureDto> mscList : mscCandi.getMSCList()) {
+                        if (isPossibleCandi(current, mscList)) {
+                            current.addAll(mscList);
+                            createResultCandi(current, depth + 1, filteringConditions);
+                            for (int i = 0; i < mscList.size(); ++i) {
+                                current.remove(current.size() - 1);
+                            }
+                        }
+                    }
+                }
+                else {
+                    createResultCandi(current, depth + 1, filteringConditions);
                 }
                 break;
         }
-
     }
 
-    private boolean isValidSchedule(List<LectureDto> list) {
-
-        for (int i=0; i<list.size()-1; ++i) {
-            for (int j=i+1; j<list.size(); ++j) {
-                List<DayAndTimes> d1 = changeToDayAndTimes(list.get(i).getTime());
-                List<DayAndTimes> d2 = changeToDayAndTimes(list.get(j).getTime());
-                if (!isPossibleCandi(d1, d2)) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
-    private boolean isPossibleCandi(List<DayAndTimes> dayAndTimes1, List<DayAndTimes> dayAndTimes2 ) {
-        for (DayAndTimes currTime : dayAndTimes1) {
-            for (DayAndTimes lectureTime : dayAndTimes2) {
-                if (currTime.getDays().equals(lectureTime.getDays()) && !Collections.disjoint(currTime.getTimeList(), lectureTime.getTimeList())) {
-                    return false;
-                }
+    private boolean isPossibleCandi(List<LectureDto> list1, List<LectureDto> list2) {
+        for (LectureDto lecture : list2) {
+            if (!isPossible(list1, lecture)) {
+                return false;
             }
         }
         return true;

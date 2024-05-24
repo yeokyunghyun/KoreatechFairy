@@ -23,4 +23,8 @@ public class MajorCandi {
     public void clear() {
         majorList.clear();
     }
+
+    public boolean isEmpty() {
+        return majorList.isEmpty();
+    }
 }

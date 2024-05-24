@@ -23,4 +23,8 @@ public class MSCCandi {
     public void clear() {
         MSCList.clear();
     }
+
+    public boolean isEmpty() {
+        return MSCList.isEmpty();
+    }
 }

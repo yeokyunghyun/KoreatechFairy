@@ -23,4 +23,8 @@ public class GeneralCandi {
     public void clear() {
         generalList.clear();
     }
+
+    public boolean isEmpty() {
+        return generalList.isEmpty();
+    }
 }
