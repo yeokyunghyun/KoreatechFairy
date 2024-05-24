@@ -226,15 +226,17 @@ public class ScheduleActivity extends AppCompatActivity {
                     }
                 });
 
-                FilteringConditions filteringConditions
-                        = new FilteringConditions(grade, userMajor, concentration, majorCredit, generalCredit,
-                        MSCCredit, HRDCredit);
-
                 //추천 알고리즘 구현
 
                 scheduleRef.addListenerForSingleValueEvent(new ValueEventListener() {//이 아래 전공들 있음
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        majorCandi.clear();
+                        hrdCandi.clear();
+                        generalCandi.clear();
+                        mscCandi.clear();
+
                         for (DataSnapshot majorSnapshot : snapshot.getChildren()) {
                             List<List<LectureDto>> testList;
                             switch (majorSnapshot.getKey()) {
@@ -271,16 +273,60 @@ public class ScheduleActivity extends AppCompatActivity {
                                     }
                                     break;
 
-                                case "메카트로닉스공학부":
-
-                                    break;
-
                                 case "에너지신소재화학공학부":
-
-                                    break;
-
                                 case "전기전자통신공학부":
-
+                                case "메카트로닉스공학부":
+                                    if (userMajor.equals(majorSnapshot.getKey())) {
+                                        for (DataSnapshot concentrationSnapshot : majorSnapshot.getChildren()) {
+                                            if (concentrationSnapshot.getKey().equals("전체")) {  //전체면 다른 과랑 동일
+                                                for (DataSnapshot gradeSnapshot : concentrationSnapshot.getChildren()) {
+                                                    if (gradeSnapshot.getKey().equals(grade)) {
+                                                        for (DataSnapshot data : gradeSnapshot.getChildren()) {
+                                                            if (data.getKey().equals("필수")) {
+                                                                //재귀 시작
+                                                                testList = new ArrayList<>();
+                                                                int totalRequiredCredit = totalRequiredCredit(data);
+                                                                for (DataSnapshot creditSnapshot : data.getChildren()) {
+                                                                    List<DataSnapshot> lectureNames = new ArrayList<>();
+                                                                    for (DataSnapshot d : creditSnapshot.getChildren()) {
+                                                                        lectureNames.add(d);
+                                                                    }
+                                                                    test(testList, lectureNames, majorCredit, majorCredit, 0, new ArrayList<LectureDto>(), gradeSnapshot, totalRequiredCredit);
+                                                                }
+                                                                majorCandi.setMajorList(testList);
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            else if (concentrationSnapshot.getKey().equals(concentration)){//전체가 아니면 세부전공 + 전체로 구성
+                                                for (DataSnapshot gradeSnapshot : concentrationSnapshot.getChildren()) {    // 생시, 디시 등
+                                                    DataSnapshot allGradeSnapshot = majorSnapshot.child("전체").child(grade);
+                                                    if (gradeSnapshot.getKey().equals(grade)) { //같은 학년에 대해
+                                                        for (DataSnapshot data : gradeSnapshot.getChildren()) {
+                                                            if (data.getKey().equals("필수")) { //필수 과목에서 재귀 시작
+                                                                //재귀 시작
+                                                                testList = new ArrayList<>();
+                                                                int concenTotalRequiredCredit = totalRequiredCredit(data);
+                                                                int allTotalRequiredCredit = totalRequiredCredit(allGradeSnapshot.child("필수"));    //세부전공 필수과목 학점 합 + 전체 필수과목 학점 합
+                                                                for (DataSnapshot creditSnapshot : data.getChildren()) {
+                                                                    List<DataSnapshot> lectureNames = new ArrayList<>();
+                                                                    for (DataSnapshot d : creditSnapshot.getChildren()) {
+                                                                        lectureNames.add(d);
+                                                                    }
+                                                                    test2(testList, lectureNames, majorCredit, majorCredit, 0, new ArrayList<LectureDto>(), gradeSnapshot,
+                                                                            allGradeSnapshot, concenTotalRequiredCredit, allTotalRequiredCredit);
+                                                                }
+                                                                majorCandi.setMajorList(testList);
+                                                                Log.d("count", String.valueOf(majorCandi.getMajorList().size()));
+                                                                Log.d("lectures", majorCandi.getMajorList().toString());
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                     break;
 
                                 case "교양": //2학년을 넘으면 0학년으로??
@@ -300,8 +346,6 @@ public class ScheduleActivity extends AppCompatActivity {
                                                         test(testList, lectureNames, generalCredit, generalCredit, 0, new ArrayList<LectureDto>(), gradeSnapshot, totalRequiredCredit);
                                                     }
                                                     generalCandi.setGeneralList(testList);
-                                                    Log.d("count", String.valueOf(generalCandi.getGeneralList().size()));
-                                                    Log.d("lecture", generalCandi.getGeneralList().toString());
 
                                                 }
                                             }
@@ -346,8 +390,6 @@ public class ScheduleActivity extends AppCompatActivity {
                                                         test(testList, lectureNames, MSCCredit, MSCCredit, 0, new ArrayList<LectureDto>(), gradeSnapshot, totalRequiredCredit);
                                                     }
                                                     mscCandi.setMSCList(testList);
-                                                    Log.d("count", String.valueOf(mscCandi.getMSCList().size()));
-                                                    Log.d("lecture", mscCandi.getMSCList().toString());
 
                                                 }
                                             }
@@ -356,6 +398,8 @@ public class ScheduleActivity extends AppCompatActivity {
                                     break;
                             }
                         }
+
+                        // 결과 리스트 만들기
 
                     }
 
@@ -540,15 +584,6 @@ public class ScheduleActivity extends AppCompatActivity {
         return str;
     }
 
-    private int currentCredit(List<LectureDto> list) {
-        int currCredit = 0;
-        for (LectureDto lectureDto : list) {
-            currCredit += lectureDto.getCredit();
-        }
-
-        return currCredit;
-    }
-
     private void test(List<List<LectureDto>> list, List<DataSnapshot> lectureNames, int majorCredit, int remainingCredit, int idx, List<LectureDto> current, DataSnapshot gradeSnapshot, int totalRequiredCredit) {
         if (remainingCredit < 0) return;
         if (remainingCredit == 0) {
@@ -563,7 +598,6 @@ public class ScheduleActivity extends AppCompatActivity {
         }
         if (idx >= lectureNames.size()) return;
 
-//        String name = lectureNames.get(idx).getValue(String.class);
         List<DataSnapshot> classes = new ArrayList<>();
         for (DataSnapshot d : lectureNames.get(idx).getChildren()) {
             classes.add(d);
@@ -580,6 +614,129 @@ public class ScheduleActivity extends AppCompatActivity {
         test(list, lectureNames, majorCredit, remainingCredit, idx + 1, current, gradeSnapshot, totalRequiredCredit);
 
     }
+
+
+
+    //세부전공
+    private void test2(List<List<LectureDto>> list, List<DataSnapshot> lectureNames, int majorCredit, int remainingCredit, int idx, List<LectureDto> current,
+                       DataSnapshot gradeSnapshot, DataSnapshot allGradeSnapshot, int concenTotalRequiredCredit, int allTotalRequiredCredit) {
+        if (remainingCredit < 0) return;
+        if (remainingCredit == 0) {
+            if (!list.contains(current)) {
+                list.add(new ArrayList<>(current));
+            }
+            return;
+        }
+        if (remainingCredit == majorCredit - concenTotalRequiredCredit) {
+
+            for (DataSnapshot creditSnapshot : allGradeSnapshot.child("필수").getChildren()) {
+                List<DataSnapshot> allLectureNames = new ArrayList<>();
+                for (DataSnapshot d : creditSnapshot.getChildren()) {
+                    allLectureNames.add(d);
+                }
+                test3(list, allLectureNames, remainingCredit, remainingCredit, 0, current, gradeSnapshot, allGradeSnapshot, allTotalRequiredCredit);
+            }
+        }
+        if (idx >= lectureNames.size()) return;
+
+        List<DataSnapshot> classes = new ArrayList<>();
+        for (DataSnapshot d : lectureNames.get(idx).getChildren()) {
+            classes.add(d);
+        }
+
+        for (DataSnapshot lectureSnapshot : classes) {
+            LectureDto lecture = lectureSnapshot.getValue(LectureDto.class);
+            if (isPossible(current, lecture) && !myLectures.contains(lecture.getName())) {
+                current.add(lecture);
+                test2(list, lectureNames, majorCredit, remainingCredit - lecture.getCredit(), idx + 1, current, gradeSnapshot,
+                        allGradeSnapshot, concenTotalRequiredCredit, allTotalRequiredCredit);
+                current.remove(current.size() - 1);
+            }
+        }
+        test2(list, lectureNames, majorCredit, remainingCredit, idx + 1, current, gradeSnapshot, allGradeSnapshot, concenTotalRequiredCredit, allTotalRequiredCredit);
+
+    }
+
+    //전체 필수
+    private void test3(List<List<LectureDto>> list, List<DataSnapshot> lectureNames, int majorCredit, int remainingCredit, int idx, List<LectureDto> current,
+                       DataSnapshot gradeSnapshot, DataSnapshot allGradeSnapshot, int allTotalRequiredCredit) {
+        if (remainingCredit < 0) return;
+        if (remainingCredit == 0) {
+            if (!list.contains(current)) {
+                list.add(new ArrayList<>(current));
+            }
+            return;
+        }
+        if (remainingCredit == majorCredit - allTotalRequiredCredit) {
+            //list.add(new ArrayList<>(current));
+            addSelectiveCourses2(list, current, majorCredit - allTotalRequiredCredit, gradeSnapshot, allGradeSnapshot);
+        }
+
+        if (idx >= lectureNames.size()) return;
+
+        List<DataSnapshot> classes = new ArrayList<>();
+        for (DataSnapshot d : lectureNames.get(idx).getChildren()) {
+            classes.add(d);
+        }
+
+        for (DataSnapshot lectureSnapshot : classes) {
+            LectureDto lecture = lectureSnapshot.getValue(LectureDto.class);
+            if (isPossible(current, lecture) && !myLectures.contains(lecture.getName())) {
+                current.add(lecture);
+                test(list, lectureNames, majorCredit, remainingCredit - lecture.getCredit(), idx + 1, current, gradeSnapshot, allTotalRequiredCredit);
+                current.remove(current.size() - 1);
+            }
+        }
+        test3(list, lectureNames, majorCredit, remainingCredit, idx + 1, current, gradeSnapshot, allGradeSnapshot, allTotalRequiredCredit);
+
+    }
+
+    private void addSelectiveCourses2(List<List<LectureDto>> list, List<LectureDto> current, int remainingCredit, DataSnapshot gradeSnapshot, DataSnapshot allGradeSnapshot) {
+        // 선택 과목 목록을 가져옵니다.
+        DataSnapshot selectiveCoursesSnapshot = gradeSnapshot.child("선택");
+        DataSnapshot selectiveCoursesSnapshot2 = allGradeSnapshot.child("선택");
+        if (!selectiveCoursesSnapshot.exists() || !selectiveCoursesSnapshot2.exists()) return;
+
+        List<DataSnapshot> selectiveCourses = new ArrayList<>();
+
+        for (DataSnapshot d : selectiveCoursesSnapshot.getChildren()) {
+            for (DataSnapshot ds : d.getChildren()) {
+                selectiveCourses.add(ds);
+            }
+        }
+        for (DataSnapshot d : selectiveCoursesSnapshot2.getChildren()) {
+            for (DataSnapshot ds : d.getChildren()) {
+                selectiveCourses.add(ds);
+            }
+        }
+
+        addSelectiveCoursesRecursive2(list, current, remainingCredit, selectiveCourses, 0);
+    }
+
+    private void addSelectiveCoursesRecursive2(List<List<LectureDto>> list, List<LectureDto> current, int remainingCredit, List<DataSnapshot> selectiveCourses, int idx) {
+        if (remainingCredit < 0) return;
+        if (remainingCredit == 0) {
+            if (!list.contains(current)) {
+                list.add(new ArrayList<>(current));
+            }
+            return;
+        }
+        if (idx >= selectiveCourses.size()) return;
+
+        DataSnapshot selectiveCourseSnapshot = selectiveCourses.get(idx);
+        for (DataSnapshot lectureSnapshot : selectiveCourseSnapshot.getChildren()) {
+            LectureDto lecture = lectureSnapshot.getValue(LectureDto.class);
+            if (isPossible(current, lecture) && !myLectures.contains(lecture.getName())) {
+                current.add(lecture);
+                addSelectiveCoursesRecursive2(list, current, remainingCredit - lecture.getCredit(), selectiveCourses, idx + 1);
+                current.remove(current.size() - 1);
+            }
+        }
+
+        // 다음 선택 과목도 확인
+        addSelectiveCoursesRecursive2(list, current, remainingCredit, selectiveCourses, idx + 1);
+    }
+
 
     private void addSelectiveCourses(List<List<LectureDto>> list, List<LectureDto> current, int remainingCredit, DataSnapshot gradeSnapshot) {
         // 선택 과목 목록을 가져옵니다.
@@ -624,6 +781,10 @@ public class ScheduleActivity extends AppCompatActivity {
 
         if (lecture.getTime() == null || lecture.getTime().isEmpty()) {
             return false;
+        }
+
+        for (LectureDto lectureDto : list) {
+            if (lectureDto.getName().equals(lecture.getName())) return false;
         }
 
         List<DayAndTimes> currTimes = changeToDayAndTimes(lecture.getTime());

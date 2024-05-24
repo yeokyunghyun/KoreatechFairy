@@ -19,4 +19,8 @@ public class MSCCandi {
     public void setMSCList(List<List<LectureDto>> MSCList) {
         this.MSCList = MSCList;
     }
+
+    public void clear() {
+        MSCList.clear();
+    }
 }

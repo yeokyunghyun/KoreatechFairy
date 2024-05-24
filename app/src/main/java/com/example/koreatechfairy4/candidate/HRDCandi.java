@@ -19,4 +19,8 @@ public class HRDCandi {
     public void setHRDList(List<List<LectureDto>> HRDList) {
         this.HRDList = HRDList;
     }
+
+    public void clear() {
+        HRDList.clear();
+    }
 }

@@ -19,4 +19,8 @@ public class MajorCandi {
     public void setMajorList(List<List<LectureDto>> majorList) {
         this.majorList = majorList;
     }
+
+    public void clear() {
+        majorList.clear();
+    }
 }

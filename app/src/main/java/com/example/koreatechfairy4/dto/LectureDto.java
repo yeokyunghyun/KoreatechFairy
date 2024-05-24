@@ -18,7 +18,7 @@ public class LectureDto {
     public LectureDto() {}
     public LectureDto(String code, String name, String classes, String domain, int credit, String department, String grade, String professor, String time, String registerDepartment) {
         this.code = code;
-        this.name = name;
+        this.name = name.replaceAll("/", ",");
         this.classes = classes;
         this.domain = domain;
         this.credit = credit;

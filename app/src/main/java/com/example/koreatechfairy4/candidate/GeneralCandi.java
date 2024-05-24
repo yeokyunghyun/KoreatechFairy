@@ -19,4 +19,8 @@ public class GeneralCandi {
     public void setGeneralList(List<List<LectureDto>> generalList) {
         this.generalList = generalList;
     }
+
+    public void clear() {
+        generalList.clear();
+    }
 }
