@@ -57,7 +57,7 @@ public class ScheduleCrawler {
                     String grade = null;
 
                     if(row.getCell(gradeColumn).getCellType() == CellType.NUMERIC) {
-                        grade = String.valueOf(row.getCell(gradeColumn).getNumericCellValue());
+                        grade = String.valueOf((int)row.getCell(gradeColumn).getNumericCellValue());
                     }
                     else {
                         grade = row.getCell(gradeColumn).getStringCellValue();

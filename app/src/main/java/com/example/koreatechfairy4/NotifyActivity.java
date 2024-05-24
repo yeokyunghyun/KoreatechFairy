@@ -60,9 +60,6 @@ public class NotifyActivity extends AppCompatActivity {
             return insets;
         });
 
-//        Intent it = new Intent(this, MyService.class);
-//        it.putExtra("userId", getIntent().getStringExtra("userId"));
-//        startService(it);
 
         keywordButton = (Button) findViewById(R.id.keyword_button);
         academicButton = (Button) findViewById(R.id.academic_button);
@@ -102,11 +99,7 @@ public class NotifyActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
         /*데이터 등록하는 부분 + 비교 + 알림*/
-
-
     }
 
     private void setClickListener(Button btn, Fragment fragment) {

@@ -84,7 +84,9 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
-        switchActivity(schedule_button, ScheduleActivity.class);
+
+
+        switchActivityWithUserId(schedule_button, ScheduleActivity.class, userId);
         switchActivityWithUserId(my_page_button, MyPageActivity.class, userId);
 
 

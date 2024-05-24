@@ -66,6 +66,9 @@ public class MyScheduleList {
     public void addLecture(LectureDto lecture) {
         lectureList.add(lecture);
     }
+    public void addAllLecture(List<LectureDto> lectures) {
+        lectureList.addAll(lectures);
+    }
 
     public void removeLecture(LectureDto lecture) {
         lectureList.remove(lecture);
@@ -78,5 +81,10 @@ public class MyScheduleList {
                 timeTable.get(day).remove(time);
             }
         }
+    }
+
+    public void clearAll() {
+        lectureList.clear();
+        timeTable.clear();
     }
 }

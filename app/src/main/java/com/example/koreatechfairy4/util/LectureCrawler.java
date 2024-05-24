@@ -6,6 +6,8 @@ import android.util.Log;
 
 import com.example.koreatechfairy4.domain.Lecture;
 import com.example.koreatechfairy4.dto.GradeDto;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -22,8 +24,9 @@ import lombok.Getter;
 
 @Getter
 public class LectureCrawler {
-    public static GradeDto crawlLecture(Context context, Uri fileUri) {
+    public static GradeDto crawlLecture(Context context, Uri fileUri, String userId) {
         GradeDto result = null;
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("KoreatechFairy4/User/" + userId + "/lectures");
 
         try {
             InputStream lectureListInputStream = context.getContentResolver().openInputStream(fileUri);
@@ -45,6 +48,14 @@ public class LectureCrawler {
             double totalMajorGrade = 0.0; //평점 10.5
             int totalMajorCredit = 0; // 학점 3
 
+            userRef.removeValue().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Log.d("LectureCrawler", "New data has been added successfully.");
+                } else {
+                    Log.e("LectureCrawler", "Failed to delete existing data: " + task.getException());
+                }
+            });
+
             for (int i = firstRowIdx + 1; i <= lastRowIdx; ++i) {
                 //for (int i=firstRowIdx+1; i<=10; ++i) {
                 HSSFRow row = lectureListSheet.getRow(i);
@@ -56,6 +67,10 @@ public class LectureCrawler {
 
                     String domainName = row.getCell(domainColumn).getStringCellValue();
                     String lectureName = row.getCell(lectureColumn).getStringCellValue();
+
+                    if (!lectureName.equals("소 계") && !lectureName.equals("합 계")) {
+                        userRef.child(lectureName).setValue(lectureName);
+                    }
 
                     if(isValid(domainName) && !lectureNames.contains(lectureName)) {
                         lectureNames.add(lectureName);

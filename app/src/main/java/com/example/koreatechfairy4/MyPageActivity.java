@@ -48,7 +48,7 @@ public class MyPageActivity extends AppCompatActivity {
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                         Uri uri = result.getData().getData();
                         // 이 URI를 사용하여 파일 내용을 읽습니다.
-                        GradeDto userGrade = LectureCrawler.crawlLecture(getApplicationContext(), uri);
+                        GradeDto userGrade = LectureCrawler.crawlLecture(getApplicationContext(), uri, userId);
                         setUserGrade(userRef, userGrade); // User의 전공학점, 전체학점, 이수학점을 집어넣음
 
                         userRef.child("majorGrade").addListenerForSingleValueEvent(new ValueEventListener() {

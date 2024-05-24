@@ -103,8 +103,6 @@ public class MyService extends Service {
         updateNotifyDb();
 
         handler.postDelayed(updateTask, INTERVAL);
-        // do heavy work on a background thread
-        // stopSelf();
 
         return START_STICKY;
     }
@@ -205,7 +203,8 @@ public class MyService extends Service {
         intent.putExtra("imgUrls", notify.getImgUrls());
         intent.putExtra("baseUrl", notify.getBaseUrl());
         intent.putExtra("author", notify.getAuthor());
-        PendingIntent pdIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | FLAG_IMMUTABLE);
+        PendingIntent pdIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
         String groupKey = "groupKey_" + System.currentTimeMillis();
 
         NotificationCompat.Builder nb = notificationHelper.getChannel1Notification(title, msg);
@@ -263,7 +262,7 @@ public class MyService extends Service {
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("KoreatechFairy")
                 .setContentText("어플리케이션이 실행중입니다.")
-                .setSmallIcon(R.drawable.koreatechfairy)
+                .setSmallIcon(R.drawable.smallfairy)
                 .setContentIntent(pendingIntent)
                 .setGroup(groupKey1)
                 .build();
