@@ -17,7 +17,11 @@ public class MajorCandi {
     }
 
     public void setMajorList(List<List<LectureDto>> majorList) {
-        this.majorList = majorList;
+        this.majorList = new ArrayList<>(majorList);
+    }
+
+    public void add(List<LectureDto> lectureList) {
+        majorList.add(new ArrayList<>(lectureList));
     }
 
     public void clear() {

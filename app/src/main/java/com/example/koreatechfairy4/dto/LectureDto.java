@@ -90,6 +90,50 @@ public class LectureDto {
         return registerDepartment;
     }
 
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setClasses(String classes) {
+        this.classes = classes;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
+
+    public void setCredit(int credit) {
+        this.credit = credit;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public void setProfessor(String professor) {
+        this.professor = professor;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public void setRegisterDepartment(String registerDepartment) {
+        this.registerDepartment = registerDepartment;
+    }
+
+    public void setClicked(boolean clicked) {
+        isClicked = clicked;
+    }
+
     public void switchIsClicked() {
         if(isClicked) isClicked = false;
         else isClicked = true;
