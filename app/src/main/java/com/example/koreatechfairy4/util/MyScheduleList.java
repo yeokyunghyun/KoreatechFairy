@@ -83,7 +83,8 @@ public class MyScheduleList {
         }
     }
 
-    public void clearLectureList() {
+    public void clearAll() {
         lectureList.clear();
+        timeTable.clear();
     }
 }

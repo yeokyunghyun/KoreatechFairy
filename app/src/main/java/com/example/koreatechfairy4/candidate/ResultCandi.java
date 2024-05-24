@@ -27,4 +27,8 @@ public class ResultCandi {
     public void add(List<LectureDto> list) {
         resultList.add(list);
     }
+
+    public boolean isEmpty() {
+        return resultList.isEmpty();
+    }
 }
