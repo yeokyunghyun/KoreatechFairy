@@ -644,49 +644,6 @@ public class ScheduleActivity extends AppCompatActivity {
                                         int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
                                         setTextWithId(resId, lectureClasses);
                                     }
-                                   /* List<String> splitLectureName = splitStringByLength(lectureName, 4);
-
-                                    if(textViewSize - 1 >= splitLectureName.size()) {
-                                        int i;
-                                        for(i = 0; i < splitLectureName.size(); ++i) {
-                                            String t = dat.getTimeList().get(i);
-                                            String scheduleId = scheduleDay + t;
-                                            int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
-                                            setTextWithId(resId, splitLectureName.get(i));
-                                        }
-
-                                        String t = dat.getTimeList().get(i);
-                                        String scheduleId = scheduleDay + t;
-                                        int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
-                                        setTextWithId(resId, lectureClasses);
-                                    }
-                                    else if(textViewSize >= resultLectureName.size()) {
-                                        for(int i = 0; i < splitLectureName.size(); ++i) {
-                                            String t = dat.getTimeList().get(i);
-                                            String scheduleId = scheduleDay + t;
-                                            int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
-                                            setTextWithId(resId, splitLectureName.get(i));
-                                        }
-                                    }
-                                    else {
-                                        if(dat.getTimeList().size() == 1) {
-                                            String t = dat.getTimeList().get(0);
-                                            String scheduleId = scheduleDay + t;
-                                            int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
-                                            setTextWithId(resId, abbreviationName);
-                                        }
-                                        else {
-                                            String t = dat.getTimeList().get(0);
-                                            String scheduleId = scheduleDay + t;
-                                            int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
-                                            setTextWithId(resId, abbreviationName.substring(0, 4));
-
-                                            t = dat.getTimeList().get(1);
-                                            scheduleId = scheduleDay + t;
-                                            resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
-                                            setTextWithId(resId, abbreviationName.substring(4, abbreviationName.length()));
-                                        }
-                                    }*/
 
                                     for (String t : dat.getTimeList()) {
                                         myScheduleManager.addTime(day, t);
