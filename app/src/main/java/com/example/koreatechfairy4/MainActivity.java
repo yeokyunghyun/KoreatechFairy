@@ -23,7 +23,7 @@ import com.example.koreatechfairy4.util.SharedPreferencesManager;
 public class MainActivity extends AppCompatActivity {
 
     private EditText notify_title, notify_message;
-    private Button notify_btn, kimchangii;
+    private Button notify_btn;
     private NotificationHelper notificationHelper;
     // 알림 기능
 
@@ -53,17 +53,9 @@ public class MainActivity extends AppCompatActivity {
         logout_button = findViewById(R.id.logout_button);
         notify_button = findViewById(R.id.notify_button);
         schedule_button = findViewById(R.id.schedule_button);
-        kimchangii = findViewById(R.id.kimchangii);
 
         userId = getIntent().getStringExtra("userId");
 
-        kimchangii.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, FoodActivity.class);
-                startActivity(intent);
-            }
-        });
         notify_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

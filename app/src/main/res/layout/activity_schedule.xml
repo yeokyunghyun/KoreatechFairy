@@ -57,123 +57,180 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/tv_grade"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout2"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
-                android:text="학년"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Spinner
-                android:id="@+id/sp_grade"
-                android:layout_width="93dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="4dp"
-                android:entries="@array/grade"
-                app:layout_constraintStart_toEndOf="@+id/tv_grade"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_major"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="8dp"
-                android:text="전공"
-                app:layout_constraintStart_toEndOf="@+id/sp_grade"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Spinner
-                android:id="@+id/sp_major"
-                android:layout_width="93dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="4dp"
-                app:layout_constraintStart_toEndOf="@+id/tv_major"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <EditText
-                android:id="@+id/et_major"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:hint="전공학점"
-                android:textSize="15dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_grade" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <EditText
-                android:id="@+id/et_general"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="10dp"
-                android:hint="교양학점"
-                android:textSize="15dp"
-                app:layout_constraintStart_toEndOf="@+id/et_major"
-                app:layout_constraintTop_toBottomOf="@+id/tv_grade" />
+                <TextView
+                    android:id="@+id/tv_grade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="30dp"
+                    android:fontFamily="@font/btn_font2"
+                    android:text="학년"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/et_HRD"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="10dp"
-                android:hint="HRD학점"
-                android:textSize="15dp"
-                app:layout_constraintStart_toEndOf="@+id/et_general"
-                app:layout_constraintTop_toBottomOf="@+id/tv_major" />
+                <Spinner
+                    android:id="@+id/sp_grade"
+                    android:layout_width="79dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginBottom="3dp"
+                    android:entries="@array/grade"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_grade"
+                    app:layout_constraintStart_toEndOf="@+id/tv_grade"
+                    app:layout_constraintTop_toTopOf="@+id/tv_grade" />
 
-            <EditText
-                android:id="@+id/et_MSC"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="10dp"
-                android:hint="MSC학점"
-                android:textSize="15dp"
-                app:layout_constraintStart_toEndOf="@+id/et_HRD"
-                app:layout_constraintTop_toBottomOf="@+id/tv_major" />
+                <TextView
+                    android:id="@+id/tv_major"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/btn_font2"
+                    android:text="전공"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_grade"
+                    app:layout_constraintStart_toEndOf="@+id/sp_grade"
+                    app:layout_constraintTop_toTopOf="@+id/tv_grade" />
 
-            <!-- 이곳에 스크롤 가능한 나머지 컨텐츠를 배치합니다 -->
-            <Button
-                android:id="@+id/btn_create"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="52dp"
-                android:layout_marginTop="4dp"
-                android:text="시간표 생성"
-                android:textSize="12dp"
-                app:layout_constraintStart_toEndOf="@+id/sp_major"
-                app:layout_constraintTop_toTopOf="parent" />
+                <Spinner
+                    android:id="@+id/sp_major"
+                    android:layout_width="93dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginBottom="3dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_major"
+                    app:layout_constraintStart_toEndOf="@+id/tv_major"
+                    app:layout_constraintTop_toTopOf="@+id/tv_major" />
 
-            <Button
-                android:id="@+id/btn_next"
-                android:layout_width="65dp"
-                android:layout_height="35dp"
-                android:layout_marginStart="20dp"
-                android:text="다음"
-                android:textSize="10dp"
-                app:layout_constraintStart_toEndOf="@+id/et_MSC"
-                app:layout_constraintTop_toBottomOf="@+id/btn_create" />
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/btn_font2"
+                    android:text="학점 :"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="@+id/tv_grade"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_grade" />
+
+                <EditText
+                    android:id="@+id/et_major"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:hint="전공"
+                    android:textSize="13dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView12"
+                    app:layout_constraintStart_toEndOf="@+id/textView12"
+                    app:layout_constraintTop_toTopOf="@+id/textView12" />
+
+                <EditText
+                    android:id="@+id/et_general"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:hint="교양"
+                    android:textSize="13dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/et_major"
+                    app:layout_constraintStart_toEndOf="@+id/et_major"
+                    app:layout_constraintTop_toTopOf="@+id/et_major" />
+
+                <EditText
+                    android:id="@+id/et_HRD"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:hint="HRD"
+                    android:textSize="13dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/et_general"
+                    app:layout_constraintStart_toEndOf="@+id/et_general"
+                    app:layout_constraintTop_toTopOf="@+id/et_general" />
+
+                <EditText
+                    android:id="@+id/et_MSC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:hint="MSC"
+                    android:textSize="13dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/et_HRD"
+                    app:layout_constraintStart_toEndOf="@+id/et_HRD"
+                    app:layout_constraintTop_toTopOf="@+id/et_HRD" />
+
+                <!-- 이곳에 스크롤 가능한 나머지 컨텐츠를 배치합니다 -->
+
+                <Button
+                    android:id="@+id/btn_create"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginStart="260dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/round_button"
+                    android:fontFamily="@font/btn_font2"
+                    android:text="시간표\n생성"
+                    android:textSize="16dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView12"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/btn_next"
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/round_button2"
+                    android:src="@drawable/next"
+                    app:layout_constraintBottom_toBottomOf="@+id/btn_create"
+                    app:layout_constraintStart_toEndOf="@+id/btn_create"
+                    app:layout_constraintTop_toTopOf="@+id/btn_create"
+                    app:layout_constraintVertical_bias="0.377" />
+
+                <TextView
+                    android:id="@+id/textView13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/btn_font2"
+                    android:text="[ 정보 입력 ]"
+                    android:textSize="15dp"
+                    android:textColor="@color/indigo"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="95dp"
+                    android:fontFamily="@font/btn_font2"
+                    android:text="[ 시간표 ]"
+                    android:textColor="@color/indigo"
+                    android:textSize="15dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView13" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <GridLayout
                 android:id="@+id/schedule_grid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="100dp"
-                android:layout_marginBottom="100dp"
+                android:layout_marginTop="10dp"
                 android:columnCount="6"
                 android:rowCount="20"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
                 <!-- Header Row -->
                 <TextView
@@ -345,7 +402,7 @@
                     android:background="#E0E0E0"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
-                    android:padding="10dp"
+                    android:padding="11dp"
                     android:text="14:00" />
 
                 <TextView
@@ -436,8 +493,10 @@
                     android:layout_column="1"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -446,8 +505,10 @@
                     android:layout_column="1"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -456,8 +517,10 @@
                     android:layout_column="1"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -466,8 +529,10 @@
                     android:layout_column="1"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -476,8 +541,10 @@
                     android:layout_column="1"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -486,8 +553,10 @@
                     android:layout_column="1"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -496,8 +565,10 @@
                     android:layout_column="1"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -506,8 +577,10 @@
                     android:layout_column="1"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -516,8 +589,10 @@
                     android:layout_column="1"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -526,8 +601,10 @@
                     android:layout_column="1"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -536,8 +613,10 @@
                     android:layout_column="1"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -546,8 +625,10 @@
                     android:layout_column="1"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -556,8 +637,10 @@
                     android:layout_column="1"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -566,8 +649,10 @@
                     android:layout_column="1"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -576,8 +661,10 @@
                     android:layout_column="1"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -586,8 +673,10 @@
                     android:layout_column="1"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -596,8 +685,10 @@
                     android:layout_column="1"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -606,8 +697,10 @@
                     android:layout_column="1"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -616,8 +709,10 @@
                     android:layout_column="1"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
                 <!-- mon -->
 
@@ -628,8 +723,10 @@
                     android:layout_column="2"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -638,8 +735,10 @@
                     android:layout_column="2"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -648,8 +747,10 @@
                     android:layout_column="2"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -658,8 +759,10 @@
                     android:layout_column="2"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -668,8 +771,10 @@
                     android:layout_column="2"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -678,8 +783,10 @@
                     android:layout_column="2"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -688,8 +795,10 @@
                     android:layout_column="2"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -698,8 +807,10 @@
                     android:layout_column="2"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -708,8 +819,10 @@
                     android:layout_column="2"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -718,8 +831,10 @@
                     android:layout_column="2"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -728,8 +843,10 @@
                     android:layout_column="2"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -738,8 +855,10 @@
                     android:layout_column="2"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -748,8 +867,10 @@
                     android:layout_column="2"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -758,8 +879,10 @@
                     android:layout_column="2"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -768,8 +891,10 @@
                     android:layout_column="2"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -778,8 +903,10 @@
                     android:layout_column="2"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -788,8 +915,10 @@
                     android:layout_column="2"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -798,8 +927,10 @@
                     android:layout_column="2"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -808,8 +939,10 @@
                     android:layout_column="2"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <!-- tue -->
@@ -820,8 +953,10 @@
                     android:layout_column="3"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -830,8 +965,10 @@
                     android:layout_column="3"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -840,8 +977,10 @@
                     android:layout_column="3"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -850,8 +989,10 @@
                     android:layout_column="3"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -860,8 +1001,10 @@
                     android:layout_column="3"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -870,8 +1013,10 @@
                     android:layout_column="3"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -880,8 +1025,10 @@
                     android:layout_column="3"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -890,8 +1037,10 @@
                     android:layout_column="3"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -900,8 +1049,10 @@
                     android:layout_column="3"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -910,8 +1061,10 @@
                     android:layout_column="3"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -920,8 +1073,10 @@
                     android:layout_column="3"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -930,8 +1085,10 @@
                     android:layout_column="3"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -940,8 +1097,10 @@
                     android:layout_column="3"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -950,8 +1109,10 @@
                     android:layout_column="3"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -960,8 +1121,10 @@
                     android:layout_column="3"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -970,8 +1133,10 @@
                     android:layout_column="3"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -980,8 +1145,10 @@
                     android:layout_column="3"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -990,8 +1157,10 @@
                     android:layout_column="3"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1000,8 +1169,10 @@
                     android:layout_column="3"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <!-- wed -->
@@ -1012,8 +1183,10 @@
                     android:layout_column="4"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1022,8 +1195,10 @@
                     android:layout_column="4"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1032,8 +1207,10 @@
                     android:layout_column="4"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1042,8 +1219,10 @@
                     android:layout_column="4"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1052,8 +1231,10 @@
                     android:layout_column="4"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1062,8 +1243,10 @@
                     android:layout_column="4"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1072,8 +1255,10 @@
                     android:layout_column="4"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1082,8 +1267,10 @@
                     android:layout_column="4"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1092,8 +1279,10 @@
                     android:layout_column="4"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1102,8 +1291,10 @@
                     android:layout_column="4"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1112,8 +1303,10 @@
                     android:layout_column="4"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1122,8 +1315,10 @@
                     android:layout_column="4"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1132,8 +1327,10 @@
                     android:layout_column="4"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1142,8 +1339,10 @@
                     android:layout_column="4"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1152,8 +1351,10 @@
                     android:layout_column="4"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1162,8 +1363,10 @@
                     android:layout_column="4"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1172,8 +1375,10 @@
                     android:layout_column="4"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1182,8 +1387,10 @@
                     android:layout_column="4"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1192,8 +1399,10 @@
                     android:layout_column="4"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <!-- thu -->
@@ -1204,8 +1413,10 @@
                     android:layout_column="5"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1214,8 +1425,10 @@
                     android:layout_column="5"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1224,8 +1437,10 @@
                     android:layout_column="5"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1234,8 +1449,10 @@
                     android:layout_column="5"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1244,8 +1461,10 @@
                     android:layout_column="5"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1254,8 +1473,10 @@
                     android:layout_column="5"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1264,8 +1485,10 @@
                     android:layout_column="5"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1274,8 +1497,10 @@
                     android:layout_column="5"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1284,8 +1509,10 @@
                     android:layout_column="5"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1294,8 +1521,10 @@
                     android:layout_column="5"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1304,8 +1533,10 @@
                     android:layout_column="5"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1314,8 +1545,10 @@
                     android:layout_column="5"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1324,8 +1557,10 @@
                     android:layout_column="5"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1334,8 +1569,10 @@
                     android:layout_column="5"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1344,8 +1581,10 @@
                     android:layout_column="5"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1354,8 +1593,10 @@
                     android:layout_column="5"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1364,8 +1605,10 @@
                     android:layout_column="5"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1374,8 +1617,10 @@
                     android:layout_column="5"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <TextView
@@ -1384,8 +1629,10 @@
                     android:layout_column="5"
                     android:width="64dp"
                     android:background="#FFFFFF"
+                    android:ellipsize="end"
                     android:fontFamily="@font/btn_font2"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:padding="10dp" />
 
                 <!-- Continue for all rows and columns -->
@@ -1396,11 +1643,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#E0E0E0"
+                android:background="#FAFAFA"
                 android:fontFamily="@font/btn_font2"
-                android:gravity="center"
-                android:text="수강 현황"
-                android:textSize="17dp"
+                android:gravity="left"
+                android:text=" [ 수강 현황 ]"
+                android:textSize="15dp"
+                android:textColor="@color/indigo"
                 app:layout_constraintBottom_toTopOf="@+id/my_schedule_list"
                 app:layout_constraintEnd_toEndOf="@+id/my_schedule_list"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -1416,6 +1664,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/schedule_grid" />
 
+
         </androidx.constraintlayout.widget.ConstraintLayout>
         <!-- 이부분 -->
     </androidx.core.widget.NestedScrollView>
@@ -1424,7 +1673,7 @@
         android:id="@+id/lecture_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="515dp"
+        android:layout_marginTop="480dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -1554,7 +1803,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/schedule_list"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="180dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"

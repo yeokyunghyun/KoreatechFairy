@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 그림자 레이어 -->
+    <item>
+        <shape android:shape="oval">
+            <size android:width="48dp" android:height="48dp" />
+            <solid android:color="#80000000" /> <!-- 반투명 검정색 (그림자) -->
+        </shape>
+    </item>
+
+    <!-- 버튼 레이어 -->
+    <item android:top= "5dp" android:bottom="5dp" android:left="5dp" android:right="5dp">
+        <shape android:shape="oval">
+            <size android:width="48dp" android:height="48dp" />
+            <solid android:color="@color/button_orange" /> <!-- 빨간색 -->
+        </shape>
+    </item>
+</layer-list>

@@ -7,11 +7,13 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,26 +59,6 @@ import java.util.List;
 import java.util.Random;
 
 public class ScheduleActivity extends AppCompatActivity {
-//    private String[][] timeTab = {
-//            {"01A", "0900"},
-//            {"01B", "0930"},
-//            {"02A", "1000"},
-//            {"02B", "1030"},
-//            {"03A", "1100"},
-//            {"03B", "1130"},
-//            {"04A", "1200"},
-//            {"04B", "1230"},
-//            {"05A", "1300"},
-//            {"05B", "1330"},
-//            {"06A", "1400"},
-//            {"06B", "1430"},
-//            {"07A", "1500"},
-//            {"07B", "1530"},
-//            {"08A", "1600"},
-//            {"08B", "1630"},
-//            {"09A", "1700"},
-//            {"09B", "1730"},
-//    };
     private final String year = "2024";
     private final String semester = "1";
     private ActivityResultLauncher<Intent> getContentLauncher;
@@ -94,7 +76,8 @@ public class ScheduleActivity extends AppCompatActivity {
     private String userMajor;
     private Spinner gradeSpinner, concentrationSpinner;
     private EditText et_major, et_general, et_MSC, et_HRD;
-    private Button btn_create, btn_next;
+    private Button btn_create;
+    private ImageButton btn_next;
     private TextView scheduleTextView;
     private Random random = new Random();
     private List<String> myLectures = new ArrayList<>();
@@ -161,15 +144,20 @@ public class ScheduleActivity extends AppCompatActivity {
 
         String userId = getIntent().getStringExtra("userId");
         repository = new LectureRepository(reference);
-
         gradeSpinner = findViewById(R.id.sp_grade);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.grade,
+                R.layout.spinner_item
+        );
         concentrationSpinner = findViewById(R.id.sp_major);
+
         et_major = findViewById(R.id.et_major);
         et_general = findViewById(R.id.et_general);
         et_MSC = findViewById(R.id.et_MSC);
         et_HRD = findViewById(R.id.et_HRD);
         btn_create = (Button) findViewById(R.id.btn_create);
-        btn_next = (Button) findViewById(R.id.btn_next);
+        btn_next = (ImageButton)findViewById(R.id.btn_next);
 
         //전공에 따라 Spinner 설정
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("KoreatechFairy4/User/" + userId);
@@ -566,7 +554,12 @@ public class ScheduleActivity extends AppCompatActivity {
                     // 이름 겹치는 경우
                     if (myScheduleManager.isDuplicateName(lecture.getName())) {
                         // 중복 메시지 출력
-                    } else {
+                        showCustomToast("이미 시간표에 있는 과목입니다.");
+                    }
+                    else if(myLectures.contains(lecture.getName())) {
+                        showCustomToast("이미 수강한 과목입니다.");
+                    }
+                    else {
                         // time을 변환시키는 과정 필요
                         String time = lecture.getTime();
                         if (!time.isEmpty()) {
@@ -1179,5 +1172,22 @@ public class ScheduleActivity extends AppCompatActivity {
         myScheduleManager.clearAll();
         myScheduleList.clear();
         lectureAdapter.notifyDataSetChanged();
+    }
+
+    private void showCustomToast(String message) {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.custom_toast, findViewById(R.id.custom_toast_container));
+
+        // 이미지 및 텍스트 설정
+        ImageView imageView = layout.findViewById(R.id.toast_image);
+        imageView.setImageResource(R.drawable.smallfairy); // 원하는 이미지로 변경
+
+        TextView textView = layout.findViewById(R.id.toast_text);
+        textView.setText(message);
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(layout);
+        toast.show();
     }
 }
