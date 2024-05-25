@@ -145,7 +145,7 @@
         android:layout_width="100dp"
         android:layout_height="62dp"
         android:layout_marginEnd="30dp"
-        android:text="내 시간표"
+        android:text="앱 정보"
         android:fontFamily="@font/btn_font"
         app:layout_constraintBottom_toBottomOf="@+id/button6"
         app:layout_constraintEnd_toEndOf="parent"

@@ -1,5 +1,7 @@
 package com.example.koreatechfairy4.util;
 
+import android.util.Log;
+
 import com.example.koreatechfairy4.constants.TimeTab;
 import com.example.koreatechfairy4.dto.LectureDto;
 
@@ -66,6 +68,7 @@ public class MyScheduleList {
 
     public void addLecture(LectureDto lecture) {
         lectureList.add(lecture);
+        Log.d("name", lecture.getName());
     }
 
     public boolean addAllLecture(List<LectureDto> lectures) {
@@ -87,6 +90,7 @@ public class MyScheduleList {
 
     public void removeLecture(LectureDto lecture) {
         lectureList.remove(lecture);
+        Log.d("lectureName", lecture.getName());
     }
 
     public void removeTime(List<DayAndTimes> dayAndTimes) {
@@ -94,6 +98,7 @@ public class MyScheduleList {
             String day = dat.getDays();
             for(String time : dat.getTimeList()) {
                 timeTable.get(day).remove(time);
+                Log.d("time", time);
             }
         }
     }
