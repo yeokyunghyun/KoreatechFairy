@@ -542,6 +542,7 @@ public class ScheduleActivity extends AppCompatActivity {
                     scheduleTextView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
                 }
             }
+            Log.d("엥", myScheduleManager.getLectureList().toString());
             lectureAdapter.notifyDataSetChanged();
         });
         myScheduleRecyclerView.setAdapter(lectureAdapter);
