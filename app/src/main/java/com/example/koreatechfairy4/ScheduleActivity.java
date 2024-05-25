@@ -317,13 +317,13 @@ public class ScheduleActivity extends AppCompatActivity {
                                                                 //재귀 시작
                                                                 candiList = new ArrayList<>();
                                                                 int totalRequiredCredit = totalRequiredCredit(data);
+                                                                List<DataSnapshot> lectureNames = new ArrayList<>();
                                                                 for (DataSnapshot creditSnapshot : data.getChildren()) {
-                                                                    List<DataSnapshot> lectureNames = new ArrayList<>();
                                                                     for (DataSnapshot d : creditSnapshot.getChildren()) {
                                                                         lectureNames.add(d);
                                                                     }
-                                                                    createNonConcentration(candiList, lectureNames, majorCredit, majorCredit, 0, new ArrayList<LectureDto>(), gradeSnapshot, totalRequiredCredit);
                                                                 }
+                                                                createNonConcentration(candiList, lectureNames, majorCredit, majorCredit, 0, new ArrayList<LectureDto>(), gradeSnapshot, totalRequiredCredit);
                                                                 majorCandi.setMajorList(candiList);
                                                             }
                                                         }
@@ -334,11 +334,16 @@ public class ScheduleActivity extends AppCompatActivity {
                                                     DataSnapshot allGradeSnapshot = majorSnapshot.child("전체").child(grade);
                                                     if (gradeSnapshot.getKey().equals(grade)) { //같은 학년에 대해
                                                         for (DataSnapshot data : gradeSnapshot.getChildren()) {
-                                                            if (data.getKey().equals("선택") && gradeSnapshot.getChildrenCount() == 1) {
+                                                            if (data.getKey().equals("선택") && gradeSnapshot.getChildrenCount() == 1) { //전체 필수로 진입
                                                                 candiList = new ArrayList<>();
-
-                                                                addSelectiveCoursesWithConcentration(candiList, new ArrayList<>(), majorCredit, gradeSnapshot, allGradeSnapshot);
-
+                                                                int allTotalRequiredCredit = totalRequiredCredit(allGradeSnapshot.child("필수"));
+                                                                for (DataSnapshot creditSnapshot : allGradeSnapshot.child("필수").getChildren()) {
+                                                                    List<DataSnapshot> allLectureNames = new ArrayList<>();
+                                                                    for (DataSnapshot d : creditSnapshot.getChildren()) {
+                                                                        allLectureNames.add(d);
+                                                                    }
+                                                                    createConcentrationWithRequired(candiList, allLectureNames, majorCredit, majorCredit, 0, new ArrayList<>(), gradeSnapshot, allGradeSnapshot, allTotalRequiredCredit);
+                                                                }
                                                                 majorCandi.setMajorList(candiList);
                                                             }
                                                             else if (data.getKey().equals("필수")) { //필수 과목에서 재귀 시작
@@ -812,15 +817,16 @@ public class ScheduleActivity extends AppCompatActivity {
             }
             return;
         }
+
         if (remainingCredit == majorCredit - concenTotalRequiredCredit) {
 
+            List<DataSnapshot> allLectureNames = new ArrayList<>();
             for (DataSnapshot creditSnapshot : allGradeSnapshot.child("필수").getChildren()) {
-                List<DataSnapshot> allLectureNames = new ArrayList<>();
                 for (DataSnapshot d : creditSnapshot.getChildren()) {
                     allLectureNames.add(d);
                 }
-                createConcentrationWithRequired(list, allLectureNames, remainingCredit, remainingCredit, 0, current, gradeSnapshot, allGradeSnapshot, allTotalRequiredCredit);
             }
+            createConcentrationWithRequired(list, allLectureNames, remainingCredit, remainingCredit, 0, current, gradeSnapshot, allGradeSnapshot, allTotalRequiredCredit);
         }
         if (idx >= lectureNames.size()) return;
 
@@ -856,6 +862,7 @@ public class ScheduleActivity extends AppCompatActivity {
             //list.add(new ArrayList<>(current));
             addSelectiveCoursesWithConcentration(list, current, majorCredit - allTotalRequiredCredit, gradeSnapshot, allGradeSnapshot);
         }
+
 
         if (idx >= lectureNames.size()) return;
 
