@@ -37,6 +37,7 @@ import com.example.koreatechfairy4.candidate.HRDCandi;
 import com.example.koreatechfairy4.candidate.MSCCandi;
 import com.example.koreatechfairy4.candidate.MajorCandi;
 import com.example.koreatechfairy4.candidate.ResultCandi;
+import com.example.koreatechfairy4.constants.TimeTab;
 import com.example.koreatechfairy4.dto.GradeDto;
 import com.example.koreatechfairy4.adapter.SearchLectureAdapter;
 import com.example.koreatechfairy4.dto.LectureDto;
@@ -58,26 +59,6 @@ import java.util.List;
 import java.util.Random;
 
 public class ScheduleActivity extends AppCompatActivity {
-    private String[][] timeTab = {
-            {"01A", "0900"},
-            {"01B", "0930"},
-            {"02A", "1000"},
-            {"02B", "1030"},
-            {"03A", "1100"},
-            {"03B", "1130"},
-            {"04A", "1200"},
-            {"04B", "1230"},
-            {"05A", "1300"},
-            {"05B", "1330"},
-            {"06A", "1400"},
-            {"06B", "1430"},
-            {"07A", "1500"},
-            {"07B", "1530"},
-            {"08A", "1600"},
-            {"08B", "1630"},
-            {"09A", "1700"},
-            {"09B", "1730"},
-    };
     private final String year = "2024";
     private final String semester = "1";
     private ActivityResultLauncher<Intent> getContentLauncher;
@@ -326,13 +307,13 @@ public class ScheduleActivity extends AppCompatActivity {
                                                                 //재귀 시작
                                                                 candiList = new ArrayList<>();
                                                                 int totalRequiredCredit = totalRequiredCredit(data);
+                                                                List<DataSnapshot> lectureNames = new ArrayList<>();
                                                                 for (DataSnapshot creditSnapshot : data.getChildren()) {
-                                                                    List<DataSnapshot> lectureNames = new ArrayList<>();
                                                                     for (DataSnapshot d : creditSnapshot.getChildren()) {
                                                                         lectureNames.add(d);
                                                                     }
-                                                                    createNonConcentration(candiList, lectureNames, majorCredit, majorCredit, 0, new ArrayList<LectureDto>(), gradeSnapshot, totalRequiredCredit);
                                                                 }
+                                                                createNonConcentration(candiList, lectureNames, majorCredit, majorCredit, 0, new ArrayList<LectureDto>(), gradeSnapshot, totalRequiredCredit);
                                                                 majorCandi.setMajorList(candiList);
                                                             }
                                                         }
@@ -343,11 +324,16 @@ public class ScheduleActivity extends AppCompatActivity {
                                                     DataSnapshot allGradeSnapshot = majorSnapshot.child("전체").child(grade);
                                                     if (gradeSnapshot.getKey().equals(grade)) { //같은 학년에 대해
                                                         for (DataSnapshot data : gradeSnapshot.getChildren()) {
-                                                            if (data.getKey().equals("선택") && gradeSnapshot.getChildrenCount() == 1) {
+                                                            if (data.getKey().equals("선택") && gradeSnapshot.getChildrenCount() == 1) { //전체 필수로 진입
                                                                 candiList = new ArrayList<>();
-
-                                                                addSelectiveCoursesWithConcentration(candiList, new ArrayList<>(), majorCredit, gradeSnapshot, allGradeSnapshot);
-
+                                                                int allTotalRequiredCredit = totalRequiredCredit(allGradeSnapshot.child("필수"));
+                                                                for (DataSnapshot creditSnapshot : allGradeSnapshot.child("필수").getChildren()) {
+                                                                    List<DataSnapshot> allLectureNames = new ArrayList<>();
+                                                                    for (DataSnapshot d : creditSnapshot.getChildren()) {
+                                                                        allLectureNames.add(d);
+                                                                    }
+                                                                    createConcentrationWithRequired(candiList, allLectureNames, majorCredit, majorCredit, 0, new ArrayList<>(), gradeSnapshot, allGradeSnapshot, allTotalRequiredCredit);
+                                                                }
                                                                 majorCandi.setMajorList(candiList);
                                                             }
                                                             else if (data.getKey().equals("필수")) { //필수 과목에서 재귀 시작
@@ -459,13 +445,21 @@ public class ScheduleActivity extends AppCompatActivity {
                         }
 
                         // 결과 리스트 만들기
+
                         resultCandi.clear();
                         createResultCandi(new ArrayList<>(), 0, filteringConditions);
+                        Collections.shuffle(resultCandi.getResultList(), new Random());
+
                         clearAllTables();
                         if (!resultCandi.isEmpty()) {
-                            for (LectureDto lectureDto : resultCandi.getResultList().get(lectureIdx++)) {
-                                createTable(lectureDto);
+                            if (myScheduleManager.addAllLecture(resultCandi.getResultList().get(lectureIdx++))) {
+                                for (LectureDto lectureDto : new ArrayList<>(myScheduleManager.getLectureList())) {
+                                    createTable(lectureDto);
+                                }
                             }
+                        }
+                        else {
+                            Toast.makeText(ScheduleActivity.this, "This is a Toast message", Toast.LENGTH_SHORT).show();
                         }
 
                         btn_next.setOnClickListener(new View.OnClickListener() {
@@ -473,16 +467,22 @@ public class ScheduleActivity extends AppCompatActivity {
                             public void onClick(View v) {
                                 if (!resultCandi.isEmpty()) {
                                     clearAllTables();
-                                    for (LectureDto lectureDto : resultCandi.getResultList().get(lectureIdx++)) {
-                                        createTable(lectureDto);
+                                    if (myScheduleManager.addAllLecture(resultCandi.getResultList().get(lectureIdx++))) {
+                                        for (LectureDto lectureDto : new ArrayList<>(myScheduleManager.getLectureList())) {
+                                            createTable(lectureDto);
+                                        }
                                     }
                                     if (lectureIdx >= resultCandi.getResultList().size()) {
                                         lectureIdx = 0;
                                         Log.d("lecture", "초기화");
                                     }
                                 }
+                                else {
+                                    Toast.makeText(ScheduleActivity.this, "This is a Toast message", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         });
+                        Log.d("close", "끝");
 
                     }
 
@@ -644,49 +644,7 @@ public class ScheduleActivity extends AppCompatActivity {
                                         int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
                                         setTextWithId(resId, lectureClasses);
                                     }
-                                   /* List<String> splitLectureName = splitStringByLength(lectureName, 4);
 
-                                    if(textViewSize - 1 >= splitLectureName.size()) {
-                                        int i;
-                                        for(i = 0; i < splitLectureName.size(); ++i) {
-                                            String t = dat.getTimeList().get(i);
-                                            String scheduleId = scheduleDay + t;
-                                            int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
-                                            setTextWithId(resId, splitLectureName.get(i));
-                                        }
-
-                                        String t = dat.getTimeList().get(i);
-                                        String scheduleId = scheduleDay + t;
-                                        int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
-                                        setTextWithId(resId, lectureClasses);
-                                    }
-                                    else if(textViewSize >= resultLectureName.size()) {
-                                        for(int i = 0; i < splitLectureName.size(); ++i) {
-                                            String t = dat.getTimeList().get(i);
-                                            String scheduleId = scheduleDay + t;
-                                            int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
-                                            setTextWithId(resId, splitLectureName.get(i));
-                                        }
-                                    }
-                                    else {
-                                        if(dat.getTimeList().size() == 1) {
-                                            String t = dat.getTimeList().get(0);
-                                            String scheduleId = scheduleDay + t;
-                                            int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
-                                            setTextWithId(resId, abbreviationName);
-                                        }
-                                        else {
-                                            String t = dat.getTimeList().get(0);
-                                            String scheduleId = scheduleDay + t;
-                                            int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
-                                            setTextWithId(resId, abbreviationName.substring(0, 4));
-
-                                            t = dat.getTimeList().get(1);
-                                            scheduleId = scheduleDay + t;
-                                            resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
-                                            setTextWithId(resId, abbreviationName.substring(4, abbreviationName.length()));
-                                        }
-                                    }*/
 
                                     for (String t : dat.getTimeList()) {
                                         myScheduleManager.addTime(day, t);
@@ -760,12 +718,12 @@ public class ScheduleActivity extends AppCompatActivity {
             String secondTime = splitTilde[1].substring(0, 3);
 
             boolean isChecked = false;
-            for (int i = 0; i < timeTab.length; ++i) {
-                if (firstTime.equals(timeTab[i][0])) {
+            for (int i = 0; i < TimeTab.timeTab.length; ++i) {
+                if (firstTime.equals(TimeTab.timeTab[i][0])) {
                     isChecked = true;
-                    for (int j = i; j < timeTab.length; ++j) {
-                        timeList.add(timeTab[j][1]);
-                        if (secondTime.equals(timeTab[j][0])) break;
+                    for (int j = i; j < TimeTab.timeTab.length; ++j) {
+                        timeList.add(TimeTab.timeTab[j][1]);
+                        if (secondTime.equals(TimeTab.timeTab[j][0])) break;
                     }
                 }
                 if (isChecked) break;
@@ -826,15 +784,16 @@ public class ScheduleActivity extends AppCompatActivity {
             }
             return;
         }
+
         if (remainingCredit == majorCredit - concenTotalRequiredCredit) {
 
+            List<DataSnapshot> allLectureNames = new ArrayList<>();
             for (DataSnapshot creditSnapshot : allGradeSnapshot.child("필수").getChildren()) {
-                List<DataSnapshot> allLectureNames = new ArrayList<>();
                 for (DataSnapshot d : creditSnapshot.getChildren()) {
                     allLectureNames.add(d);
                 }
-                createConcentrationWithRequired(list, allLectureNames, remainingCredit, remainingCredit, 0, current, gradeSnapshot, allGradeSnapshot, allTotalRequiredCredit);
             }
+            createConcentrationWithRequired(list, allLectureNames, remainingCredit, remainingCredit, 0, current, gradeSnapshot, allGradeSnapshot, allTotalRequiredCredit);
         }
         if (idx >= lectureNames.size()) return;
 
@@ -870,6 +829,7 @@ public class ScheduleActivity extends AppCompatActivity {
             //list.add(new ArrayList<>(current));
             addSelectiveCoursesWithConcentration(list, current, majorCredit - allTotalRequiredCredit, gradeSnapshot, allGradeSnapshot);
         }
+
 
         if (idx >= lectureNames.size()) return;
 
