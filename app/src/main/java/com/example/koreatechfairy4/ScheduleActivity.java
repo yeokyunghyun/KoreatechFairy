@@ -459,7 +459,7 @@ public class ScheduleActivity extends AppCompatActivity {
                             }
                         }
                         else {
-                            Toast.makeText(ScheduleActivity.this, "This is a Toast message", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ScheduleActivity.this, "가능한 시간표가 없습니다.", Toast.LENGTH_SHORT).show();
                         }
 
                         btn_next.setOnClickListener(new View.OnClickListener() {
@@ -478,7 +478,7 @@ public class ScheduleActivity extends AppCompatActivity {
                                     }
                                 }
                                 else {
-                                    Toast.makeText(ScheduleActivity.this, "This is a Toast message", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ScheduleActivity.this, "가능한 시간표가 없습니다.", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });

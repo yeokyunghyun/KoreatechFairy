@@ -176,6 +176,7 @@
                     android:fontFamily="@font/btn_font2"
                     android:text="시간표\n생성"
                     android:textSize="16dp"
+                    android:lineSpacingExtra="4dp"
                     app:layout_constraintBottom_toBottomOf="@+id/textView12"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

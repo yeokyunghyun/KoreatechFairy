@@ -30,13 +30,13 @@ import com.google.firebase.database.ValueEventListener;
 public class MainActivity extends AppCompatActivity {
 
     private EditText notify_title, notify_message;
-    private Button notify_btn;
+    private Button notify_btn, notify_move;
     private NotificationHelper notificationHelper;
     // 알림 기능
 
     private String userId, userMajor;
     private ConstraintLayout notify_button, schedule_button;
-    private Button my_page_button, logout_button, button6;
+    private Button my_page_button, logout_button, button6, app_info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +78,9 @@ public class MainActivity extends AppCompatActivity {
         logout_button = findViewById(R.id.logout_button);
         notify_button = findViewById(R.id.notify_button);
         schedule_button = findViewById(R.id.schedule_button);
-
+        app_info = findViewById(R.id.app_info);
         button6 = (Button) findViewById(R.id.button6);
+        notify_move = findViewById(R.id.notify_move);
         button6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,6 +90,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        notify_move.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://portal.koreatech.ac.kr/ctt/bb/bulletin?b=14"));
+                startActivity(browserIntent);
+            }
+        });
         userId = getIntent().getStringExtra("userId");
 
         notify_button.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +108,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        app_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AppInfoActivity.class);
+                startActivity(intent);
+            }
+        });
         logout_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,8 +130,6 @@ public class MainActivity extends AppCompatActivity {
 
         switchActivityWithUserId(schedule_button, ScheduleActivity.class, userId);
         switchActivityWithUserId(my_page_button, MyPageActivity.class, userId);
-
-
     }
 
     @Override
