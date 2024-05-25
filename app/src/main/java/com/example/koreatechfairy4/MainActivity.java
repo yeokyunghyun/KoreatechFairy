@@ -3,6 +3,7 @@ package com.example.koreatechfairy4;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,9 +17,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.koreatechfairy4.constants.MajorLink;
 import com.example.koreatechfairy4.service.MyService;
 import com.example.koreatechfairy4.util.NotificationHelper;
 import com.example.koreatechfairy4.util.SharedPreferencesManager;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,9 +34,9 @@ public class MainActivity extends AppCompatActivity {
     private NotificationHelper notificationHelper;
     // 알림 기능
 
-    private String userId;
+    private String userId, userMajor;
     private ConstraintLayout notify_button, schedule_button;
-    private Button my_page_button, logout_button;
+    private Button my_page_button, logout_button, button6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +55,39 @@ public class MainActivity extends AppCompatActivity {
         it.putExtra("userId", userId);
         startService(it);
 
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("KoreatechFairy4/User/" + userId);
+        userRef.child("major").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // 데이터가 존재하면, 전공 설정
+                    userMajor = dataSnapshot.getValue(String.class);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // 데이터를 가져오는 도중 에러가 발생한 경우, 에러 처리를 하세요
+                Log.w("TAG", "Failed to read value.", databaseError.toException());
+            }
+        });
+
+
         // button
         my_page_button = findViewById(R.id.my_page_button);
         logout_button = findViewById(R.id.logout_button);
         notify_button = findViewById(R.id.notify_button);
         schedule_button = findViewById(R.id.schedule_button);
+
+        button6 = (Button) findViewById(R.id.button6);
+        button6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String uri = MajorLink.valueOf(userMajor).link();
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                startActivity(intent);
+            }
+        });
 
         userId = getIntent().getStringExtra("userId");
 
