@@ -29,6 +29,13 @@ public class ResultCandi {
     }
 
     public boolean isEmpty() {
+        if (!resultList.isEmpty()) {
+            for (List<LectureDto> list : resultList) {
+                if (list.isEmpty()) {
+                    return true;
+                }
+            }
+        }
         return resultList.isEmpty();
     }
 }

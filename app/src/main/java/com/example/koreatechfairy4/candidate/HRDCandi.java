@@ -17,7 +17,11 @@ public class HRDCandi {
     }
 
     public void setHRDList(List<List<LectureDto>> HRDList) {
-        this.HRDList = HRDList;
+        this.HRDList = new ArrayList<>(HRDList);
+    }
+
+    public void add(List<LectureDto> lectureList) {
+        HRDList.add(new ArrayList<>(lectureList));
     }
 
     public void clear() {

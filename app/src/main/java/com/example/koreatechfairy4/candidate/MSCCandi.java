@@ -17,7 +17,11 @@ public class MSCCandi {
     }
 
     public void setMSCList(List<List<LectureDto>> MSCList) {
-        this.MSCList = MSCList;
+        this.MSCList = new ArrayList<>(MSCList);
+    }
+
+    public void add(List<LectureDto> lectureList) {
+        MSCList.add(new ArrayList<>(lectureList));
     }
 
     public void clear() {
