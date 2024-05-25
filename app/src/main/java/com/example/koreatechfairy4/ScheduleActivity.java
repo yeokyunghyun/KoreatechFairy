@@ -542,6 +542,7 @@ public class ScheduleActivity extends AppCompatActivity {
                     scheduleTextView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
                 }
             }
+            Log.d("엥", myScheduleManager.getLectureList().toString());
             lectureAdapter.notifyDataSetChanged();
         });
         myScheduleRecyclerView.setAdapter(lectureAdapter);
@@ -1066,7 +1067,6 @@ public class ScheduleActivity extends AppCompatActivity {
         int blue = random.nextInt(128) + minColorValue;
         List<DayAndTimes> dayAndTimes = changeToDayAndTimes(lecture.getTime());
         // 다 되는 경우
-        myScheduleManager.addLecture(lecture);
         for (DayAndTimes dat : dayAndTimes) {
             String day = dat.getDays();
             String scheduleDay = day + "_";
@@ -1137,7 +1137,6 @@ public class ScheduleActivity extends AppCompatActivity {
                 setTextWithId(resId, lectureClasses);
             }
             for (String t : dat.getTimeList()) {
-                myScheduleManager.addTime(day, t);
                 String scheduleId = scheduleDay + t;
                 int resId = getResources().getIdentifier(scheduleId, "id", getPackageName());
 
