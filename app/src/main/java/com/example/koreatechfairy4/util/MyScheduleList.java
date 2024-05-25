@@ -1,5 +1,6 @@
 package com.example.koreatechfairy4.util;
 
+import com.example.koreatechfairy4.constants.TimeTab;
 import com.example.koreatechfairy4.dto.LectureDto;
 
 import java.util.ArrayList;
@@ -66,8 +67,22 @@ public class MyScheduleList {
     public void addLecture(LectureDto lecture) {
         lectureList.add(lecture);
     }
-    public void addAllLecture(List<LectureDto> lectures) {
-        lectureList.addAll(lectures);
+
+    public boolean addAllLecture(List<LectureDto> lectures) {
+        for (LectureDto lectureDto : lectures) {
+            addLecture(lectureDto);
+            addAllTime(changeToDayAndTimes(lectureDto.getTime()));
+        }
+        return true;
+    }
+
+    public void addAllTime(List<DayAndTimes> datList) {
+        for (DayAndTimes dat : datList) {
+            String d = dat.getDays();
+            for (String t : dat.getTimeList()) {
+                addTime(d, t);
+            }
+        }
     }
 
     public void removeLecture(LectureDto lecture) {
@@ -86,5 +101,44 @@ public class MyScheduleList {
     public void clearAll() {
         lectureList.clear();
         timeTable.clear();
+    }
+
+    private List<DayAndTimes> changeToDayAndTimes(String time) {
+        String days = String.valueOf(time.charAt(0)); // 첫 요일
+        String[] splitLectureTime = time.split(",");
+
+        List<DayAndTimes> dayAndTimes = new ArrayList<>();
+
+        for (String lectureTime : splitLectureTime) {
+            if (!(lectureTime.charAt(0) >= '0' && lectureTime.charAt(0) <= '9')) {
+                days = String.valueOf(lectureTime.charAt(0));
+            }
+            List<String> timeList = new ArrayList<>();
+
+            // ~로 나눠서 시간 추출
+            String[] splitTilde = lectureTime.split("~");
+            int firstLength = splitTilde[0].length();
+            String firstTime = splitTilde[0].substring(firstLength - 3, firstLength);
+            String secondTime = splitTilde[1].substring(0, 3);
+
+            boolean isChecked = false;
+            for (int i = 0; i < TimeTab.timeTab.length; ++i) {
+                if (firstTime.equals(TimeTab.timeTab[i][0])) {
+                    isChecked = true;
+                    for (int j = i; j < TimeTab.timeTab.length; ++j) {
+                        timeList.add(TimeTab.timeTab[j][1]);
+                        if (secondTime.equals(TimeTab.timeTab[j][0])) break;
+                    }
+                }
+                if (isChecked) break;
+            }
+            if (!isChecked) {
+                timeList.add("1800");
+            }
+
+            dayAndTimes.add(new DayAndTimes(days, timeList));
+        }
+
+        return dayAndTimes;
     }
 }
