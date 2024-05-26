@@ -130,6 +130,68 @@ public class MyService extends Service {
         }
     }
 
+//    public void updateNotifyDb() {
+//        databaseReference = FirebaseDatabase.getInstance().getReference("KoreatechFairy4/NotifyDto");
+//        notificationHelper = new NotificationHelper(this);
+//
+//        new Thread(() -> {
+//            try {
+//                for (NotifyDomain domain : NotifyDomain.values()) {
+//                    DatabaseReference domainRef = databaseReference.child(String.valueOf(domain));
+//                    notifies = NotifyCrawler.getNotice(domain);
+//
+//                    domainRef.get().addOnCompleteListener(task -> {
+//                        if (task.isSuccessful()) {
+//                            int count = 1;
+//                            List<NotifyDto> firebaseNotifies = new ArrayList<>();
+//                            task.getResult().getChildren().forEach(snapshot -> {
+//                                NotifyDto notify = snapshot.getValue(NotifyDto.class);
+//                                firebaseNotifies.add(notify);
+//                            });
+//
+//                            for (NotifyDto crawledNotify : notifies) {
+//                                if (!firebaseNotifies.contains(crawledNotify)) {
+//                                    loadKeywords(crawledNotify);
+//                                }
+//                                domainRef.child("Notify_" + formatCount(count++)).setValue(crawledNotify);
+//                            }
+//                        }
+//                    });
+//                }
+//            } catch (Exception e) {
+//                Log.e("MyService", "Unexpected error in updateNotifyDb thread", e);
+//            }
+//        }).start();
+//
+//
+//        new Thread(() -> {
+//            try {
+//                DatabaseReference jobRef = databaseReference.child("JOB");
+//                notifies = NotifyCrawler.getJobNotice(jobLink);
+//
+//                jobRef.get().addOnCompleteListener(task -> {
+//                    if (task.isSuccessful()) {
+//                        int count = 1;
+//                        List<NotifyDto> firebaseNotifies = new ArrayList<>();
+//                        task.getResult().getChildren().forEach(snapshot -> {
+//                            NotifyDto notify = snapshot.getValue(NotifyDto.class);
+//                            firebaseNotifies.add(notify);
+//                        });
+//
+//                        for (NotifyDto crawledNotify : notifies) {
+//                            if (!firebaseNotifies.contains(crawledNotify)) {
+//                                loadKeywords(crawledNotify);
+//                            }
+//                            jobRef.child("Notify_" + formatCount(count++)).setValue(crawledNotify);
+//                        }
+//                    }
+//                });
+//            } catch (Exception e) {
+//                Log.e("MyService", "Unexpected error in updateNotifyDb thread", e);
+//            }
+//        }).start();
+//    }
+
     public void updateNotifyDb() {
         databaseReference = FirebaseDatabase.getInstance().getReference("KoreatechFairy4/NotifyDto");
         notificationHelper = new NotificationHelper(this);
@@ -150,10 +212,17 @@ public class MyService extends Service {
                             });
 
                             for (NotifyDto crawledNotify : notifies) {
-                                if (!firebaseNotifies.contains(crawledNotify)) {
-                                    loadKeywords(crawledNotify);
+                                boolean isNewNotify = true;
+                                for (NotifyDto firebaseNotify : firebaseNotifies) {
+                                    if (firebaseNotify != null && firebaseNotify.equals(crawledNotify)) {
+                                        isNewNotify = false;
+                                        break;
+                                    }
                                 }
-                                domainRef.child("Notify_" + formatCount(count++)).setValue(crawledNotify);
+                                if (isNewNotify) {
+                                    loadKeywords(crawledNotify);
+                                    domainRef.child("Notify_" + formatCount(count++)).setValue(crawledNotify);
+                                }
                             }
                         }
                     });
@@ -162,7 +231,6 @@ public class MyService extends Service {
                 Log.e("MyService", "Unexpected error in updateNotifyDb thread", e);
             }
         }).start();
-
 
         new Thread(() -> {
             try {
@@ -179,10 +247,17 @@ public class MyService extends Service {
                         });
 
                         for (NotifyDto crawledNotify : notifies) {
-                            if (!firebaseNotifies.contains(crawledNotify)) {
-                                loadKeywords(crawledNotify);
+                            boolean isNewNotify = true;
+                            for (NotifyDto firebaseNotify : firebaseNotifies) {
+                                if (firebaseNotify != null && firebaseNotify.equals(crawledNotify)) {
+                                    isNewNotify = false;
+                                    break;
+                                }
                             }
-                            jobRef.child("Notify_" + formatCount(count++)).setValue(crawledNotify);
+                            if (isNewNotify) {
+                                loadKeywords(crawledNotify);
+                                jobRef.child("Notify_" + formatCount(count++)).setValue(crawledNotify);
+                            }
                         }
                     }
                 });
