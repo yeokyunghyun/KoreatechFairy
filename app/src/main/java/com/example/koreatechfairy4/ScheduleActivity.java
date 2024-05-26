@@ -542,7 +542,6 @@ public class ScheduleActivity extends AppCompatActivity {
                     scheduleTextView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
                 }
             }
-            Log.d("엥", myScheduleManager.getLectureList().toString());
             lectureAdapter.notifyDataSetChanged();
         });
         myScheduleRecyclerView.setAdapter(lectureAdapter);
@@ -568,7 +567,7 @@ public class ScheduleActivity extends AppCompatActivity {
 
                             // dayAndTime내부에 것들 비교하면서 시간 중복 체크
                             if (myScheduleManager.isDuplicateTime(dayAndTimes)) {
-                                // 시간 중복 메시지 출력
+                                showCustomToast("해당 시간에 다른 과목이 존재합니다.");
                             } else { //색칠 부분
                                 int minColorValue = 128;
                                 int red = random.nextInt(128) + minColorValue;
