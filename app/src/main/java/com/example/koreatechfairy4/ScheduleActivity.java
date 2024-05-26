@@ -674,7 +674,7 @@ public class ScheduleActivity extends AppCompatActivity {
     private void setTextWithId(int resId, String text) {
         scheduleTextView = findViewById(resId);
         scheduleTextView.setText(text);
-        scheduleTextView.setTextSize(13.4f);
+        scheduleTextView.setTextSize(12f);
     }
 
     private void openDocument() {
