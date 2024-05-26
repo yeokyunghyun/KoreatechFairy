@@ -89,7 +89,7 @@ public class NotifyCrawler {
         for (Element row : rows) {
             if (!row.hasClass("bc-s-post-notice")) {
                 String detailUrl = "https://portal.koreatech.ac.kr" + row.attr("data-url");
-                int notifyNum = Integer.parseInt(row.select(".bc-s-post_seq").text().trim());
+                String notifyNum = row.select(".bc-s-post_seq").text().trim();
                 String title = row.select(".bc-s-title span").attr("title");
                 String date = row.select(".bc-s-cre_dt").text().trim();
                 String author = row.select(".bc-s-cre_user_name").text().trim();
@@ -135,71 +135,71 @@ public class NotifyCrawler {
     public static List<NotifyDto> getJobNotice(String link) throws IOException, NoSuchAlgorithmException, KeyManagementException {
         List<NotifyDto> list = new ArrayList<>();
 
-        for (int i=1; i<=2; ++i) {
+        Document doc = Jsoup.connect(link).get();
 
-            Document doc = Jsoup.connect(link+i).get();
+        Elements rows = doc.select("tr.primeLine");
+        int count = 1;
+        for (Element row : rows) {
+            String detailUrl = "https://job.koreatech.ac.kr/" + row.select("td.title a").attr("href");
+            String title = row.select("td.title a b").text();
+            //Elements cells = row.select("td.center.none");
+            String date = row.select("#contents > table > tbody > tr:nth-child(1) > td:nth-child(3)").text().trim();
+            String author = row.select("#contents > table > tbody > tr:nth-child(1) > td:nth-child(5)").text().trim();
+            //String date = cells.get(1).text();
+            //String author = cells.get(2).text();
 
-            Elements rows = doc.select("tr.primeLine");
+            NotifyDto notify = new NotifyDto();
+            notify.setTitle(title);
+            notify.setDate(date);
+            notify.setAuthor(author);
 
-            for (Element row : rows) {
-                String detailUrl = "https://job.koreatech.ac.kr/" + row.select("td.title a").attr("href");
-                String title = row.select("td.title a b").text();
-                //Elements cells = row.select("td.center.none");
-                String date = row.select("#contents > table > tbody > tr:nth-child(1) > td:nth-child(3)").text().trim();
-                String author = row.select("#contents > table > tbody > tr:nth-child(1) > td:nth-child(5)").text().trim();
-                //String date = cells.get(1).text();
-                //String author = cells.get(2).text();
+            // 내용은 상세 페이지에서 가져와야 함
 
-                NotifyDto notify = new NotifyDto();
-                notify.setTitle(title);
-                notify.setDate(date);
-                notify.setAuthor(author);
+            // 내용 가져오기 (옵션)
+            setSSL();
+            Document detailDoc = Jsoup.connect(detailUrl).get();
+            Elements detailElement = detailDoc.select(".content");
+            String text = detailElement.text();
 
-                // 내용은 상세 페이지에서 가져와야 함
-
-                // 내용 가져오기 (옵션)
-                setSSL();
-                Document detailDoc = Jsoup.connect(detailUrl).get();
-                Elements detailElement = detailDoc.select(".content");
-                String text = detailElement.text();
-
-                Elements images = detailDoc.select("td[colspan='2'] img");
-                if (!images.isEmpty()) {
-                    ArrayList<String> imageUrls = new ArrayList<>();
-                    for (Element img : images) {
-                        String imageUrl = img.absUrl("src");  // 절대 경로로 변환
-                        imageUrls.add(imageUrl);
-                    }
-                    notify.setImgUrls(imageUrls);
+            Elements images = detailDoc.select("td[colspan='2'] img");
+            if (!images.isEmpty()) {
+                ArrayList<String> imageUrls = new ArrayList<>();
+                for (Element img : images) {
+                    String imageUrl = img.absUrl("src");  // 절대 경로로 변환
+                    imageUrls.add(imageUrl);
                 }
-
-                Element htmlElement = detailElement.first();
-                htmlElement.select("img").remove();
-                String html = htmlElement.html();
-                notify.setText(text);
-                notify.setHtml(html);
-
-                list.add(notify);
+                notify.setImgUrls(imageUrls);
             }
+
+            Element htmlElement = detailElement.first();
+            htmlElement.select("img").remove();
+            String html = htmlElement.html();
+            notify.setNotifyNum(formatCount(count++));
+            notify.setText(text);
+            notify.setHtml(html);
+
+            list.add(notify);
         }
 
         return list;
     }
 
     public static void setSSL() throws NoSuchAlgorithmException, KeyManagementException {
-        TrustManager[] trustAllCerts = new TrustManager[] {
+        TrustManager[] trustAllCerts = new TrustManager[]{
                 new X509TrustManager() {
                     @Override
                     public X509Certificate[] getAcceptedIssuers() {
                         // TODO Auto-generated method stub
                         return null;
                     }
+
                     @Override
                     public void checkClientTrusted(X509Certificate[] chain, String authType)
                             throws CertificateException {
                         // TODO Auto-generated method stub
 
                     }
+
                     @Override
                     public void checkServerTrusted(X509Certificate[] chain, String authType)
                             throws CertificateException {
@@ -216,6 +216,10 @@ public class NotifyCrawler {
             }
         });
         HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+    }
+
+    private static String formatCount(int count) {
+        return String.format("%02d", count);
     }
 
 
