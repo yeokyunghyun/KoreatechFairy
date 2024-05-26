@@ -41,7 +41,7 @@ import java.util.List;
 public class MyService extends Service {
 
     private DatabaseReference databaseReference;
-    private List<NotifyDto> notifies;
+    private List<NotifyDto> notifies1, notifies2;
     private String jobLink = "https://job.koreatech.ac.kr/jobs/notice/jobNoticeList.aspx?page=";
     private NotificationHelper notificationHelper;
     private ArrayList<String> keywords;
@@ -200,7 +200,7 @@ public class MyService extends Service {
             try {
                 for (NotifyDomain domain : NotifyDomain.values()) {
                     DatabaseReference domainRef = databaseReference.child(String.valueOf(domain));
-                    notifies = NotifyCrawler.getNotice(domain);
+                    notifies1 = NotifyCrawler.getNotice(domain);
 
                     domainRef.get().addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -211,17 +211,10 @@ public class MyService extends Service {
                                 firebaseNotifies.add(notify);
                             });
 
-                            for (NotifyDto crawledNotify : notifies) {
-                                boolean isNewNotify = true;
-                                for (NotifyDto firebaseNotify : firebaseNotifies) {
-                                    if (firebaseNotify != null && firebaseNotify.equals(crawledNotify)) {
-                                        isNewNotify = false;
-                                        break;
-                                    }
-                                }
-                                if (isNewNotify) {
+                            for (NotifyDto crawledNotify : notifies1) {
+                                if (!firebaseNotifies.contains(crawledNotify)) {
                                     loadKeywords(crawledNotify);
-                                    domainRef.child("Notify_" + formatCount(count++)).setValue(crawledNotify);
+                                    domainRef.child("Notify_" + crawledNotify.getNotifyNum()).setValue(crawledNotify);
                                 }
                             }
                         }
@@ -235,28 +228,21 @@ public class MyService extends Service {
         new Thread(() -> {
             try {
                 DatabaseReference jobRef = databaseReference.child("JOB");
-                notifies = NotifyCrawler.getJobNotice(jobLink);
+                notifies2 = NotifyCrawler.getJobNotice(jobLink);
 
                 jobRef.get().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         int count = 1;
-                        List<NotifyDto> firebaseNotifies = new ArrayList<>();
+                        List<NotifyDto> firebaseNotifies2 = new ArrayList<>();
                         task.getResult().getChildren().forEach(snapshot -> {
                             NotifyDto notify = snapshot.getValue(NotifyDto.class);
-                            firebaseNotifies.add(notify);
+                            firebaseNotifies2.add(notify);
                         });
 
-                        for (NotifyDto crawledNotify : notifies) {
-                            boolean isNewNotify = true;
-                            for (NotifyDto firebaseNotify : firebaseNotifies) {
-                                if (firebaseNotify != null && firebaseNotify.equals(crawledNotify)) {
-                                    isNewNotify = false;
-                                    break;
-                                }
-                            }
-                            if (isNewNotify) {
+                        for (NotifyDto crawledNotify : notifies2) {
+                            if (!firebaseNotifies2.contains(crawledNotify)) {
                                 loadKeywords(crawledNotify);
-                                jobRef.child("Notify_" + formatCount(count++)).setValue(crawledNotify);
+                                jobRef.child("Notify_" + crawledNotify.getNotifyNum()).setValue(crawledNotify);
                             }
                         }
                     }
@@ -325,9 +311,6 @@ public class MyService extends Service {
         }
     }
 
-    private String formatCount(int count) {
-        return String.format("%02d", count);
-    }
 
     @SuppressLint("ForegroundServiceType")
     private void showNotification(Intent notificationIntent) {

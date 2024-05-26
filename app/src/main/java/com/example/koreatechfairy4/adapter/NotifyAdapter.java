@@ -42,7 +42,7 @@ public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.NotifyView
     @Override
     public void onBindViewHolder(@NonNull NotifyViewHolder holder, int position) {
         holder.tv_title.setText(notifyList.get(position).getTitle());
-        if (notifyList.get(position).getNotifyNum() == 0)
+        if (notifyList.get(position).getNotifyNum().equals("00"))
             holder.tv_num.setText(String.valueOf(count++));
         else
             holder.tv_num.setText(String.valueOf(notifyList.get(position).getNotifyNum()));

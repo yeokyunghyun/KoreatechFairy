@@ -3,12 +3,13 @@ package com.example.koreatechfairy4.dto;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class NotifyDto {
     private String title;
     private String text;
     private int domain;
-    private int notifyNum;
+    private String notifyNum;
     private String date;
     private String author;
     private ArrayList<String> imgUrls;
@@ -58,11 +59,11 @@ public class NotifyDto {
         this.domain = domain;
     }
 
-    public int getNotifyNum() {
+    public String getNotifyNum() {
         return notifyNum;
     }
 
-    public void setNotifyNum(int notifyNum) {
+    public void setNotifyNum(String notifyNum) {
         this.notifyNum = notifyNum;
     }
 
@@ -102,5 +103,10 @@ public class NotifyDto {
     public boolean equals(@Nullable Object obj) {
         NotifyDto input = (NotifyDto) obj;
         return this.getTitle().equals(input.getTitle());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title);
     }
 }
