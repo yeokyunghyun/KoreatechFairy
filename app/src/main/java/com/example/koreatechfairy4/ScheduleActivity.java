@@ -109,6 +109,8 @@ public class ScheduleActivity extends AppCompatActivity {
         schedule_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                myScheduleList.clear();
+                myScheduleManager.clearAll();
                 finish();
             }
         });
