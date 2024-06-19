@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "414869378653",
-    "project_id": "koreatechfairy4",
-    "storage_bucket": "koreatechfairy4.appspot.com"
+    "project_number": "825535509076",
+    "project_id": "koreatechfairy4-4815b",
+    "storage_bucket": "koreatechfairy4-4815b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:414869378653:android:27d069a220485be43b1fb4",
+        "mobilesdk_app_id": "1:825535509076:android:7967692b7c74d08a6d73c1",
         "android_client_info": {
           "package_name": "com.example.koreatechfairy4"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCYB88fxiCbSqy_3Yd0l0XWEUUVA2i0evI"
+          "current_key": "AIzaSyCNVqtWAZJ13wBbe2YXvSEaatwlLlryODc"
         }
       ],
       "services": {
