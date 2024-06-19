@@ -1,5 +1,6 @@
 package com.example.koreatechfairy4;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -89,6 +90,7 @@ public class ScheduleActivity extends AppCompatActivity {
     private int lectureIdx;
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,9 +101,22 @@ public class ScheduleActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        String userId = getIntent().getStringExtra("userId");
 
-//        lecture_register = findViewById(R.id.lecture_register);
-//        lecture_register.setOnClickListener(v -> openDocument());
+        lecture_register = findViewById(R.id.lecture_register);
+        lecture_register.setOnClickListener(v -> openDocument());
+
+        getContentLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                        Uri uri = result.getData().getData();
+                        // 이 URI를 사용하여 파일 내용을 읽습니다.
+                        GradeDto userGrade = LectureCrawler.crawlLecture(getApplicationContext(), uri, userId);
+                        repository.remove();
+                        List<LectureDto> lectures = ScheduleCrawler.crawlLecture(getApplicationContext(), uri);
+                        repository.save(lectures);
+                    }
+                });
 
 
         //상단 툴바 시작
@@ -144,7 +159,6 @@ public class ScheduleActivity extends AppCompatActivity {
 
         String reference = "KoreatechFairy4/" + "schedule" + "/" + year + "/" + semester;
 
-        String userId = getIntent().getStringExtra("userId");
         repository = new LectureRepository(reference);
         gradeSpinner = findViewById(R.id.sp_grade);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
